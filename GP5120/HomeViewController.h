@@ -28,6 +28,8 @@
 
 #import "PhotoSetViewController.h"
 
+#import "MapDataViewController.h"
+
 @interface HomeViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,PushViewDelegate>
 
 @property(strong,nonatomic)UITableView *_tableView;

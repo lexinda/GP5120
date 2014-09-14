@@ -10,12 +10,16 @@
 
 #import "HomeViewController.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+#import "BMapKit.h"
+
+@interface AppDelegate : UIResponder <UIApplicationDelegate,BMKGeneralDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 
 @property(strong,nonatomic)UINavigationController *_navigationController;
 
 @property(strong,nonatomic)HomeViewController *_homeViewController;
+
+@property(strong,nonatomic)BMKMapManager *_mapManager;
 
 @end
