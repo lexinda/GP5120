@@ -259,9 +259,13 @@
 
 -(void)showInfoDetailView{
 
-    CarInfoViewController *carInfoViewController = [[CarInfoViewController alloc] init];
+//    CarInfoViewController *carInfoViewController = [[CarInfoViewController alloc] init];
     
-    [self.navigationController pushViewController:carInfoViewController animated:YES];
+    AcceptInfoViewController *acceptInfoViewController = [[AcceptInfoViewController alloc] init];
+    
+//    [self.navigationController pushViewController:carInfoViewController animated:YES];
+    
+    [self.navigationController pushViewController:acceptInfoViewController animated:YES];
     
 }
 

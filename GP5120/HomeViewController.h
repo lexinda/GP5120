@@ -12,6 +12,8 @@
 
 #import "MeddleTextField.h"
 
+#import "MeddleTextFieldTwo.h"
+
 #import "MJRefresh.h"
 
 #import "FootButtonView.h"
@@ -30,10 +32,16 @@
 
 #import "MapDataViewController.h"
 
+#import "CarInfoViewController.h"
+
+#import "DateAndTimePickerViewController.h"
+
 @interface HomeViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,PushViewDelegate>
 
 @property(strong,nonatomic)UITableView *_tableView;
 
 @property(strong, nonatomic) NSMutableArray *_fakeData;
+
+@property(strong,nonatomic)UIView *_meddleView;
 
 @end

@@ -1,14 +1,14 @@
 //
-//  MeddleTextField.m
+//  MeddleTextFieldTwo.m
 //  GP5120
 //
-//  Created by lele126 on 14-8-2.
+//  Created by 朱孟乐 on 14-9-17.
 //  Copyright (c) 2014年 com.lexindasoft. All rights reserved.
 //
 
-#import "MeddleTextField.h"
+#import "MeddleTextFieldTwo.h"
 
-@implementation MeddleTextField
+@implementation MeddleTextFieldTwo
 
 @synthesize _oneText;
 
@@ -33,13 +33,10 @@
     return self;
 }
 
-
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect
 {
-    // Drawing code
-    
     _oneTextFiled = [[UITextField alloc] initWithFrame:CGRectMake((rect.size.width-rect.size.width/3*2)/2, 0.0, rect.size.width/3*2, (rect.size.height-30)/4+8)];
     
     [_oneTextFiled setBorderStyle:UITextBorderStyleRoundedRect];
@@ -106,40 +103,27 @@
     
     [otherButton setFrame:CGRectMake(afterTomorrowButton.frame.origin.x+afterTomorrowButton.frame.size.width, _twoTextFiled.frame.origin.y+_twoTextFiled.frame.size.height, (_twoTextFiled.frame.size.width-9)/4, (rect.size.height-30)/4)];
     
-    [otherButton addTarget:self action:@selector(showDataPicker:) forControlEvents:UIControlEventTouchUpInside];
-    
     [otherButton setTitle:@"月＋日" forState:UIControlStateNormal];
     
     [self addSubview:otherButton];
     
     UIButton *leftButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     
-    [leftButton setFrame:CGRectMake(0, nowButton.frame.origin.y+nowButton.frame.size.height, (_twoTextFiled.frame.size.width-4)/2, (rect.size.height-30)/4)];
+    [leftButton setFrame:CGRectMake(nowButton.frame.origin.x-10, nowButton.frame.origin.y+nowButton.frame.size.height, (_twoTextFiled.frame.size.width-4)/2, (rect.size.height-30)/4)];
     
     [leftButton setTitle:@"派单给他" forState:UIControlStateNormal];
     
     [self addSubview:leftButton];
     
-    UIButton *meddleButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    
-    [meddleButton setFrame:CGRectMake(leftButton.frame.origin.x+leftButton.frame.size.width-10, nowButton.frame.origin.y+nowButton.frame.size.height, (_twoTextFiled.frame.size.width-4)/2, (rect.size.height-30)/4)];
-    
-     [meddleButton addTarget:self action:@selector(setupCarInfo:) forControlEvents:UIControlEventTouchUpInside];
-    
-    [meddleButton setTitle:@"发布派车信息" forState:UIControlStateNormal];
-    
-    [self addSubview:meddleButton];
-    
     UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     
-    [rightButton setFrame:CGRectMake(meddleButton.frame.origin.x+meddleButton.frame.size.width, nowButton.frame.origin.y+nowButton.frame.size.height, (_twoTextFiled.frame.size.width-4)/2, (rect.size.height-30)/4)];
+    [rightButton setFrame:CGRectMake(leftButton.frame.origin.x+leftButton.frame.size.width, nowButton.frame.origin.y+nowButton.frame.size.height, (_twoTextFiled.frame.size.width-4)/2, (rect.size.height-30)/4)];
     
-    [rightButton addTarget:self action:@selector(showCarDetail:) forControlEvents:UIControlEventTouchUpInside];
+    [rightButton addTarget:self action:@selector(setupCarInfo:) forControlEvents:UIControlEventTouchUpInside];
     
-    [rightButton setTitle:@"查看派车信息" forState:UIControlStateNormal];
+    [rightButton setTitle:@"发布派车信息" forState:UIControlStateNormal];
     
     [self addSubview:rightButton];
-    
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -162,16 +146,5 @@
     [_pushViewDelegate setupCarInfo];
     
 }
-
--(void)showCarDetail:(id)action{
-    
-    [_pushViewDelegate showCarDetail];
-    
-}
-
--(void)showDataPicker:(id)action{
-
-    [_pushViewDelegate showDataPicker];
-};
 
 @end

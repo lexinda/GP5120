@@ -16,6 +16,8 @@
 
 @synthesize _pathData;
 
+@synthesize _pushViewDelegate;
+
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -60,11 +62,11 @@
         
         [self addSubview:rightButton];
         
-        NSNumber *startPointX = [NSNumber numberWithFloat:0.0];
+        NSNumber *startPointX = [NSNumber numberWithFloat:0.0+leftButton.frame.size.width];
         
         NSNumber *startPointY = [NSNumber numberWithFloat:self.frame.size.height];
         
-        NSNumber *endPointX = [NSNumber numberWithFloat:width];
+        NSNumber *endPointX = [NSNumber numberWithFloat:width*2];
         
         NSNumber *endPointY = [NSNumber numberWithFloat:self.frame.size.height];
         
@@ -148,6 +150,8 @@
     [_pathData setValue:endPointY forKey:@"endPointY"];
     
     [self setNeedsDisplay];
+    
+    [_pushViewDelegate swapView:button.tag];
     
 }
 

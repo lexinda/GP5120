@@ -18,4 +18,10 @@
 
 -(void)showAcceptView;
 
+-(void)swapView:(int)id;
+
+-(void)showCarDetail;
+
+-(void)showDataPicker;
+
 @end

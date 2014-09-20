@@ -23,6 +23,8 @@
 
 @synthesize _fakeData;
 
+@synthesize _meddleView;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -87,9 +89,13 @@
     
     [topButtonView setBackgroundColor:[UIColor whiteColor]];
     
+    [topButtonView set_pushViewDelegate:self];
+    
     [self.view addSubview:topButtonView];
     
-    MeddleTextField *meddleTextField = [[MeddleTextField alloc] initWithFrame:CGRectMake(0.0, topButtonView.frame.origin.y+topButtonView.frame.size.height+10.0, self.view.frame.size.width, 100.0)];
+    _meddleView = [[UIView alloc] initWithFrame:CGRectMake(topButtonView.frame.origin.x, topButtonView.frame.origin.y+topButtonView.frame.size.height+10.0, self.view.frame.size.width, self.view.frame.size.height-topButtonView.frame.size.height-49-64)];
+    
+    MeddleTextField *meddleTextField = [[MeddleTextField alloc] initWithFrame:CGRectMake(0.0, 0.0, self.view.frame.size.width, 100.0)];
     
     [meddleTextField set_pushViewDelegate:self];
     
@@ -99,7 +105,7 @@
     
     [meddleTextField setBackgroundColor:[UIColor whiteColor]];
     
-    [self.view addSubview:meddleTextField];
+    [_meddleView addSubview:meddleTextField];
     
     _fakeData = [NSMutableArray array];
     
@@ -107,17 +113,19 @@
         [_fakeData addObject:MJRandomData];
     }
     
-    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0.0, meddleTextField.frame.origin.y+meddleTextField.frame.size.height, self.view.frame.size.width, self.view.frame.size.height-meddleTextField.frame.size.height-topButtonView.frame.size.height-64-49)];
+    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0.0, _meddleView.frame.origin.y+50.0, self.view.frame.size.width, _meddleView.frame.size.height-100.0)];
     
     _tableView.dataSource = self;
     
     _tableView.delegate = self;
     
-    [self.view addSubview:_tableView];
+    [_meddleView addSubview:_tableView];
+    
+    [self.view addSubview:_meddleView];
     
     [self setupRefresh];
     
-    FootButtonView *footButtonView = [[FootButtonView alloc] initWithFrame:CGRectMake(0.0,_tableView.frame.size.height+_tableView.frame.origin.y, self.view.frame.size.width, 49)];
+    FootButtonView *footButtonView = [[FootButtonView alloc] initWithFrame:CGRectMake(0.0,_meddleView.frame.size.height+_meddleView.frame.origin.y, self.view.frame.size.width, 49)];
     
     [self.view addSubview:footButtonView];
     
@@ -137,6 +145,46 @@
     [_tableView headerBeginRefreshing];
 
     [_tableView addFooterWithTarget:self action:@selector(footerRereshing)];
+    
+}
+
+-(void)showDataPicker{
+//    UIDatePicker *datePicker = [ [ UIDatePicker alloc] initWithFrame:CGRectMake(0.0,0.0,0.0,0.0)];
+//    [datePicker setCenter:self.view.center];
+//    datePicker.datePickerMode = UIDatePickerModeDate;
+//    datePicker.minuteInterval = 5;
+//    
+//    NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_CN"];
+//    
+//    [datePicker setLocale:locale];
+//    
+//    NSString *minStrDate = @"1900-01-01";
+//    
+//    NSString *maxStrDate = @"2099-01-01";
+//    
+//    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+//    
+//    [dateFormatter setDateFormat: @"yyyy-MM-dd"];
+//    
+//    [dateFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:8]];
+//    
+//    NSDate* minDate = [dateFormatter dateFromString:minStrDate];
+//    
+//    NSDate* maxDate = [dateFormatter dateFromString:maxStrDate];
+//    
+//    datePicker.minimumDate = minDate;
+//    
+//    datePicker.maximumDate = maxDate;
+//    
+//    datePicker.date = [NSDate date];
+//    
+//    [datePicker setDate:maxDate animated:YES];
+//    
+//    [self.view addSubview:datePicker];
+    
+    DateAndTimePickerViewController *dateAndTimePickerViewController = [[DateAndTimePickerViewController alloc] init];
+    
+    [self.navigationController pushViewController:dateAndTimePickerViewController animated:YES];
     
 }
 
@@ -229,6 +277,12 @@
     
 }
 
+-(void)showCarDetail{
+    CarInfoViewController *carInfoViewController = [[CarInfoViewController alloc] init];
+    
+    [self.navigationController pushViewController:carInfoViewController animated:YES];
+}
+
 -(void) showActionSheet:(id)sender forEvent:(UIEvent*)event
 {
     TSActionSheet *actionSheet = [[TSActionSheet alloc] initWithTitle:nil];
@@ -281,6 +335,61 @@
     actionSheet.cornerRadius = 5;
     
     [actionSheet showWithTouch:event];
+}
+
+-(void)swapView:(int)id{
+
+    if(id==1){
+    
+        for(UIView *view in [_meddleView subviews]){
+            
+            if([view isKindOfClass:[MeddleTextField class]]||[view isKindOfClass:[MeddleTextFieldTwo class]]){
+                
+                [view removeFromSuperview];
+                
+            }
+            
+        }
+        
+        MeddleTextFieldTwo *meddleTextField = [[MeddleTextFieldTwo alloc] initWithFrame:CGRectMake(0.0, 0.0, self.view.frame.size.width, 100.0)];
+        
+        [meddleTextField set_pushViewDelegate:self];
+        
+        [meddleTextField set_oneText:@"输入集装箱港口"];
+        
+        [meddleTextField set_twoText:@"输入大陆地区县级或地级市"];
+        
+        [meddleTextField setBackgroundColor:[UIColor whiteColor]];
+        
+        [_meddleView addSubview:meddleTextField];
+        
+    }else if(id==2){
+        
+        for(UIView *view in [_meddleView subviews]){
+            
+            if([view isKindOfClass:[MeddleTextField class]]||[view isKindOfClass:[MeddleTextFieldTwo class]]){
+                
+                [view removeFromSuperview];
+                
+            }
+            
+        }
+        
+        MeddleTextField *meddleTextField = [[MeddleTextField alloc] initWithFrame:CGRectMake(0.0, 0.0, self.view.frame.size.width, 100.0)];
+        
+        [meddleTextField set_pushViewDelegate:self];
+        
+        [meddleTextField set_oneText:@"输入司机用户名"];
+        
+        [meddleTextField set_twoText:@"输入司机手机号"];
+        
+        [meddleTextField setBackgroundColor:[UIColor whiteColor]];
+        
+        [_meddleView addSubview:meddleTextField];
+    
+    }else if(id==3){
+    
+    }
 }
 
 /*

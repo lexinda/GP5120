@@ -1,8 +1,8 @@
 //
-//  MeddleTextField.h
+//  MeddleTextFieldTwo.h
 //  GP5120
 //
-//  Created by lele126 on 14-8-2.
+//  Created by 朱孟乐 on 14-9-17.
 //  Copyright (c) 2014年 com.lexindasoft. All rights reserved.
 //
 
@@ -10,7 +10,7 @@
 
 #import "PushViewDelegate.h"
 
-@interface MeddleTextField : UIView<UITextFieldDelegate>
+@interface MeddleTextFieldTwo : UIView<UITextFieldDelegate>
 
 @property(strong,nonatomic)UITextField *_oneTextFiled;
 
@@ -21,8 +21,6 @@
 @property(strong,nonatomic)NSString *_twoText;
 
 @property(strong,nonatomic)NSString *_leftButtonText;
-
-@property(strong,nonatomic)NSString *_meddleButtonText;
 
 @property(strong,nonatomic)NSString *_rightButtonText;
 

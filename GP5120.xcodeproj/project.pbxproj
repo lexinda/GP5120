@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		28016D6D19CD280A005ACA98 /* DateAndTimePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28016D6C19CD280A005ACA98 /* DateAndTimePickerViewController.m */; };
+		28016D7019CD332D005ACA98 /* DatePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 28016D6F19CD332D005ACA98 /* DatePickerView.m */; };
+		2836B46119C9C23000493099 /* MeddleTextFieldTwo.m in Sources */ = {isa = PBXBuildFile; fileRef = 2836B46019C9C23000493099 /* MeddleTextFieldTwo.m */; };
 		283D634219C5BFC600404BE6 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 283D634119C5BFC600404BE6 /* CoreLocation.framework */; };
 		283D634419C5BFD000404BE6 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 283D634319C5BFD000404BE6 /* OpenGLES.framework */; };
 		283D634619C5BFE000404BE6 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 283D634519C5BFE000404BE6 /* Security.framework */; };
@@ -118,6 +121,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		28016D6B19CD280A005ACA98 /* DateAndTimePickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DateAndTimePickerViewController.h; sourceTree = "<group>"; };
+		28016D6C19CD280A005ACA98 /* DateAndTimePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DateAndTimePickerViewController.m; sourceTree = "<group>"; };
+		28016D6E19CD332D005ACA98 /* DatePickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatePickerView.h; sourceTree = "<group>"; };
+		28016D6F19CD332D005ACA98 /* DatePickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatePickerView.m; sourceTree = "<group>"; };
+		2836B45F19C9C23000493099 /* MeddleTextFieldTwo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeddleTextFieldTwo.h; sourceTree = "<group>"; };
+		2836B46019C9C23000493099 /* MeddleTextFieldTwo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeddleTextFieldTwo.m; sourceTree = "<group>"; };
 		283D634119C5BFC600404BE6 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		283D634319C5BFD000404BE6 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		283D634519C5BFE000404BE6 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
@@ -373,6 +382,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		28016D6119CD219B005ACA98 /* datepicker */ = {
+			isa = PBXGroup;
+			children = (
+				28016D6B19CD280A005ACA98 /* DateAndTimePickerViewController.h */,
+				28016D6C19CD280A005ACA98 /* DateAndTimePickerViewController.m */,
+				28016D6E19CD332D005ACA98 /* DatePickerView.h */,
+				28016D6F19CD332D005ACA98 /* DatePickerView.m */,
+			);
+			name = datepicker;
+			sourceTree = "<group>";
+		};
 		289D314B19C5D06C006D8D8F /* map */ = {
 			isa = PBXGroup;
 			children = (
@@ -569,6 +589,7 @@
 		EA09682B198C8F7E001E89FF /* utils */ = {
 			isa = PBXGroup;
 			children = (
+				28016D6119CD219B005ACA98 /* datepicker */,
 				289D314B19C5D06C006D8D8F /* map */,
 				EA4E7587199264A700BE7EF3 /* UIDevice+Resolutions.h */,
 				EA4E7588199264A700BE7EF3 /* UIDevice+Resolutions.m */,
@@ -605,6 +626,8 @@
 				EA096868198C972B001E89FF /* TopButtonView.m */,
 				EA91403B198CF84D006D50B8 /* MeddleTextField.h */,
 				EA91403C198CF84D006D50B8 /* MeddleTextField.m */,
+				2836B45F19C9C23000493099 /* MeddleTextFieldTwo.h */,
+				2836B46019C9C23000493099 /* MeddleTextFieldTwo.m */,
 				EA9140AE198D264A006D50B8 /* FootButtonView.h */,
 				EA9140AF198D264A006D50B8 /* FootButtonView.m */,
 				EA4E75841992637D00BE7EF3 /* SuccessView.h */,
@@ -933,6 +956,7 @@
 				EA8C4CA7199A457F0091DA0C /* TreeViewNode.m in Sources */,
 				289D319519C5D6B5006D8D8F /* MapDataViewController.m in Sources */,
 				EA8C4CAA199A46CF0091DA0C /* MemberTableViewController.m in Sources */,
+				2836B46119C9C23000493099 /* MeddleTextFieldTwo.m in Sources */,
 				EA09680D198C8F12001E89FF /* AppDelegate.mm in Sources */,
 				EA9140B0198D264A006D50B8 /* FootButtonView.m in Sources */,
 				EA9140AD198D090F006D50B8 /* MJSampleIndex.m in Sources */,
@@ -943,6 +967,7 @@
 				EA8797AA199BAD29000C3B69 /* CarInfoAcceptBottomView.m in Sources */,
 				EA8C4CAD199A54910091DA0C /* TableViewCell.m in Sources */,
 				EA9140A7198D08F6006D50B8 /* MJRefreshHeaderView.m in Sources */,
+				28016D7019CD332D005ACA98 /* DatePickerView.m in Sources */,
 				EA096869198C972B001E89FF /* TopButtonView.m in Sources */,
 				EA682E7A198E777B004D23E8 /* TSPopoverPopoverView.m in Sources */,
 				EA09684D198C913A001E89FF /* ASIFormDataRequest.m in Sources */,
@@ -957,6 +982,7 @@
 				EA09684F198C913A001E89FF /* ASIInputStream.m in Sources */,
 				EA9140A9198D08F6006D50B8 /* UIScrollView+MJRefresh.m in Sources */,
 				EA682E7C198E777B004D23E8 /* UIBarButtonItem+WEPopover.m in Sources */,
+				28016D6D19CD280A005ACA98 /* DateAndTimePickerViewController.m in Sources */,
 				EA096833198C9060001E89FF /* JSONKit.m in Sources */,
 				EA9140A4198D08F6006D50B8 /* MJRefreshBaseView.m in Sources */,
 				EA096850198C913A001E89FF /* ASINetworkQueue.m in Sources */,
@@ -1100,8 +1126,10 @@
 					"$(SRCROOT)/libs/Release$(EFFECTIVE_PLATFORM_NAME)",
 					"$(inherited)",
 				);
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1120,8 +1148,10 @@
 					"$(SRCROOT)/libs/Release$(EFFECTIVE_PLATFORM_NAME)",
 					"$(inherited)",
 				);
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
