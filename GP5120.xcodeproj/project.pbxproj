@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		28016D6D19CD280A005ACA98 /* DateAndTimePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28016D6C19CD280A005ACA98 /* DateAndTimePickerViewController.m */; };
 		28016D7019CD332D005ACA98 /* DatePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 28016D6F19CD332D005ACA98 /* DatePickerView.m */; };
 		2836B46119C9C23000493099 /* MeddleTextFieldTwo.m in Sources */ = {isa = PBXBuildFile; fileRef = 2836B46019C9C23000493099 /* MeddleTextFieldTwo.m */; };
 		283D634219C5BFC600404BE6 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 283D634119C5BFC600404BE6 /* CoreLocation.framework */; };
@@ -121,8 +120,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		28016D6B19CD280A005ACA98 /* DateAndTimePickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DateAndTimePickerViewController.h; sourceTree = "<group>"; };
-		28016D6C19CD280A005ACA98 /* DateAndTimePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DateAndTimePickerViewController.m; sourceTree = "<group>"; };
 		28016D6E19CD332D005ACA98 /* DatePickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatePickerView.h; sourceTree = "<group>"; };
 		28016D6F19CD332D005ACA98 /* DatePickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatePickerView.m; sourceTree = "<group>"; };
 		2836B45F19C9C23000493099 /* MeddleTextFieldTwo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeddleTextFieldTwo.h; sourceTree = "<group>"; };
@@ -385,8 +382,6 @@
 		28016D6119CD219B005ACA98 /* datepicker */ = {
 			isa = PBXGroup;
 			children = (
-				28016D6B19CD280A005ACA98 /* DateAndTimePickerViewController.h */,
-				28016D6C19CD280A005ACA98 /* DateAndTimePickerViewController.m */,
 				28016D6E19CD332D005ACA98 /* DatePickerView.h */,
 				28016D6F19CD332D005ACA98 /* DatePickerView.m */,
 			);
@@ -982,7 +977,6 @@
 				EA09684F198C913A001E89FF /* ASIInputStream.m in Sources */,
 				EA9140A9198D08F6006D50B8 /* UIScrollView+MJRefresh.m in Sources */,
 				EA682E7C198E777B004D23E8 /* UIBarButtonItem+WEPopover.m in Sources */,
-				28016D6D19CD280A005ACA98 /* DateAndTimePickerViewController.m in Sources */,
 				EA096833198C9060001E89FF /* JSONKit.m in Sources */,
 				EA9140A4198D08F6006D50B8 /* MJRefreshBaseView.m in Sources */,
 				EA096850198C913A001E89FF /* ASINetworkQueue.m in Sources */,

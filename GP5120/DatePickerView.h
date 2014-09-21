@@ -8,9 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DatePickerView : UIView<UITextFieldDelegate,UIPickerViewDelegate,UIPickerViewDataSource>
+#import "PushViewDelegate.h"
 
-@property(strong,nonatomic)UITextField *textFieldEnterDate;
+@interface DatePickerView : UIView<UIPickerViewDelegate,UIPickerViewDataSource>
 
 @property(strong,nonatomic)UIToolbar *toolbarCancelDone;
 
@@ -20,7 +20,7 @@
 
 @property(strong,nonatomic)NSArray *monthArray;
 
-@property(strong,nonatomic)NSMutableArray *daysArray;
+@property(strong,nonatomic)NSMutableArray *dayArray;
 
 //@property(strong,nonatomic)NSArray *amPmArray;
 
@@ -37,6 +37,8 @@
 @property(nonatomic)int selectedDayRow;
 
 @property(nonatomic)BOOL firstTimeLoad;
+
+@property(nonatomic)id<PushViewDelegate> delegateView;
 
 -(void)actionCancel:(id)sender;
 

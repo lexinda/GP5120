@@ -34,7 +34,7 @@
 
 #import "CarInfoViewController.h"
 
-#import "DateAndTimePickerViewController.h"
+#import "DatePickerView.h"
 
 @interface HomeViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,PushViewDelegate>
 
@@ -43,5 +43,7 @@
 @property(strong, nonatomic) NSMutableArray *_fakeData;
 
 @property(strong,nonatomic)UIView *_meddleView;
+
+@property(strong,nonatomic)DatePickerView *_datePicker;
 
 @end

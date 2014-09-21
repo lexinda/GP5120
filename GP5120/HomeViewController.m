@@ -25,6 +25,8 @@
 
 @synthesize _meddleView;
 
+@synthesize _datePicker;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -149,42 +151,30 @@
 }
 
 -(void)showDataPicker{
-//    UIDatePicker *datePicker = [ [ UIDatePicker alloc] initWithFrame:CGRectMake(0.0,0.0,0.0,0.0)];
-//    [datePicker setCenter:self.view.center];
-//    datePicker.datePickerMode = UIDatePickerModeDate;
-//    datePicker.minuteInterval = 5;
-//    
-//    NSLocale *locale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_CN"];
-//    
-//    [datePicker setLocale:locale];
-//    
-//    NSString *minStrDate = @"1900-01-01";
-//    
-//    NSString *maxStrDate = @"2099-01-01";
-//    
-//    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-//    
-//    [dateFormatter setDateFormat: @"yyyy-MM-dd"];
-//    
-//    [dateFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:8]];
-//    
-//    NSDate* minDate = [dateFormatter dateFromString:minStrDate];
-//    
-//    NSDate* maxDate = [dateFormatter dateFromString:maxStrDate];
-//    
-//    datePicker.minimumDate = minDate;
-//    
-//    datePicker.maximumDate = maxDate;
-//    
-//    datePicker.date = [NSDate date];
-//    
-//    [datePicker setDate:maxDate animated:YES];
-//    
-//    [self.view addSubview:datePicker];
     
-    DateAndTimePickerViewController *dateAndTimePickerViewController = [[DateAndTimePickerViewController alloc] init];
+    BOOL isHave=NO;
     
-    [self.navigationController pushViewController:dateAndTimePickerViewController animated:YES];
+    for (UIView *view in [self.view subviews]){
+    
+        if ([_datePicker isKindOfClass:view.class]) {
+            isHave=YES;
+        }
+        
+    }
+    
+    if (isHave) {
+        _datePicker.hidden=NO;
+        [_datePicker setNeedsDisplay];
+    }else{
+    
+        _datePicker = [[DatePickerView alloc] initWithFrame:CGRectMake(self.view.frame.origin.x, self.view.frame.size.height-240+24, self.view.frame.size.width,240)];
+        
+        [_datePicker setBackgroundColor:[UIColor colorWithRed:220.0/255.0 green:220.0/255.0 blue:220.0/255.0 alpha:1.0]];
+        
+        _datePicker.delegateView = self;
+        
+        [self.view addSubview:_datePicker];
+    }
     
 }
 
@@ -390,6 +380,43 @@
     }else if(id==3){
     
     }
+}
+
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
+
+    if (![_datePicker isExclusiveTouch]) {
+        [UIView animateWithDuration:0.5
+                              delay:0.1
+                            options: UIViewAnimationOptionCurveEaseIn
+                         animations:^{
+                             
+                              _datePicker.hidden = YES;
+                             
+                         }
+                         completion:^(BOOL finished){
+                             
+                             
+                         }];
+    }
+}
+
+-(void)getDatePickerViewData:(NSString *)data{
+
+    NSLog(@"%@",data);
+    
+    [UIView animateWithDuration:0.5
+                          delay:0.1
+                        options: UIViewAnimationOptionCurveEaseIn
+                     animations:^{
+                         
+                       _datePicker.hidden = YES;
+                         
+                     }
+                     completion:^(BOOL finished){
+                         
+                         
+                     }];
+    
 }
 
 /*

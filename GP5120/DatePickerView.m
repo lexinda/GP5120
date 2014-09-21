@@ -12,8 +12,6 @@
 
 @implementation DatePickerView
 
-@synthesize textFieldEnterDate;
-
 @synthesize toolbarCancelDone;
 
 @synthesize customPicker;
@@ -22,7 +20,7 @@
 
 @synthesize monthArray;
 
-@synthesize daysArray;
+@synthesize dayArray;
 
 //@synthesize amPmArray;
 
@@ -40,35 +38,54 @@
 
 @synthesize firstTimeLoad;
 
+@synthesize delegateView;
+
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect {
     // Drawing code
     
-    self.customPicker = [[UIPickerView alloc] initWithFrame:CGRectMake(self.frame.origin.x, self.frame.size.height-250, self.frame.size.width, 250)];
+    self.toolbarCancelDone = [[UIToolbar alloc] initWithFrame:CGRectMake(self.frame.origin.x, 0.0, self.frame.size.width, 40)];
     
-    self.customPicker.delegate=self;
-    
-    self.customPicker.dataSource=self;
-    
-    [self addSubview:self.customPicker];
-    
-    self.customPicker.hidden = NO;
-    
-    self.toolbarCancelDone = [[UIToolbar alloc] initWithFrame:CGRectMake(self.frame.origin.x, self.frame.size.height-290, self.frame.size.width, 40)];
+    self.toolbarCancelDone.backgroundColor = [UIColor colorWithRed:245.0/255.0 green:245.0/255.0 blue:245.0/255.0 alpha:1.0];
     
     NSMutableArray *buttons = [[NSMutableArray alloc] init];
     
-    UIBarButtonItem *myDoneButton = [[ UIBarButtonItem alloc] initWithBarButtonSystemItem: UIBarButtonSystemItemDone
-                                                                                   target: self action: @selector(actionDone:)];
+    UIButton *doneButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    
+    [doneButton setFrame:CGRectMake(0.0, 0.0, 50.0, 50.0)];
+    
+    doneButton.titleLabel.font=[UIFont systemFontOfSize:16.0f];
+    
+    [doneButton setTitle:@"确定" forState:UIControlStateNormal];
+    
+    [doneButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    
+    [doneButton addTarget:self action:@selector(actionDone:) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIBarButtonItem *myDoneButton = [[ UIBarButtonItem alloc] initWithCustomView:doneButton];
+                                     
     UIBarButtonItem *flexibleSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     
     [buttons addObject:flexibleSpace];
+    
     [buttons addObject: myDoneButton];
     
     [self.toolbarCancelDone setItems:buttons animated:TRUE];
     
     [self addSubview:self.toolbarCancelDone];
+    
+    self.customPicker = [[UIPickerView alloc] initWithFrame:CGRectMake(self.frame.origin.x, self.toolbarCancelDone.frame.size.height+self.toolbarCancelDone.frame.origin.y+1, self.frame.size.width, 199)];
+    
+    self.customPicker.backgroundColor = [UIColor colorWithRed:245.0/255.0 green:245.0/255.0 blue:245.0/255.0 alpha:1.0];
+    
+    self.customPicker.delegate=self;
+    
+    self.customPicker.dataSource=self;
+    
+    self.customPicker.showsSelectionIndicator = YES;
+    
+    [self addSubview:self.customPicker];
     
     NSDate *date = [NSDate date];
     
@@ -152,22 +169,24 @@
     
     // PickerView -  days data
     
-    daysArray = [[NSMutableArray alloc]init];
+    dayArray = [[NSMutableArray alloc]init];
     
     for (int i = 1; i <= 31; i++)
     {
-        [daysArray addObject:[NSString stringWithFormat:@"%d",i]];
+        [dayArray addObject:[NSString stringWithFormat:@"%d",i]];
         
     }
     
     
     // PickerView - Default Selection as per current Date
     
+    [self.customPicker reloadAllComponents];
+    
     [self.customPicker selectRow:[yearArray indexOfObject:currentyearString] inComponent:0 animated:YES];
     
     [self.customPicker selectRow:[monthArray indexOfObject:currentMonthString] inComponent:1 animated:YES];
     
-    [self.customPicker selectRow:[daysArray indexOfObject:currentDateString] inComponent:2 animated:YES];
+    [self.customPicker selectRow:[dayArray indexOfObject:currentDateString] inComponent:2 animated:YES];
     
     //    [self.customPicker selectRow:[hoursArray indexOfObject:currentHourString] inComponent:3 animated:YES];
     //
@@ -230,7 +249,7 @@
     }
     else if (component == 2)
     {
-        pickerLabel.text =  [NSString stringWithFormat:@"%@日",[daysArray objectAtIndex:row]]; // Date
+        pickerLabel.text =  [NSString stringWithFormat:@"%@日",[dayArray objectAtIndex:row]]; // Date
         
     }
     //    else if (component == 3)
@@ -253,7 +272,7 @@
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
 {
-    //    return 7;
+    //    return 6;
     return 3;
     
 }
@@ -269,7 +288,8 @@
     {
         return [monthArray count];
     }
-    else if (component == 2)
+//    else if (component == 2)
+    else
     { // day
         
         if (firstTimeLoad)
@@ -329,21 +349,21 @@
         
         
     }
-    else if (component == 3)
-    { // hour
-        
-        return 12;
-        
-    }
-    else if (component == 4)
-    { // min
-        return 60;
-    }
-    else
-    { // am/pm
-        return 2;
-        
-    }
+//    else if (component == 3)
+//    { // hour
+//        
+//        return 12;
+//        
+//    }
+//    else if (component == 4)
+//    { // min
+//        return 60;
+//    }
+//    else
+//    { // am/pm
+//        return 2;
+//        
+//    }
     
     
     
@@ -376,65 +396,12 @@
     
     //    self.textFieldEnterDate.text = [NSString stringWithFormat:@"%@/%@/%@ -- %@ : %@ - %@",[yearArray objectAtIndex:[self.customPicker selectedRowInComponent:0]],[monthArray objectAtIndex:[self.customPicker selectedRowInComponent:1]],[daysArray objectAtIndex:[self.customPicker selectedRowInComponent:2]],[hoursArray objectAtIndex:[self.customPicker selectedRowInComponent:3]],[minutesArray objectAtIndex:[self.customPicker selectedRowInComponent:4]],[amPmArray objectAtIndex:[self.customPicker selectedRowInComponent:5]]];
     
-    self.textFieldEnterDate.text = [NSString stringWithFormat:@"%@/%@/%@",[yearArray objectAtIndex:[self.customPicker selectedRowInComponent:0]],[monthArray objectAtIndex:[self.customPicker selectedRowInComponent:1]],[daysArray objectAtIndex:[self.customPicker selectedRowInComponent:2]]];
+//    self.textFieldEnterDate.text = [NSString stringWithFormat:@"%@/%@/%@",[yearArray objectAtIndex:[self.customPicker selectedRowInComponent:0]],[monthArray objectAtIndex:[self.customPicker selectedRowInComponent:1]],[daysArray objectAtIndex:[self.customPicker selectedRowInComponent:2]]];
     
-    [UIView animateWithDuration:0.5
-                          delay:0.1
-                        options: UIViewAnimationOptionCurveEaseIn
-                     animations:^{
-                         
-                         self.customPicker.hidden = YES;
-                         self.toolbarCancelDone.hidden = YES;
-                         
-                         
-                     }
-                     completion:^(BOOL finished){
-                         
-                         
-                     }];
+    NSString *data = [NSString stringWithFormat:@"%@-%@-%@",[yearArray objectAtIndex:[self.customPicker selectedRowInComponent:0]],[monthArray objectAtIndex:[self.customPicker selectedRowInComponent:1]],[dayArray objectAtIndex:[self.customPicker selectedRowInComponent:2]]];
     
+    [delegateView getDatePickerViewData:data];
     
-    
-}
-
-- (void)textFieldDidBeginEditing:(UITextField *)textField
-{
-    [self endEditing:YES];
-    
-}
-- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
-{
-    
-    [UIView animateWithDuration:0.5
-                          delay:0.1
-                        options: UIViewAnimationOptionCurveEaseIn
-                     animations:^{
-                         
-                         self.customPicker.hidden = NO;
-                         self.toolbarCancelDone.hidden = NO;
-                         self.textFieldEnterDate.text = @"";
-                         
-                     }
-                     completion:^(BOOL finished){
-                         
-                     }];
-    
-    
-    self.customPicker.hidden = NO;
-    self.toolbarCancelDone.hidden = NO;
-    self.textFieldEnterDate.text = @"";
-    
-    
-    
-    return YES;
-    
-}
-
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
-    [textField resignFirstResponder];
-    
-    return  YES;
 }
 
 @end

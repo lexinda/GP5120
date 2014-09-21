@@ -24,4 +24,6 @@
 
 -(void)showDataPicker;
 
+-(void)getDatePickerViewData:(NSString *)data;
+
 @end
