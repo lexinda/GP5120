@@ -36,6 +36,16 @@
 
 #import "DatePickerView.h"
 
+#import "ASIHTTPRequest.h"
+
+#import "ASIFormDataRequest.h"
+
+#import "AppUserInfo.h"
+
+#import "AdList.h"
+
+#import "JSONKit.h"
+
 @interface HomeViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,PushViewDelegate>
 
 @property(strong,nonatomic)UITableView *_tableView;

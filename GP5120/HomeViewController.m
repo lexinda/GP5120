@@ -111,10 +111,6 @@
     
     _fakeData = [NSMutableArray array];
     
-    for (int i = 0; i<12; i++) {
-        [_fakeData addObject:MJRandomData];
-    }
-    
     _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0.0, _meddleView.frame.origin.y+50.0, self.view.frame.size.width, _meddleView.frame.size.height-100.0)];
     
     _tableView.dataSource = self;
@@ -146,7 +142,7 @@
 
     [_tableView headerBeginRefreshing];
 
-    [_tableView addFooterWithTarget:self action:@selector(footerRereshing)];
+    //[_tableView addFooterWithTarget:self action:@selector(footerRereshing)];
     
 }
 
@@ -178,11 +174,109 @@
     
 }
 
+-(NSString *)getRequestData:(NSString *)serverUrl
+             withRequestTag:(int) tag withDataArray:(NSArray *) dataArray{
+    
+    NSMutableString *reqeustData = [[NSMutableString alloc] init];
+    
+    [reqeustData appendString:[NSString stringWithFormat:@"%@",serverUrl]];
+    
+    for (NSDictionary *data in dataArray) {
+        
+        NSArray *keys = [data allKeys];
+        
+        int count = [keys count];
+        
+        int i = 0;
+        
+        NSString *key,*value;
+        
+        for (i = 0; i < count; i++)
+        {
+            key = [keys objectAtIndex: i];
+            
+            value = [data objectForKey: key];
+            
+            //设置需要POST的数据，这里提交两个数据，A=a&B=b
+            //[requestForm setPostValue:@"a" forKey:@"A"];
+            
+            [reqeustData appendString:[NSString stringWithFormat:@"&%@=%@",key,value]];
+        }
+        
+    }
+    
+     NSLog (@"serverUrlAndparam:%@", reqeustData);
+    
+    ASIFormDataRequest *requestForm = [[ASIFormDataRequest alloc] initWithURL:[NSURL URLWithString:reqeustData]];
+    
+    [requestForm startSynchronous];
+    
+    
+    NSString *str=[requestForm responseString];
+    //解决乱码问题
+//    const char *c=[str cStringUsingEncoding:NSISOLatin1StringEncoding];
+//    
+//    NSString *newString = [[NSString alloc] initWithCString:c encoding:NSUTF8StringEncoding];
+    
+    //输入返回的信息
+    NSLog(@"response\n%@",str);
+
+    return str;
+
+}
+
 - (void)headerRereshing
 {
-    // 1.添加假数据
-    for (int i = 0; i<5; i++) {
-        [_fakeData insertObject:MJRandomData atIndex:0];
+    [_fakeData removeAllObjects];
+    
+    NSDictionary *dataFlag = [NSDictionary dictionaryWithObject:@"1" forKey:@"flag"];
+        
+    NSArray *dataArray = [NSArray arrayWithObject:dataFlag];
+        
+    NSString *requestStr = [self getRequestData:SERVER_URL withRequestTag:1 withDataArray:dataArray];
+    
+    NSArray *responseData = [requestStr componentsSeparatedByString:@"$$"];
+    
+    if(responseData.count>0){
+        for (int i=0; i<responseData.count; i++) {
+            
+            if (i==0) {
+                
+                NSDictionary *appUserInfoData = [[responseData objectAtIndex:i] objectFromJSONString];
+                
+                NSArray *appUserInfoArray = [appUserInfoData objectForKey:@"APP_USER_INFO"];
+                
+                if(appUserInfoArray.count>0){
+                    
+                    for (NSDictionary *appUserInfoDictionary in appUserInfoArray) {
+                        
+                        AppUserInfo *appUserInfo = [[AppUserInfo alloc] getAppUserInfo:appUserInfoDictionary];
+                        
+                        [_fakeData addObject:appUserInfo];
+                    }
+                    
+                }
+                
+            }else if(i==1){
+                
+                NSDictionary *adListData = [[responseData objectAtIndex:i] objectFromJSONString];
+                
+                NSArray *adListArray = [adListData objectForKey:@"AD_LIST"];
+                
+                if (adListArray.count>0) {
+                    
+                    for (NSDictionary *adListDictionary in adListArray) {
+                        
+                        AdList *adList = [[AdList alloc] getAdList:adListDictionary];
+                        
+                        [_fakeData addObject:adList];
+                        
+                    }
+                    
+                }
+               
+            }
+        }
     }
     
     // 2.2秒后刷新表格UI
@@ -233,7 +327,24 @@
         cell.showsReorderControl = YES;
     }
     
-    cell.textLabel.text = _fakeData[indexPath.row];
+    for (int i=0; i<_fakeData.count; i++) {
+        
+        NSObject *object = [_fakeData objectAtIndex:indexPath.row];
+        
+        if ([object isKindOfClass:[AppUserInfo class]]) {
+            
+            AppUserInfo *appUserInfo = (AppUserInfo *)object;
+            
+            cell.textLabel.text = appUserInfo.USER_COMPANY_NAME;
+            
+        }else if([object isKindOfClass:[AdList class]]){
+        
+            AdList *adList = (AdList *)object;
+            
+            cell.textLabel.text = adList.AD_CONTENT;
+            
+        }
+    }
     
     return cell;
 }
