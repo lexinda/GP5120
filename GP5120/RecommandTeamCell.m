@@ -22,202 +22,217 @@
 
 @implementation RecommandTeamCell
 
+@synthesize _addressLabel;
+
+@synthesize _addressInfoLabel;
+
+@synthesize _boxTypelabel;
+
+@synthesize _boxTypeInfoLabel;
+
+@synthesize _dateLabel;
+
+@synthesize _dateInfoLabel;
+
+@synthesize _boxlabel;
+
+@synthesize _boxInfoLabel;
+
+@synthesize _inputLabel;
+
+@synthesize _inputInfoLabel;
+
+@synthesize _peoplelabel;
+
+@synthesize _peopleInfoLabel;
+
+@synthesize _rankLabel;
+
+@synthesize _rankInfoLabel;
+
+@synthesize _createTimelabel;
+
+@synthesize _createTimeInfoLabel;
+
+@synthesize _queryTimesLabel;
+
+@synthesize _queryTimesInfoLabel;
+
+@synthesize _smsTimeslabel;
+
+@synthesize _smsTimeInfoLabel;
+
+@synthesize _systemTimesLabel;
+
+@synthesize _systemTimesInfoLabel;
+
 @synthesize _pushViewDelegate;
 
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier withRecomandTeam:(RecommandTeam *)_recommandTeam
-{
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
         
-        UILabel *addressLabel = [[UILabel alloc] initWithFrame:CGRectMake(LEFT_WIDTH, 0.0, TWO_WIDTH, LABEL_HEIGHT)];
-        [addressLabel setText:@"地址："];
+        _addressLabel = [[UILabel alloc] initWithFrame:CGRectMake(LEFT_WIDTH, 0.0, TWO_WIDTH, LABEL_HEIGHT)];
+        [_addressLabel setText:@"地址："];
         
-        [addressLabel setFont:FONT_STR];
+        [_addressLabel setFont:FONT_STR];
         
-        [self addSubview:addressLabel];
+        [self addSubview:_addressLabel];
         
-        UILabel *addressInfoLabel = [[UILabel alloc] initWithFrame:CGRectMake(addressLabel.frame.origin.x+addressLabel.frame.size.width, addressLabel.frame.origin.y, 150.0, LABEL_HEIGHT)];
+        _addressInfoLabel = [[UILabel alloc] initWithFrame:CGRectMake(_addressLabel.frame.origin.x+_addressLabel.frame.size.width, _addressLabel.frame.origin.y, 150.0, LABEL_HEIGHT)];
         
-        [addressInfoLabel setFont:FONT_STR];
+        [_addressInfoLabel setFont:FONT_STR];
         
-        [addressInfoLabel setText:[_recommandTeam address]];
+        [self addSubview:_addressInfoLabel];
         
-        [self addSubview:addressInfoLabel];
+        _boxTypelabel = [[UILabel alloc] initWithFrame:CGRectMake(_addressInfoLabel.frame.origin.x+_addressInfoLabel.frame.size.width, _addressLabel.frame.origin.y, TWO_WIDTH, LABEL_HEIGHT)];
         
-        UILabel *boxTypelabel = [[UILabel alloc] initWithFrame:CGRectMake(addressInfoLabel.frame.origin.x+addressInfoLabel.frame.size.width, addressLabel.frame.origin.y, TWO_WIDTH, LABEL_HEIGHT)];
+        [_boxTypelabel setText:@"箱型："];
         
-        [boxTypelabel setText:@"箱型："];
+        [_boxTypelabel setFont:FONT_STR];
         
-        [boxTypelabel setFont:FONT_STR];
+        [self addSubview:_boxTypelabel];
         
-        [self addSubview:boxTypelabel];
+        _boxTypeInfoLabel = [[UILabel alloc] initWithFrame:CGRectMake(_boxTypelabel.frame.origin.x+_boxTypelabel.frame.size.width, _boxTypelabel.frame.origin.y, FOUR_WIDTH, LABEL_HEIGHT)];
         
-        UILabel *boxTypeInfoLabel = [[UILabel alloc] initWithFrame:CGRectMake(boxTypelabel.frame.origin.x+boxTypelabel.frame.size.width, boxTypelabel.frame.origin.y, FOUR_WIDTH, LABEL_HEIGHT)];
+        [_boxTypeInfoLabel setFont:FONT_STR];
         
-        [boxTypeInfoLabel setFont:FONT_STR];
+        [self addSubview:_boxTypeInfoLabel];
         
-        [boxTypeInfoLabel setText:[_recommandTeam boxType]];
+        _dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(LEFT_WIDTH, _addressLabel.frame.origin.y+_addressLabel.frame.size.height, TWO_WIDTH, LABEL_HEIGHT)];
+        [_dateLabel setText:@"日期："];
         
-        [self addSubview:boxTypeInfoLabel];
+        [_dateLabel setFont:FONT_STR];
         
-        UILabel *dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(LEFT_WIDTH, addressLabel.frame.origin.y+addressLabel.frame.size.height, TWO_WIDTH, LABEL_HEIGHT)];
-        [dateLabel setText:@"日期："];
+        [self addSubview:_dateLabel];
         
-        [dateLabel setFont:FONT_STR];
+        _dateInfoLabel = [[UILabel alloc] initWithFrame:CGRectMake(_dateLabel.frame.origin.x+_dateLabel.frame.size.width, _dateLabel.frame.origin.y, 150.0, LABEL_HEIGHT)];
         
-        [self addSubview:dateLabel];
+        [_dateInfoLabel setFont:FONT_STR];
         
-        UILabel *dateInfoLabel = [[UILabel alloc] initWithFrame:CGRectMake(dateLabel.frame.origin.x+dateLabel.frame.size.width, dateLabel.frame.origin.y, 150.0, LABEL_HEIGHT)];
+        [self addSubview:_dateInfoLabel];
         
-        [dateInfoLabel setFont:FONT_STR];
+        _boxlabel = [[UILabel alloc] initWithFrame:CGRectMake(_dateInfoLabel.frame.origin.x+_dateInfoLabel.frame.size.width, _dateInfoLabel.frame.origin.y, TWO_WIDTH, LABEL_HEIGHT)];
         
-        [dateInfoLabel setText:[_recommandTeam date]];
+        [_boxlabel setText:@"背箱："];
         
-        [self addSubview:dateInfoLabel];
+        [_boxlabel setFont:FONT_STR];
         
-        UILabel *boxlabel = [[UILabel alloc] initWithFrame:CGRectMake(dateInfoLabel.frame.origin.x+dateInfoLabel.frame.size.width, dateInfoLabel.frame.origin.y, TWO_WIDTH, LABEL_HEIGHT)];
+        [self addSubview:_boxlabel];
         
-        [boxlabel setText:@"背箱："];
+        _boxInfoLabel = [[UILabel alloc] initWithFrame:CGRectMake(_boxlabel.frame.origin.x+_boxlabel.frame.size.width, _boxlabel.frame.origin.y, FOUR_WIDTH, LABEL_HEIGHT)];
         
-        [boxlabel setFont:FONT_STR];
+        [_boxInfoLabel setFont:FONT_STR];
         
-        [self addSubview:boxlabel];
+        [self addSubview:_boxInfoLabel];
         
-        UILabel *boxInfoLabel = [[UILabel alloc] initWithFrame:CGRectMake(boxlabel.frame.origin.x+boxlabel.frame.size.width, boxlabel.frame.origin.y, FOUR_WIDTH, LABEL_HEIGHT)];
+        _inputLabel = [[UILabel alloc] initWithFrame:CGRectMake(LEFT_WIDTH, _dateLabel.frame.origin.y+_dateLabel.frame.size.height, TWO_WIDTH, LABEL_HEIGHT)];
+        [_inputLabel setText:@"进港："];
         
-        [boxInfoLabel setFont:FONT_STR];
+        [_inputLabel setFont:FONT_STR];
         
-        [boxInfoLabel setText:[_recommandTeam box]];
+        [self addSubview:_inputLabel];
         
-        [self addSubview:boxInfoLabel];
+        _inputInfoLabel = [[UILabel alloc] initWithFrame:CGRectMake(_inputLabel.frame.origin.x+_inputLabel.frame.size.width, _inputLabel.frame.origin.y, 150.0, LABEL_HEIGHT)];
         
-        UILabel *inputLabel = [[UILabel alloc] initWithFrame:CGRectMake(LEFT_WIDTH, dateLabel.frame.origin.y+dateLabel.frame.size.height, TWO_WIDTH, LABEL_HEIGHT)];
-        [inputLabel setText:@"进港："];
+        [_inputInfoLabel setFont:FONT_STR];
         
-        [inputLabel setFont:FONT_STR];
+        [self addSubview:_inputInfoLabel];
         
-        [self addSubview:inputLabel];
+        _peoplelabel = [[UILabel alloc] initWithFrame:CGRectMake(_inputInfoLabel.frame.origin.x+_inputInfoLabel.frame.size.width, _inputInfoLabel.frame.origin.y, THREE_WIDTH, LABEL_HEIGHT)];
         
-        UILabel *inputInfoLabel = [[UILabel alloc] initWithFrame:CGRectMake(inputLabel.frame.origin.x+inputLabel.frame.size.width, inputLabel.frame.origin.y, 150.0, LABEL_HEIGHT)];
+        [_peoplelabel setText:@"发布人："];
         
-        [inputInfoLabel setFont:FONT_STR];
+        [_peoplelabel setFont:FONT_STR];
         
-        [inputInfoLabel setText:[_recommandTeam input]];
+        [self addSubview:_peoplelabel];
         
-        [self addSubview:inputInfoLabel];
+        _peopleInfoLabel = [[UILabel alloc] initWithFrame:CGRectMake(_peoplelabel.frame.origin.x+_peoplelabel.frame.size.width, _peoplelabel.frame.origin.y, FOUR_WIDTH, LABEL_HEIGHT)];
         
-        UILabel *peoplelabel = [[UILabel alloc] initWithFrame:CGRectMake(inputInfoLabel.frame.origin.x+inputInfoLabel.frame.size.width, inputInfoLabel.frame.origin.y, THREE_WIDTH, LABEL_HEIGHT)];
+        [_peopleInfoLabel setFont:FONT_STR];
         
-        [peoplelabel setText:@"发布人："];
+        [self addSubview:_peopleInfoLabel];
         
-        [peoplelabel setFont:FONT_STR];
+        _rankLabel = [[UILabel alloc] initWithFrame:CGRectMake(LEFT_WIDTH, _inputLabel.frame.origin.y+_inputLabel.frame.size.height, TWO_WIDTH, LABEL_HEIGHT)];
+        [_rankLabel setText:@"等级："];
         
-        [self addSubview:peoplelabel];
+        [_rankLabel setFont:FONT_STR];
         
-        UILabel *peopleInfoLabel = [[UILabel alloc] initWithFrame:CGRectMake(peoplelabel.frame.origin.x+peoplelabel.frame.size.width, peoplelabel.frame.origin.y, FOUR_WIDTH, LABEL_HEIGHT)];
+        [self addSubview:_rankLabel];
         
-        [peopleInfoLabel setFont:FONT_STR];
+        _rankInfoLabel = [[UILabel alloc] initWithFrame:CGRectMake(_rankLabel.frame.origin.x+_rankLabel.frame.size.width, _rankLabel.frame.origin.y, 150.0, LABEL_HEIGHT)];
         
-        [peopleInfoLabel setText:[_recommandTeam people]];
+        [_rankInfoLabel setFont:FONT_STR];
         
-        [self addSubview:peopleInfoLabel];
+        [self addSubview:_rankInfoLabel];
         
-        UILabel *rankLabel = [[UILabel alloc] initWithFrame:CGRectMake(LEFT_WIDTH, inputLabel.frame.origin.y+inputLabel.frame.size.height, TWO_WIDTH, LABEL_HEIGHT)];
-        [rankLabel setText:@"等级："];
+        _createTimelabel = [[UILabel alloc] initWithFrame:CGRectMake(_rankInfoLabel.frame.origin.x+_rankInfoLabel.frame.size.width-70.0, _rankInfoLabel.frame.origin.y, FOUR_WIDTH, LABEL_HEIGHT)];
         
-        [rankLabel setFont:FONT_STR];
+        [_createTimelabel setText:@"发布日期："];
         
-        [self addSubview:rankLabel];
+        [_createTimelabel setFont:FONT_STR];
         
-        UILabel *rankInfoLabel = [[UILabel alloc] initWithFrame:CGRectMake(rankLabel.frame.origin.x+rankLabel.frame.size.width, rankLabel.frame.origin.y, 150.0, LABEL_HEIGHT)];
+        [self addSubview:_createTimelabel];
         
-        [rankInfoLabel setFont:FONT_STR];
+        _createTimeInfoLabel = [[UILabel alloc] initWithFrame:CGRectMake(_createTimelabel.frame.origin.x+_createTimelabel.frame.size.width, _createTimelabel.frame.origin.y, 100.0, LABEL_HEIGHT)];
         
-        [rankInfoLabel setText:[_recommandTeam rank]];
+        [_createTimeInfoLabel setFont:FONT_STR];
         
-        [self addSubview:rankInfoLabel];
+        [self addSubview:_createTimeInfoLabel];
         
-        UILabel *createTimelabel = [[UILabel alloc] initWithFrame:CGRectMake(rankInfoLabel.frame.origin.x+rankInfoLabel.frame.size.width-70.0, rankInfoLabel.frame.origin.y, FOUR_WIDTH, LABEL_HEIGHT)];
+        _queryTimesLabel = [[UILabel alloc] initWithFrame:CGRectMake(LEFT_WIDTH, _rankLabel.frame.origin.y+_rankLabel.frame.size.height, 100.0, LABEL_HEIGHT)];
+        [_queryTimesLabel setText:@"被查询次数："];
         
-        [createTimelabel setText:@"发布日期："];
+        [_queryTimesLabel setFont:FONT_STR];
         
-        [createTimelabel setFont:FONT_STR];
+        [self addSubview:_queryTimesLabel];
         
-        [self addSubview:createTimelabel];
+        _queryTimesInfoLabel = [[UILabel alloc] initWithFrame:CGRectMake(_queryTimesLabel.frame.origin.x+_queryTimesLabel.frame.size.width, _queryTimesLabel.frame.origin.y, 50.0, LABEL_HEIGHT)];
         
-        UILabel *createTimeInfoLabel = [[UILabel alloc] initWithFrame:CGRectMake(createTimelabel.frame.origin.x+createTimelabel.frame.size.width, createTimelabel.frame.origin.y, 100.0, LABEL_HEIGHT)];
+        [_queryTimesInfoLabel setFont:FONT_STR];
         
-        [createTimeInfoLabel setFont:FONT_STR];
+        [_queryTimesInfoLabel setTextColor:[UIColor redColor]];
         
-        [createTimeInfoLabel setText:[_recommandTeam createTime]];
+        [self addSubview:_queryTimesInfoLabel];
         
-        [self addSubview:createTimeInfoLabel];
+        _smsTimeslabel = [[UILabel alloc] initWithFrame:CGRectMake(_queryTimesInfoLabel.frame.origin.x+_queryTimesInfoLabel.frame.size.width, _queryTimesInfoLabel.frame.origin.y, 120, LABEL_HEIGHT)];
         
-        UILabel *queryTimesLabel = [[UILabel alloc] initWithFrame:CGRectMake(LEFT_WIDTH, rankLabel.frame.origin.y+rankLabel.frame.size.height, 100.0, LABEL_HEIGHT)];
-        [queryTimesLabel setText:@"被查询次数："];
+        [_smsTimeslabel setText:@"短信提醒次数："];
         
-        [queryTimesLabel setFont:FONT_STR];
+        [_smsTimeslabel setFont:FONT_STR];
         
-        [self addSubview:queryTimesLabel];
+        [self addSubview:_smsTimeslabel];
         
-        UILabel *queryTimesInfoLabel = [[UILabel alloc] initWithFrame:CGRectMake(queryTimesLabel.frame.origin.x+queryTimesLabel.frame.size.width, queryTimesLabel.frame.origin.y, 50.0, LABEL_HEIGHT)];
-        
-        [queryTimesInfoLabel setFont:FONT_STR];
-        
-        [queryTimesInfoLabel setTextColor:[UIColor redColor]];
-        
-        NSString *queryTimesStr = [NSString stringWithFormat:@"%@次",[_recommandTeam queryTimes]];
-        
-        [queryTimesInfoLabel setText:queryTimesStr];
-        
-        [self addSubview:queryTimesInfoLabel];
-        
-        UILabel *smsTimeslabel = [[UILabel alloc] initWithFrame:CGRectMake(queryTimesInfoLabel.frame.origin.x+queryTimesInfoLabel.frame.size.width, queryTimesInfoLabel.frame.origin.y, 120, LABEL_HEIGHT)];
-        
-        [smsTimeslabel setText:@"短信提醒次数："];
-        
-        [smsTimeslabel setFont:FONT_STR];
-        
-        [self addSubview:smsTimeslabel];
-        
-        UILabel *smsTimeInfoLabel = [[UILabel alloc] initWithFrame:CGRectMake(smsTimeslabel.frame.origin.x+smsTimeslabel.frame.size.width, smsTimeslabel.frame.origin.y, 50.0, LABEL_HEIGHT)];
+        UILabel *smsTimeInfoLabel = [[UILabel alloc] initWithFrame:CGRectMake(_smsTimeslabel.frame.origin.x+_smsTimeslabel.frame.size.width, _smsTimeslabel.frame.origin.y, 50.0, LABEL_HEIGHT)];
         
         [smsTimeInfoLabel setFont:FONT_STR];
         
         [smsTimeInfoLabel setTextColor:[UIColor redColor]];
         
-        NSString *smsTimesStr = [NSString stringWithFormat:@"%@次",[_recommandTeam smsTimes]];
-        
-        [smsTimeInfoLabel setText:smsTimesStr];
-        
         [self addSubview:smsTimeInfoLabel];
         
-        UILabel *systemTimesLabel = [[UILabel alloc] initWithFrame:CGRectMake(LEFT_WIDTH, queryTimesLabel.frame.origin.y+queryTimesLabel.frame.size.height, 120.0, LABEL_HEIGHT)];
-        [systemTimesLabel setText:@"系统推送次数："];
+        _systemTimesLabel = [[UILabel alloc] initWithFrame:CGRectMake(LEFT_WIDTH, _queryTimesLabel.frame.origin.y+_queryTimesLabel.frame.size.height, 120.0, LABEL_HEIGHT)];
+        [_systemTimesLabel setText:@"系统推送次数："];
         
-        [systemTimesLabel setFont:FONT_STR];
+        [_systemTimesLabel setFont:FONT_STR];
         
-        [self addSubview:systemTimesLabel];
+        [self addSubview:_systemTimesLabel];
         
-        UILabel *systemTimesInfoLabel = [[UILabel alloc] initWithFrame:CGRectMake(systemTimesLabel.frame.origin.x+systemTimesLabel.frame.size.width, systemTimesLabel.frame.origin.y, 50.0, LABEL_HEIGHT)];
+        _systemTimesInfoLabel = [[UILabel alloc] initWithFrame:CGRectMake(_systemTimesLabel.frame.origin.x+_systemTimesLabel.frame.size.width, _systemTimesLabel.frame.origin.y, 50.0, LABEL_HEIGHT)];
         
-        [systemTimesInfoLabel setFont:FONT_STR];
+        [_systemTimesInfoLabel setFont:FONT_STR];
         
-        [systemTimesInfoLabel setTextColor:[UIColor redColor]];
+        [_systemTimesInfoLabel setTextColor:[UIColor redColor]];
         
-        NSString *systemTimesStr = [NSString stringWithFormat:@"%@次",[_recommandTeam systemTimes]];
-        
-        [systemTimesInfoLabel setText:systemTimesStr];
-        
-        [self addSubview:systemTimesInfoLabel];
+        [self addSubview:_systemTimesInfoLabel];
         
         
         UIButton *showInfoButton = [UIButton buttonWithType:UIButtonTypeCustom];
                                     
         [showInfoButton setBackgroundImage:[UIImage imageNamed:@"recommandcars"] forState:UIControlStateNormal];
         
-        [showInfoButton setFrame:CGRectMake(self.frame.size.width-150-10, systemTimesLabel.frame.origin.y+systemTimesLabel.frame.size.height, 150, 30)];
+        [showInfoButton setFrame:CGRectMake(self.frame.size.width-150-10, _systemTimesLabel.frame.origin.y+_systemTimesLabel.frame.size.height, 150, 30)];
         
         [showInfoButton addTarget:self action:@selector(showInfoView:) forControlEvents:UIControlEventTouchUpInside];
         
@@ -225,6 +240,38 @@
         
     }
     return self;
+}
+
+-(void)setRecommandTeamInfo:(RecommandTeam *)_recommandTeam{
+
+    [_addressInfoLabel setText:[_recommandTeam address]];
+    
+    [_boxTypeInfoLabel setText:[_recommandTeam boxType]];
+    
+    [_dateInfoLabel setText:[_recommandTeam date]];
+    
+    [_boxInfoLabel setText:[_recommandTeam box]];
+    
+    [_inputInfoLabel setText:[_recommandTeam input]];
+    
+    [_peopleInfoLabel setText:[_recommandTeam people]];
+    
+    [_rankInfoLabel setText:[_recommandTeam rank]];
+    
+    [_createTimeInfoLabel setText:[_recommandTeam createTime]];
+    
+    NSString *queryTimesStr = [NSString stringWithFormat:@"%@次",[_recommandTeam queryTimes]];
+    
+    [_queryTimesInfoLabel setText:queryTimesStr];
+    
+    NSString *_smsTimesStr = [NSString stringWithFormat:@"%@次",[_recommandTeam smsTimes]];
+    
+    [_smsTimeInfoLabel setText:_smsTimesStr];
+    
+    NSString *systemTimesStr = [NSString stringWithFormat:@"%@次",[_recommandTeam systemTimes]];
+    
+    [_systemTimesInfoLabel setText:systemTimesStr];
+    
 }
 
 - (void)awakeFromNib

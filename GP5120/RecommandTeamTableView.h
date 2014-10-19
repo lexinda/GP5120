@@ -20,12 +20,24 @@
 
 #import "AcceptInfoViewController.h"
 
-@interface RecommandTeamTableView : UITableViewController<PushViewDelegate>
+#import "JSONKit.h"
+
+#import "ASIHTTPRequest.h"
+
+#import "ASIFormDataRequest.h"
+
+#import "AppUserInfo.h"
+
+@interface RecommandTeamTableView : UITableViewController<PushViewDelegate,MBProgressHUDDelegate>
 
 @property(strong,nonatomic)NSMutableArray *_dataArray;
 
 @property(strong,nonatomic)NSNumber *_activeIndex;
 
 @property(strong,nonatomic)NSNumber *_clickIndex;
+
+@property(nonatomic)int _page;
+
+@property(strong,nonatomic)MBProgressHUD *_hud;
 
 @end

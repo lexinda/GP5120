@@ -335,13 +335,13 @@
             
             AppUserInfo *appUserInfo = (AppUserInfo *)object;
             
-            cell.textLabel.text = appUserInfo.USER_COMPANY_NAME;
+            cell.textLabel.text = [NSString stringWithFormat:@"[派车]%@",appUserInfo.USER_COMPANY_NAME];
             
         }else if([object isKindOfClass:[AdList class]]){
         
             AdList *adList = (AdList *)object;
             
-            cell.textLabel.text = adList.AD_CONTENT;
+            cell.textLabel.text = [NSString stringWithFormat:@"[活动通知]%@",adList.AD_CONTENT];
             
         }
     }
