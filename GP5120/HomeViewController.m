@@ -97,7 +97,7 @@
     
     _meddleView = [[UIView alloc] initWithFrame:CGRectMake(topButtonView.frame.origin.x, topButtonView.frame.origin.y+topButtonView.frame.size.height+10.0, self.view.frame.size.width, self.view.frame.size.height-topButtonView.frame.size.height-49-64)];
     
-    MeddleTextField *meddleTextField = [[MeddleTextField alloc] initWithFrame:CGRectMake(0.0, 0.0, self.view.frame.size.width, 100.0)];
+    MeddleTextField *meddleTextField = [[MeddleTextField alloc] initWithFrame:CGRectMake(0.0, 0.0, self.view.frame.size.width, 150.0)];
     
     [meddleTextField set_pushViewDelegate:self];
     
@@ -111,7 +111,7 @@
     
     _fakeData = [NSMutableArray array];
     
-    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0.0, _meddleView.frame.origin.y+50.0, self.view.frame.size.width, _meddleView.frame.size.height-100.0)];
+    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0.0, _meddleView.frame.origin.y+100.0, self.view.frame.size.width, _meddleView.frame.size.height-150.0)];
     
     _tableView.dataSource = self;
     
@@ -121,7 +121,7 @@
     
     [self.view addSubview:_meddleView];
     
-    [self setupRefresh];
+    [self setupRefresh:@"paiche"];
     
     FootButtonView *footButtonView = [[FootButtonView alloc] initWithFrame:CGRectMake(0.0,_meddleView.frame.size.height+_meddleView.frame.origin.y, self.view.frame.size.width, 49)];
     
@@ -136,11 +136,21 @@
     // Dispose of any resources that can be recreated.
 }
 
--(void)setupRefresh{
+-(void)setupRefresh:(NSString *)type{
     
-    [_tableView addHeaderWithTarget:self action:@selector(headerRereshing)];
-
-    [_tableView headerBeginRefreshing];
+    if ([type isEqualToString:@"paiche"]) {
+        
+        [_tableView addHeaderWithTarget:self action:@selector(paicheHeaderRereshing)];
+        
+        [_tableView headerBeginRefreshing];
+        
+    }else{
+        
+        [_tableView addHeaderWithTarget:self action:@selector(zhaoguiHeaderRereshing)];
+        
+        [_tableView headerBeginRefreshing];
+    
+    }
 
     //[_tableView addFooterWithTarget:self action:@selector(footerRereshing)];
     
@@ -225,14 +235,78 @@
 
 }
 
-- (void)headerRereshing
+- (void)zhaoguiHeaderRereshing
+{
+    [_fakeData removeAllObjects];
+    
+    NSDictionary *dataFlag = [NSDictionary dictionaryWithObject:@"8" forKey:@"flag"];
+        
+    NSArray *dataArray = [NSArray arrayWithObject:dataFlag];
+        
+    NSString *requestStr = [self getRequestData:SERVER_URL withRequestTag:1 withDataArray:dataArray];
+    
+    NSArray *responseData = [requestStr componentsSeparatedByString:@"$$"];
+    
+    if(responseData.count>0){
+        for (int i=0; i<responseData.count; i++) {
+            
+            if (i==0) {
+                
+                NSDictionary *tableData = [[responseData objectAtIndex:i] objectFromJSONString];
+                
+                NSArray *tableArray = [tableData objectForKey:@"Table"];
+                
+                if(tableArray.count>0){
+                    
+                    for (NSDictionary *tableDictionary in tableArray) {
+                        
+                        Table *tableInfo = [[Table alloc] getTableInfo:tableDictionary];
+                        
+                        [_fakeData addObject:tableInfo];
+                    }
+                    
+                }
+                
+            }else if(i==1){
+                
+                NSDictionary *adListData = [[responseData objectAtIndex:i] objectFromJSONString];
+                
+                NSArray *adListArray = [adListData objectForKey:@"AD_LIST"];
+                
+                if (adListArray.count>0) {
+                    
+                    for (NSDictionary *adListDictionary in adListArray) {
+                        
+                        AdList *adList = [[AdList alloc] getAdList:adListDictionary];
+                        
+                        [_fakeData addObject:adList];
+                        
+                    }
+                    
+                }
+               
+            }
+        }
+    }
+    
+    // 2.2秒后刷新表格UI
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        // 刷新表格
+        [_tableView reloadData];
+        
+        // (最好在刷新表格后调用)调用endRefreshing可以结束刷新状态
+        [_tableView headerEndRefreshing];
+    });
+}
+
+- (void)paicheHeaderRereshing
 {
     [_fakeData removeAllObjects];
     
     NSDictionary *dataFlag = [NSDictionary dictionaryWithObject:@"1" forKey:@"flag"];
-        
+    
     NSArray *dataArray = [NSArray arrayWithObject:dataFlag];
-        
+    
     NSString *requestStr = [self getRequestData:SERVER_URL withRequestTag:1 withDataArray:dataArray];
     
     NSArray *responseData = [requestStr componentsSeparatedByString:@"$$"];
@@ -274,7 +348,7 @@
                     }
                     
                 }
-               
+                
             }
         }
     }
@@ -337,11 +411,22 @@
             
             cell.textLabel.text = [NSString stringWithFormat:@"[派车]%@",appUserInfo.USER_COMPANY_NAME];
             
+        }if ([object isKindOfClass:[Table class]]) {
+            
+            Table *tableInfo = (Table *)object;
+            
+            cell.textLabel.text = [NSString stringWithFormat:@"[%@]%@",tableInfo.TRAFFIC_TYPE,tableInfo.USER_COMPANY_NAME];
+            
         }else if([object isKindOfClass:[AdList class]]){
         
             AdList *adList = (AdList *)object;
+            cell.textLabel.numberOfLines=0;  //可多行显示
             
-            cell.textLabel.text = [NSString stringWithFormat:@"[活动通知]%@",adList.AD_CONTENT];
+            cell.textLabel.lineBreakMode=NSLineBreakByWordWrapping;
+            
+            NSString *adText = [NSString stringWithFormat:@"[活动通知]%@",adList.AD_CONTENT];
+            
+            cell.textLabel.text = [adText stringByReplacingOccurrencesOfString:@"<br/>"withString:@"\n"];
             
         }
     }
@@ -354,15 +439,59 @@
     
     NSLog(@"%i",indexPath.row);
     
-    RecommandTeamTableView *recommandTeamTableView = [[RecommandTeamTableView alloc] init];
+    NSObject *object = [_fakeData objectAtIndex:indexPath.row];
     
-    [self.navigationController pushViewController:recommandTeamTableView animated:YES];
+    if ([object isKindOfClass:[AppUserInfo class]]) {
+        
+        AppUserInfo *appUserInfo = (AppUserInfo *)object;
+        
+        RecommandTeamTableView *recommandTeamTableView = [[RecommandTeamTableView alloc] init];
+        
+        [self.navigationController pushViewController:recommandTeamTableView animated:YES];
+        
+    }if ([object isKindOfClass:[Table class]]) {
+        
+        Table *tableInfo = (Table *)object;
+        
+        FindPortTableView *findPortTableView = [[FindPortTableView alloc] init];
+        
+        [self.navigationController pushViewController:findPortTableView animated:YES];
+        
+    }else if([object isKindOfClass:[AdList class]]){
+        
+        AdList *adList = (AdList *)object;
+        
+    }
     
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
 
-    return 40.0;
+    
+    
+    NSLog(@"%i",indexPath.row);
+    
+    NSObject *object = [_fakeData objectAtIndex:indexPath.row];
+    
+    if([object isKindOfClass:[AdList class]]){
+        
+        NSDictionary *attribute = @{NSFontAttributeName: [UIFont systemFontOfSize:15]};
+        
+        AdList *adList = (AdList *)object;
+        
+        CGSize size=[adList.AD_CONTENT boundingRectWithSize:CGSizeMake(156, 1000)//最大限制宽和高
+                                                              options:NSStringDrawingUsesLineFragmentOrigin
+                                                           attributes:attribute
+                                                              context:nil].size;
+        
+        return size.height+20.0;
+        
+    }else{
+    
+        return 40.0;
+        
+    }
+
     
 }
 
@@ -464,6 +593,8 @@
         
         [_meddleView addSubview:meddleTextField];
         
+        [self setupRefresh:@"zhaogui"];
+        
     }else if(id==2){
         
         for(UIView *view in [_meddleView subviews]){
@@ -487,6 +618,8 @@
         [meddleTextField setBackgroundColor:[UIColor whiteColor]];
         
         [_meddleView addSubview:meddleTextField];
+        
+        [self setupRefresh:@"paiche"];
     
     }else if(id==3){
     

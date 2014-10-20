@@ -1,8 +1,8 @@
 //
-//  RecommandTeamTableView.h
+//  FindPortTableView.h
 //  GP5120
 //
-//  Created by lele126 on 14-8-9.
+//  Created by 朱孟乐 on 14/10/19.
 //  Copyright (c) 2014年 com.lexindasoft. All rights reserved.
 //
 
@@ -28,9 +28,7 @@
 
 #import "AppUserInfo.h"
 
-#import "ValidataLogin.h"
-
-@interface RecommandTeamTableView : UITableViewController<PushViewDelegate,MBProgressHUDDelegate>
+@interface FindPortTableView : UITableViewController<PushViewDelegate,MBProgressHUDDelegate>
 
 @property(strong,nonatomic)NSMutableArray *_dataArray;
 

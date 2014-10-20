@@ -23,13 +23,17 @@
     BOOL ret = [_mapManager start:@"VGdYXpEGLs3LwVE8UjSO5iVB" generalDelegate:self];
     
     if (!ret) {
-        NSLog(@"载入地图出差");
+        NSLog(@"载入地图出错");
     }
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
+    
+//    LoginAndRegisterViewController *loginAndRegisterViewController = [[LoginAndRegisterViewController alloc] init];
+//    
+//    _navigationController = [[UINavigationController alloc] initWithRootViewController:loginAndRegisterViewController];
     
     _homeViewController = [[HomeViewController alloc] init];
     

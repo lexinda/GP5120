@@ -20,10 +20,26 @@
 
 -(void)swapView:(int)id;
 
+-(void)swapRegisterView:(int)id;
+
 -(void)showCarDetail;
 
 -(void)showDataPicker;
 
 -(void)getDatePickerViewData:(NSString *)data;
+
+-(void)popToLoginView;
+
+-(void)commitRegisterInfo;
+
+-(void)commitSimpleRegisterInfo;
+
+-(void)inputBegin:(id)sender;
+
+-(void)inputEnd;
+
+-(void)localPhoto;
+
+-(void)takePhoto;
 
 @end

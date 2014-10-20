@@ -37,7 +37,7 @@
 // An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect
 {
-    _oneTextFiled = [[UITextField alloc] initWithFrame:CGRectMake((rect.size.width-rect.size.width/3*2)/2, 0.0, rect.size.width/3*2, (rect.size.height-30)/4+8)];
+    _oneTextFiled = [[UITextField alloc] initWithFrame:CGRectMake((rect.size.width-rect.size.width/3*2)/2, 0.0, rect.size.width/3*2, 30.0)];
     
     [_oneTextFiled setBorderStyle:UITextBorderStyleRoundedRect];
     
@@ -57,7 +57,7 @@
     
     [self addSubview:_oneTextFiled];
     
-    _twoTextFiled = [[UITextField alloc] initWithFrame:CGRectMake((rect.size.width-rect.size.width/3*2)/2, _oneTextFiled.frame.size.height+10.0, rect.size.width/3*2, (rect.size.height-30)/4+8)];
+    _twoTextFiled = [[UITextField alloc] initWithFrame:CGRectMake((rect.size.width-rect.size.width/3*2)/2, _oneTextFiled.frame.size.height+10.0, rect.size.width/3*2, 30.0)];
     
     [_twoTextFiled setBorderStyle:UITextBorderStyleRoundedRect];
     
@@ -77,53 +77,111 @@
     
     UIButton *nowButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     
-    [nowButton setFrame:CGRectMake(_twoTextFiled.frame.origin.x, _twoTextFiled.frame.origin.y+_twoTextFiled.frame.size.height, (_twoTextFiled.frame.size.width-9)/4, (rect.size.height-30)/4)];
+    [nowButton setFrame:CGRectMake(_twoTextFiled.frame.origin.x-5.0, _twoTextFiled.frame.origin.y+_twoTextFiled.frame.size.height+10.0, (_twoTextFiled.frame.size.width-9)/4, 20.0)];
     
-    [nowButton setTitle:@"今天" forState:UIControlStateNormal];
+    [nowButton setBackgroundImage:[UIImage imageNamed:@"today"] forState:UIControlStateNormal];
+    
+    [nowButton setTag:10];
+    
+    [nowButton addTarget:self action:@selector(activeButton:) forControlEvents:UIControlEventTouchUpInside];
     
     [self addSubview:nowButton];
     
     UIButton *tomorrowButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     
-    [tomorrowButton setFrame:CGRectMake(nowButton.frame.origin.x+nowButton.frame.size.width, _twoTextFiled.frame.origin.y+_twoTextFiled.frame.size.height, (_twoTextFiled.frame.size.width-9)/4, (rect.size.height-30)/4)];
+    [tomorrowButton setFrame:CGRectMake(nowButton.frame.origin.x+nowButton.frame.size.width+5.0, _twoTextFiled.frame.origin.y+_twoTextFiled.frame.size.height+10.0, (_twoTextFiled.frame.size.width-9)/4, 20.0)];
     
-    [tomorrowButton setTitle:@"明天" forState:UIControlStateNormal];
+    [tomorrowButton setBackgroundImage:[UIImage imageNamed:@"tomorrow"] forState:UIControlStateNormal];
+    
+    [tomorrowButton setTag:11];
+    
+    [tomorrowButton addTarget:self action:@selector(activeButton:) forControlEvents:UIControlEventTouchUpInside];
     
     [self addSubview:tomorrowButton];
     
     UIButton *afterTomorrowButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     
-    [afterTomorrowButton setFrame:CGRectMake(tomorrowButton.frame.origin.x+tomorrowButton.frame.size.width, _twoTextFiled.frame.origin.y+_twoTextFiled.frame.size.height, (_twoTextFiled.frame.size.width-9)/4, (rect.size.height-30)/4)];
+    [afterTomorrowButton setFrame:CGRectMake(tomorrowButton.frame.origin.x+tomorrowButton.frame.size.width+5.0, _twoTextFiled.frame.origin.y+_twoTextFiled.frame.size.height+10.0, (_twoTextFiled.frame.size.width-9)/4, 20.0)];
     
-    [afterTomorrowButton setTitle:@"后天" forState:UIControlStateNormal];
+    [afterTomorrowButton setBackgroundImage:[UIImage imageNamed:@"nextday"] forState:UIControlStateNormal];
+    
+    [afterTomorrowButton setTag:12];
+    
+    [afterTomorrowButton addTarget:self action:@selector(activeButton:) forControlEvents:UIControlEventTouchUpInside];
+
     
     [self addSubview:afterTomorrowButton];
     
     UIButton *otherButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     
-    [otherButton setFrame:CGRectMake(afterTomorrowButton.frame.origin.x+afterTomorrowButton.frame.size.width, _twoTextFiled.frame.origin.y+_twoTextFiled.frame.size.height, (_twoTextFiled.frame.size.width-9)/4, (rect.size.height-30)/4)];
+    [otherButton setFrame:CGRectMake(afterTomorrowButton.frame.origin.x+afterTomorrowButton.frame.size.width+5.0, _twoTextFiled.frame.origin.y+_twoTextFiled.frame.size.height+10.0, (_twoTextFiled.frame.size.width-9)/4, 20.0)];
     
-    [otherButton setTitle:@"月＋日" forState:UIControlStateNormal];
+    [otherButton setBackgroundImage:[UIImage imageNamed:@"otherday"] forState:UIControlStateNormal];
     
     [self addSubview:otherButton];
     
     UIButton *leftButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     
-    [leftButton setFrame:CGRectMake(nowButton.frame.origin.x-10, nowButton.frame.origin.y+nowButton.frame.size.height, (_twoTextFiled.frame.size.width-4)/2, (rect.size.height-30)/4)];
+    [leftButton setFrame:CGRectMake((self.frame.size.width-250.0)/2, nowButton.frame.origin.y+nowButton.frame.size.height+10.0, 120, 30.0)];
     
     [leftButton setTitle:@"派单给他" forState:UIControlStateNormal];
+    
+    [leftButton setBackgroundImage:[UIImage imageNamed:@"_12"] forState:UIControlStateNormal];
     
     [self addSubview:leftButton];
     
     UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     
-    [rightButton setFrame:CGRectMake(leftButton.frame.origin.x+leftButton.frame.size.width, nowButton.frame.origin.y+nowButton.frame.size.height, (_twoTextFiled.frame.size.width-4)/2, (rect.size.height-30)/4)];
+    [rightButton setFrame:CGRectMake(leftButton.frame.origin.x+leftButton.frame.size.width+10.0, nowButton.frame.origin.y+nowButton.frame.size.height+10.0, 120, 30.0)];
     
     [rightButton addTarget:self action:@selector(setupCarInfo:) forControlEvents:UIControlEventTouchUpInside];
     
     [rightButton setTitle:@"发布派车信息" forState:UIControlStateNormal];
     
+    [rightButton setBackgroundImage:[UIImage imageNamed:@"_12"] forState:UIControlStateNormal];
+    
     [self addSubview:rightButton];
+}
+
+-(void)activeButton:(id)sender{
+
+    UIButton *button = (UIButton *)sender;
+    
+    for (UIView *view in [self subviews]) {
+        if (view.tag==10) {
+            
+            UIButton *button = (UIButton *)view;
+            
+            [button setBackgroundImage:[UIImage imageNamed:@"today"] forState:UIControlStateNormal];
+            
+        }else if(view.tag==11){
+            
+             UIButton *button = (UIButton *)view;
+            
+            [button setBackgroundImage:[UIImage imageNamed:@"tomorrow"] forState:UIControlStateNormal];
+            
+        }else if(view.tag==12){
+            
+             UIButton *button = (UIButton *)view;
+            
+            [button setBackgroundImage:[UIImage imageNamed:@"nextday"] forState:UIControlStateNormal];
+            
+        }
+    }
+    
+    if (button.tag == 10) {
+        
+        [button setBackgroundImage:[UIImage imageNamed:@"today1"] forState:UIControlStateNormal];
+        
+    }else if(button.tag == 11){
+        
+        [button setBackgroundImage:[UIImage imageNamed:@"tomorrow1"] forState:UIControlStateNormal];
+        
+    }else if(button.tag == 12){
+        
+        [button setBackgroundImage:[UIImage imageNamed:@"nextday1"] forState:UIControlStateNormal];
+        
+    }
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {

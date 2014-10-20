@@ -1,20 +1,18 @@
 //
-//  RecommandTeamTableView.m
+//  FindPortTableView.m
 //  GP5120
 //
-//  Created by lele126 on 14-8-9.
+//  Created by 朱孟乐 on 14/10/19.
 //  Copyright (c) 2014年 com.lexindasoft. All rights reserved.
 //
 
-#import "RecommandTeamTableView.h"
+#import "FindPortTableView.h"
 
-#import "LoginAndRegisterViewController.h"
-
-@interface RecommandTeamTableView ()
+@interface FindPortTableView ()
 
 @end
 
-@implementation RecommandTeamTableView
+@implementation FindPortTableView
 
 @synthesize _dataArray;
 
@@ -32,7 +30,7 @@
     if (self) {
         // Custom initialization
         
-        self.title = @"推荐车队区";
+        self.title = @"找港柜";
         
         UIImage *backImage = [UIImage imageNamed:@"releasesuccess_return"];
         
@@ -241,13 +239,11 @@
     
     _clickIndex = [[NSNumber alloc] initWithInt:-1];
     
-    NSDictionary *dataFlag = [NSDictionary dictionaryWithObject:@"4" forKey:@"flag"];
-    
-    NSDictionary *dataFlag1 = [NSDictionary dictionaryWithObject:@"" forKey:@"username"];
+    NSDictionary *dataFlag = [NSDictionary dictionaryWithObject:@"92" forKey:@"flag"];
     
     NSDictionary *dataFlag2 = [NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"%i",_page] forKey:@"page"];
     
-    NSArray *dataArray = [NSArray arrayWithObjects:dataFlag,dataFlag1,dataFlag2,nil];
+    NSArray *dataArray = [NSArray arrayWithObjects:dataFlag,dataFlag2,nil];
     
     NSString *requestStr = [self getRequestData:SERVER_URL withRequestTag:1 withDataArray:dataArray];
     
@@ -266,19 +262,9 @@
                     [self.tableView footerEndRefreshing];
                 });
                 
-            }else if ([[responseData objectAtIndex:i] isEqualToString:@"2"]) {
+            }else if ([[responseData objectAtIndex:i] isEqualToString:@"4"]) {
                 
-                [self showWithLabel:@"参数出错"];
-                
-                // 2.2秒后刷新表格UI
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                    // (最好在刷新表格后调用)调用endRefreshing可以结束刷新状态
-                    [self.tableView footerEndRefreshing];
-                });
-                
-            }else if ([[responseData objectAtIndex:i] isEqualToString:@"3"]) {
-                
-                [self showWithLabel:@"暂无车队信息"];
+                [self showWithLabel:@"无集装箱信息"];
                 
                 // 2.2秒后刷新表格UI
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -343,7 +329,7 @@
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
         
         //if (cell == nil) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
         //}
         
         cell.textLabel.text = info.USER_NAME;
@@ -377,12 +363,12 @@
         
         RecommandTeamCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
         
-       
+        
         
         //if (cell == nil) {
-            
-            cell = [[RecommandTeamCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
-            
+        
+        cell = [[RecommandTeamCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
+        
         //}
         
         [cell setRecommandTeamInfo:recommandTeam];
@@ -407,22 +393,22 @@
     
     NSLog(@"%i",indexPath.row);
     
-     NSLog(@"%i",_clickIndex.intValue);
+    NSLog(@"%i",_clickIndex.intValue);
     
     AppUserInfo *info = (AppUserInfo *)[_dataArray objectAtIndex:indexPath.row];
-            
+    
     if ([info.levelType isEqualToString:@"1"]) {
         
-         NSLog(@"%i",_activeIndex.intValue);
+        NSLog(@"%i",_activeIndex.intValue);
         
         if (_activeIndex.intValue!=-1) {
-                
-                [_dataArray removeObjectAtIndex:_activeIndex.intValue];
-                // Delete the row from the data source
-                
-                NSIndexPath *indexPathDelete = [NSIndexPath indexPathForRow:_activeIndex.intValue  inSection:indexPath.section];
             
-                [tableView deleteRowsAtIndexPaths:@[indexPathDelete] withRowAnimation:UITableViewRowAnimationFade];
+            [_dataArray removeObjectAtIndex:_activeIndex.intValue];
+            // Delete the row from the data source
+            
+            NSIndexPath *indexPathDelete = [NSIndexPath indexPathForRow:_activeIndex.intValue  inSection:indexPath.section];
+            
+            [tableView deleteRowsAtIndexPaths:@[indexPathDelete] withRowAnimation:UITableViewRowAnimationFade];
             
             _activeIndex = [NSNumber numberWithInt:-1];
             
@@ -456,7 +442,7 @@
                 
                 
             }
-
+            
             
         }else{
             
@@ -474,9 +460,9 @@
             
         }
     }
-
+    
     _clickIndex = [NSNumber numberWithInt:indexPath.row];
-
+    
 }
 
 // Override to support editing the table view.
@@ -495,7 +481,7 @@
         [_dataArray insertObject:appUserInfo atIndex:(_dataArray.count-1)];
         [tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationTop];
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
+    }
 }
 
 -(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -510,7 +496,7 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-
+    
     AppUserInfo *info = (AppUserInfo *)[_dataArray objectAtIndex:indexPath.row];
     
     if ([info.levelType isEqualToString:@"1"]) {
@@ -518,46 +504,31 @@
         return 50.0;
         
     }else{
-    
+        
         return 150.0;
-    
+        
     }
     
 }
 
 -(void)showInfoDetailView{
-
-//    CarInfoViewController *carInfoViewController = [[CarInfoViewController alloc] init];
     
-    NSDictionary *userLoginInfo = [[ValidataLogin alloc] validataUserInfo];
+    //    CarInfoViewController *carInfoViewController = [[CarInfoViewController alloc] init];
     
-    if ([[userLoginInfo objectForKey:@"isAutoLogin"] isEqualToString:@"1"]&&![[userLoginInfo objectForKey:@"password"] isEqualToString:@""]) {
-        
-        AcceptInfoViewController *acceptInfoViewController = [[AcceptInfoViewController alloc] init];
-        
-        //    [self.navigationController pushViewController:carInfoViewController animated:YES];
-        
-        [self.navigationController pushViewController:acceptInfoViewController animated:YES];
+    AcceptInfoViewController *acceptInfoViewController = [[AcceptInfoViewController alloc] init];
     
-    }else{
-        
-        LoginAndRegisterViewController *loginAndRegisterViewController = [[LoginAndRegisterViewController alloc] init];
-        
-        [self.navigationController pushViewController:loginAndRegisterViewController animated:YES];
-    }
+    //    [self.navigationController pushViewController:carInfoViewController animated:YES];
     
-    
+    [self.navigationController pushViewController:acceptInfoViewController animated:YES];
     
 }
 
 - (void)showWithLabel:(NSString *)labelText {
     
     _hud = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
-    
     [self.navigationController.view addSubview:_hud];
     
     _hud.delegate = self;
-    
     _hud.labelText = labelText;
     
     [_hud showWhileExecuting:@selector(myTask) onTarget:self withObject:nil animated:YES];

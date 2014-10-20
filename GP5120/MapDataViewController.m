@@ -21,6 +21,20 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        
+        UIImage *backImage = [UIImage imageNamed:@"releasesuccess_return"];
+        
+        UIButton *leftButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        
+        leftButton.frame = CGRectMake(0.0, 0.0, 42.0, 25.0);
+        
+        [leftButton addTarget:self action:@selector(goBack) forControlEvents:UIControlEventTouchUpInside];
+        
+        [leftButton setBackgroundImage:backImage forState:UIControlStateNormal];
+        
+        UIBarButtonItem *leftBarButonItem = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
+        
+        self.navigationItem.leftBarButtonItem = leftBarButonItem;
     }
     return self;
 }
@@ -46,6 +60,12 @@
     [self.view addSubview:_mapView];
     
     // Do any additional setup after loading the view.
+}
+
+-(void)goBack{
+    
+    [self.navigationController popViewControllerAnimated:YES];
+    
 }
 
 - (void)didReceiveMemoryWarning

@@ -42,9 +42,13 @@
 
 #import "AppUserInfo.h"
 
+#import "Table.h"
+
 #import "AdList.h"
 
 #import "JSONKit.h"
+
+#import "FindPortTableView.h"
 
 @interface HomeViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,PushViewDelegate>
 
