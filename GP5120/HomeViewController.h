@@ -50,6 +50,10 @@
 
 #import "FindPortTableView.h"
 
+#import "SetupUserInfoViewController.h"
+
+#import "ChangePasswordViewController.h"
+
 @interface HomeViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,PushViewDelegate>
 
 @property(strong,nonatomic)UITableView *_tableView;

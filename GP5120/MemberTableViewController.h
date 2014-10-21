@@ -18,4 +18,8 @@
 
 @property(strong,nonatomic)NSMutableArray *_nodes;
 
+@property(strong,nonatomic)NSNumber *_activeIndex;
+
+@property(strong,nonatomic)NSNumber *_clickIndex;
+
 @end

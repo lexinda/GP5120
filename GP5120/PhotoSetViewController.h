@@ -18,4 +18,8 @@
 
 @property(strong,nonatomic)NSString *_server;
 
+@property(strong,nonatomic)UIButton *_takePicture;
+
+@property(strong,nonatomic)UIButton *_uploadPicture;
+
 @end

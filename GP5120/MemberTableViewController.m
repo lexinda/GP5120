@@ -18,11 +18,17 @@
 
 @synthesize _nodes;
 
+@synthesize _activeIndex;
+
+@synthesize _clickIndex;
+
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
     if (self) {
         // Custom initialization
+        
+        self.title=@"会员信息";
         
         UIImage *backImage = [UIImage imageNamed:@"releasesuccess_return"];
         
@@ -45,7 +51,13 @@
 {
     [super viewDidLoad];
     
-    [self.tableView setScrollEnabled:NO];
+    _activeIndex = [[NSNumber alloc] initWithInt:-1];
+    
+    _clickIndex = [[NSNumber alloc] initWithInt:-1];
+    
+    [self.tableView setScrollEnabled:YES];
+    
+    [self setExtraCellLineHidden:self.tableView];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(expandCollapseNode:) name:@"ProjectTreeNodeButtonClicked" object:nil];
     
@@ -309,7 +321,7 @@
     
     if (_displayArray.count>0) {
         
-        self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
         
     }
     
@@ -341,7 +353,7 @@
     
     if(cell.treeNode.nodeLevel==0){
         
-        cell.backgroundColor = [UIColor redColor];
+        cell.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"_12"]];
         
         if (node.isExpanded) {
             
@@ -354,7 +366,7 @@
         }
     }else{
         
-        cell.backgroundColor = [UIColor grayColor];
+        cell.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"releasesuccess_top"]];
         
     }
     
@@ -363,6 +375,119 @@
     return cell;
 }
 
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+
+    TreeViewNode *node = [_displayArray objectAtIndex:indexPath.row];
+    
+    if (node.nodeLevel==1) {
+        NSLog(@"node%@",node.nodeObject);
+        
+        
+        NSLog(@"%i",indexPath.row);
+        
+        NSLog(@"%i",_clickIndex.intValue);
+        
+        if (node.nodeLevel ==1) {
+            
+            NSLog(@"%i",_activeIndex.intValue);
+            
+            if (_activeIndex.intValue!=-1) {
+                
+                [_displayArray removeObjectAtIndex:_activeIndex.intValue];
+                // Delete the row from the data source
+                
+                NSIndexPath *indexPathDelete = [NSIndexPath indexPathForRow:_activeIndex.intValue  inSection:indexPath.section];
+                
+                [tableView deleteRowsAtIndexPaths:@[indexPathDelete] withRowAnimation:UITableViewRowAnimationFade];
+                
+                _activeIndex = [NSNumber numberWithInt:-1];
+                
+                if (indexPath.row!=_clickIndex.intValue) {
+                    
+                    NSLog(@"%i",indexPath.row);
+                    
+                    TreeViewNode *threeLevelNode = [[TreeViewNode alloc] init];
+                    
+                    threeLevelNode.nodeLevel=3;
+                    
+                    threeLevelNode.isExpanded=NO;
+                    
+                    threeLevelNode.nodeObject = [NSString stringWithFormat:@"add"];
+                    
+                    threeLevelNode.index=0;
+                    
+                    //NSDictionary *infoDictionary = [NSDictionary dictionaryWithObjectsAndKeys:@"six",@"name",@"0",@"type",nil];
+                    
+                    NSIndexPath *indexPathInsert;
+                    
+                    if (_clickIndex.intValue>indexPath.row) {
+                        
+                        [_displayArray insertObject:threeLevelNode atIndex:indexPath.row+1];
+                        
+                        indexPathInsert = [NSIndexPath indexPathForRow:indexPath.row+1 inSection:indexPath.section];
+                        
+                        _activeIndex = [NSNumber numberWithInt:indexPath.row+1];
+                    }else{
+                        
+                        [_displayArray insertObject:threeLevelNode atIndex:indexPath.row];
+                        
+                        indexPathInsert = [NSIndexPath indexPathForRow:indexPath.row inSection:indexPath.section];
+                        
+                        _activeIndex = [NSNumber numberWithInt:indexPath.row];
+                    }
+                    
+                    [tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPathInsert] withRowAnimation:UITableViewRowAnimationBottom];
+                    
+                    
+                }
+                
+                
+            }else{
+                
+                TreeViewNode *threeLevelNode = [[TreeViewNode alloc] init];
+                
+                threeLevelNode.nodeLevel=3;
+                
+                threeLevelNode.isExpanded=NO;
+                
+                threeLevelNode.nodeObject = [NSString stringWithFormat:@"add"];
+                
+                threeLevelNode.index=0;
+                
+                //NSDictionary *infoDictionary = [NSDictionary dictionaryWithObjectsAndKeys:@"six",@"name",@"0",@"levelType",nil];
+                
+                [_displayArray insertObject:threeLevelNode atIndex:indexPath.row+1];
+                
+                NSIndexPath *indexPathInsert = [NSIndexPath indexPathForRow:indexPath.row+1 inSection:indexPath.section];
+                
+                [tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:indexPathInsert] withRowAnimation:UITableViewRowAnimationBottom];
+                
+                _activeIndex = [NSNumber numberWithInt:indexPath.row+1];
+                
+            }
+        }
+        
+        _clickIndex = [NSNumber numberWithInt:indexPath.row];
+    }
+    
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+
+    return 37;
+    
+}
+
+- (void)setExtraCellLineHidden: (UITableView *)tableView{
+    
+    UIView *view =[ [UIView alloc]init];
+    
+    view.backgroundColor = [UIColor clearColor];
+    
+    [tableView setTableFooterView:view];
+    
+    [tableView setTableHeaderView:view];
+}
 
 /*
 // Override to support conditional editing of the table view.

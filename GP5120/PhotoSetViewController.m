@@ -18,11 +18,17 @@
 
 @synthesize _server;
 
+@synthesize _takePicture;
+
+@synthesize _uploadPicture;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        
+        self.title = @"相册";
         
         UIImage *backImage = [UIImage imageNamed:@"releasesuccess_return"];
         
@@ -54,15 +60,25 @@
 {
     [super viewDidLoad];
     
-    UIButton *photoButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    _takePicture = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     
-    [photoButton setTitle:@"拍照上传" forState:UIControlStateNormal];
+    [_takePicture setFrame:CGRectMake((self.view.frame.size.width-210)/2, 20.0, 100.0, 40.0)];
     
-    [photoButton setFrame:CGRectMake((self.view.frame.size.width-200)/2, 0.0, 200.0, 20.0)];
+    [_takePicture setBackgroundImage:[UIImage imageNamed:@"takepicture"] forState:UIControlStateNormal];
     
-    [photoButton addTarget:self action:@selector(takePhoto) forControlEvents:UIControlEventTouchUpInside];
+    [_takePicture addTarget:self action:@selector(takePhoto) forControlEvents:UIControlEventTouchUpInside];
     
-    [self.view addSubview:photoButton];
+    [self.view addSubview:_takePicture];
+    
+    _uploadPicture = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    
+    [_uploadPicture setFrame:CGRectMake(_takePicture.frame.origin.x+_takePicture.frame.size.width+10.0, _takePicture.frame.origin.y, 100.0, 40.0)];
+    
+    [_uploadPicture setBackgroundImage:[UIImage imageNamed:@"uploadpicture"] forState:UIControlStateNormal];
+    
+    [_uploadPicture addTarget:self action:@selector(localPhoto) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self.view addSubview:_uploadPicture];
     
     // Do any additional setup after loading the view.
 }
@@ -131,7 +147,7 @@
         
         [picker dismissModalViewControllerAnimated:YES];
         
-        UIImageView *smallImage = [[UIImageView alloc] initWithFrame:CGRectMake(50,120,40,40)];
+        UIImageView *smallImage = [[UIImageView alloc] initWithFrame:CGRectMake(_takePicture.frame.origin.x-10,_takePicture.frame.origin.y+_takePicture.frame.size.height+10.0,230,200)];
         
         smallImage.image = image;
         

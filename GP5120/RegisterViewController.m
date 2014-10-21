@@ -130,7 +130,9 @@
         
         RegisterDetailView *registerDetailView = [[RegisterDetailView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.view.frame.size.width, self.view.frame.size.height)];
         
-        [registerDetailView set_pushViewDelegate:self];
+        NSLog(@"%f",_meddleView.frame.size.height);
+        
+        [_meddleView setContentSize:CGSizeMake(self.view.frame.size.width, 370)];
         
         [_meddleView addSubview:registerDetailView];
     

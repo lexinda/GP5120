@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		28016D7019CD332D005ACA98 /* DatePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 28016D6F19CD332D005ACA98 /* DatePickerView.m */; };
+		2812E3F719F69F2200246AED /* SetupUserInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2812E3F619F69F2200246AED /* SetupUserInfoViewController.m */; };
+		2812E3FA19F6AB8200246AED /* ChangePasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2812E3F919F6AB8200246AED /* ChangePasswordViewController.m */; };
 		2836B46119C9C23000493099 /* MeddleTextFieldTwo.m in Sources */ = {isa = PBXBuildFile; fileRef = 2836B46019C9C23000493099 /* MeddleTextFieldTwo.m */; };
 		283D634219C5BFC600404BE6 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 283D634119C5BFC600404BE6 /* CoreLocation.framework */; };
 		283D634419C5BFD000404BE6 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 283D634319C5BFD000404BE6 /* OpenGLES.framework */; };
@@ -143,6 +145,10 @@
 /* Begin PBXFileReference section */
 		28016D6E19CD332D005ACA98 /* DatePickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatePickerView.h; sourceTree = "<group>"; };
 		28016D6F19CD332D005ACA98 /* DatePickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatePickerView.m; sourceTree = "<group>"; };
+		2812E3F519F69F2200246AED /* SetupUserInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetupUserInfoViewController.h; sourceTree = "<group>"; };
+		2812E3F619F69F2200246AED /* SetupUserInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetupUserInfoViewController.m; sourceTree = "<group>"; };
+		2812E3F819F6AB8200246AED /* ChangePasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChangePasswordViewController.h; sourceTree = "<group>"; };
+		2812E3F919F6AB8200246AED /* ChangePasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChangePasswordViewController.m; sourceTree = "<group>"; };
 		2836B45F19C9C23000493099 /* MeddleTextFieldTwo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeddleTextFieldTwo.h; sourceTree = "<group>"; };
 		2836B46019C9C23000493099 /* MeddleTextFieldTwo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeddleTextFieldTwo.m; sourceTree = "<group>"; };
 		283D634119C5BFC600404BE6 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -773,6 +779,10 @@
 				286A493E19F3BA7E005B1749 /* LoginAndRegisterViewController.m */,
 				286A494519F3E33F005B1749 /* RegisterViewController.h */,
 				286A494619F3E33F005B1749 /* RegisterViewController.m */,
+				2812E3F519F69F2200246AED /* SetupUserInfoViewController.h */,
+				2812E3F619F69F2200246AED /* SetupUserInfoViewController.m */,
+				2812E3F819F6AB8200246AED /* ChangePasswordViewController.h */,
+				2812E3F919F6AB8200246AED /* ChangePasswordViewController.m */,
 			);
 			name = controller;
 			sourceTree = "<group>";
@@ -1082,6 +1092,7 @@
 				EA09680D198C8F12001E89FF /* AppDelegate.mm in Sources */,
 				EA9140B0198D264A006D50B8 /* FootButtonView.m in Sources */,
 				EA9140AD198D090F006D50B8 /* MJSampleIndex.m in Sources */,
+				2812E3FA19F6AB8200246AED /* ChangePasswordViewController.m in Sources */,
 				EA4E7596199278F600BE7EF3 /* CarInfoTopView.m in Sources */,
 				EA09684E198C913A001E89FF /* ASIHTTPRequest.m in Sources */,
 				EA9140A6198D08F6006D50B8 /* MJRefreshFooterView.m in Sources */,
@@ -1098,6 +1109,7 @@
 				286A494D19F3E674005B1749 /* RegisterView.m in Sources */,
 				EADA97D11995BE9A00949648 /* RecommandTeam.m in Sources */,
 				EA4E75991992798800BE7EF3 /* CarInfo.m in Sources */,
+				2812E3F719F69F2200246AED /* SetupUserInfoViewController.m in Sources */,
 				EA4E75931992785400BE7EF3 /* CarInfoViewController.m in Sources */,
 				EA09685A198C9296001E89FF /* HomeViewController.m in Sources */,
 				EA096809198C8F12001E89FF /* main.m in Sources */,

@@ -534,9 +534,18 @@
     }];
     [actionSheet addButtonWithTitle:@"设置" block:^{
         NSLog(@"pushed hoge2 button");
+        
+        SetupUserInfoViewController *setupUserInfoViewController = [[SetupUserInfoViewController alloc] init];
+        
+        [self.navigationController pushViewController:setupUserInfoViewController animated:YES];
+        
     }];
     [actionSheet addButtonWithTitle:@"修改密码" block:^{
         NSLog(@"pushed hoge2 button");
+        
+        ChangePasswordViewController *changePasswordViewController = [[ChangePasswordViewController alloc] init];
+        
+        [self.navigationController pushViewController:changePasswordViewController animated:YES];
     }];
     [actionSheet cancelButtonWithTitle:@"意见反馈" block:nil];
     actionSheet.cornerRadius = 5;
