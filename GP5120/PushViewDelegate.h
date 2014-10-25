@@ -8,9 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol PushViewDelegate <NSObject>
+#import "HomeInfoModel.h"
 
--(void)setupCarInfo;
+@protocol PushViewDelegate <NSObject>
 
 -(void)successRedirectView;
 
@@ -41,5 +41,9 @@
 -(void)localPhoto;
 
 -(void)takePhoto;
+
+-(void)loginAndRegister;
+
+-(void)pushCarInfoView:(HomeInfoModel *)homeInfoModel;
 
 @end

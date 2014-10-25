@@ -124,7 +124,7 @@
     
     [leftButton setFrame:CGRectMake((self.frame.size.width-250.0)/2, nowButton.frame.origin.y+nowButton.frame.size.height+10.0, 120, 30.0)];
     
-    [leftButton setTitle:@"派单给他" forState:UIControlStateNormal];
+    [leftButton setTitle:@"找进港柜" forState:UIControlStateNormal];
     
     [leftButton setBackgroundImage:[UIImage imageNamed:@"_12"] forState:UIControlStateNormal];
     
@@ -136,7 +136,7 @@
     
     [rightButton addTarget:self action:@selector(setupCarInfo:) forControlEvents:UIControlEventTouchUpInside];
     
-    [rightButton setTitle:@"发布派车信息" forState:UIControlStateNormal];
+    [rightButton setTitle:@"找出港柜" forState:UIControlStateNormal];
     
     [rightButton setBackgroundImage:[UIImage imageNamed:@"_12"] forState:UIControlStateNormal];
     
@@ -196,12 +196,6 @@
     [textField resignFirstResponder];
     
     return YES;
-    
-}
-
--(void)setupCarInfo:(id)action{
-    
-    [_pushViewDelegate setupCarInfo];
     
 }
 

@@ -20,6 +20,8 @@
 
 @synthesize _isAutoLogin;
 
+@synthesize _redirectView;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -61,7 +63,7 @@
     
     _isAutoLogin  = @"0";
     
-    UILabel *usernameLabel = [[UILabel alloc] initWithFrame:CGRectMake((self.view.frame.size.width-250)/2, 20.0+44.0+20.0, 70.0, 30.0)];
+    UILabel *usernameLabel = [[UILabel alloc] initWithFrame:CGRectMake((self.view.frame.size.width-250)/2, 20.0, 70.0, 30.0)];
     
     [usernameLabel setText:@"用户名："];
     
@@ -98,6 +100,8 @@
     [_passwordTextField setBorderStyle:UITextBorderStyleRoundedRect];
     
     _passwordTextField.placeholder = @"密码";
+    
+    _passwordTextField.secureTextEntry = YES;
     
     _passwordTextField.delegate = self;
     
@@ -204,9 +208,46 @@
         [alertView show];
     }else{
     
-        NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:_usernameTextField.text,@"username",_passwordTextField.text,@"password",_isAutoLogin,@"isAutoLogin", nil];
+        NSString *requestData = [NSString stringWithFormat:@"%@&flag=25&username=%@&password=%@",SERVER_URL,_usernameTextField.text,_passwordTextField.text];
         
-        [[ValidataLogin alloc] standardUserInfo:userInfo];
+        ASIFormDataRequest *requestForm = [[ASIFormDataRequest alloc] initWithURL:[NSURL URLWithString:requestData]];
+        
+        [requestForm startSynchronous];
+        
+        NSString *responseStr = [requestForm responseString];
+        
+        if ([responseStr isEqualToString:@"1"]) {
+            NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:_usernameTextField.text,@"username",_passwordTextField.text,@"password",_isAutoLogin,@"isAutoLogin", nil];
+            
+            [[ValidataLogin alloc] standardUserInfo:userInfo];
+            
+            BOOL isHave = false;
+            
+            for (UIViewController *uiViewController in [self.navigationController viewControllers]) {
+                
+                if ([uiViewController isKindOfClass:[MemberTableViewController class]]) {
+                    
+                    isHave = true;
+                    
+                    [self.navigationController popToViewController:uiViewController animated:YES];
+                }
+                
+            }
+            
+            if (!isHave) {
+                    
+                MemberTableViewController *memberTableViewController = [[MemberTableViewController alloc] init];
+                
+                [self.navigationController pushViewController:memberTableViewController animated:YES];
+            }
+            
+        }else{
+            
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:@"用户名或密码错误！" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+            
+            [alertView show];
+        
+        }
         
     }
     

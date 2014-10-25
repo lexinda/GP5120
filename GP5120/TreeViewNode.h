@@ -16,6 +16,10 @@
 
 @property(nonatomic,strong)id nodeObject;
 
+@property(strong,nonatomic)id nodeObjectDetail;
+
+@property(strong,nonatomic)NSString *nodeObjectType;
+
 @property(strong,nonatomic)NSMutableArray *nodeChildren;
 
 @property(nonatomic)NSUInteger index;

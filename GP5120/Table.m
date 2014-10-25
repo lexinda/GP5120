@@ -51,6 +51,10 @@
 @synthesize PROFIT_BY;
 @synthesize MSGTO_NUM;
 
+@synthesize port;
+@synthesize userCompanyName;
+@synthesize releasetime;
+
 -(Table *)getTableInfo:(NSDictionary *)tableDictionary{
 
     Table *tableInfo = [[Table alloc] init];
@@ -92,6 +96,10 @@
     [tableInfo setPROFIT_CONFIRM_TIME:[tableDictionary objectForKey:@"PROFIT_CONFIRM_TIME"]];
     [tableInfo setPROFIT_BY:[tableDictionary objectForKey:@"PROFIT_BY"]];
     [tableInfo setMSGTO_NUM:[tableDictionary objectForKey:@"MSGTO_NUM"]];
+    
+    [tableInfo setPort:[tableDictionary objectForKey:@"port"]];
+    [tableInfo setUserCompanyName:[tableDictionary objectForKey:@"user_company_name"]];
+    [tableInfo setReleasetime:[tableDictionary objectForKey:@"Release_time"]];
     return tableInfo;
 }
 
@@ -136,6 +144,10 @@
     [tableInfo setPROFIT_CONFIRM_TIME:@"PROFIT_CONFIRM_TIME"];
     [tableInfo setPROFIT_BY:@"PROFIT_BY"];
     [tableInfo setMSGTO_NUM:@"MSGTO_NUM"];
+    
+    [tableInfo setPort:@"port"];
+    [tableInfo setUserCompanyName:@"user_company_name"];
+    [tableInfo setReleasetime:@"Release_time"];
     return tableInfo;
 }
 

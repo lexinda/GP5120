@@ -27,6 +27,8 @@
 
 @synthesize _datePicker;
 
+@synthesize _queryOtherTime;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -495,18 +497,6 @@
     
 }
 
--(void)setupCarInfo{
-    
-    SetupCarInfoViewController *setupCarInfoViewController = [[SetupCarInfoViewController alloc] init];
-    
-    [self.navigationController pushViewController:setupCarInfoViewController animated:YES];
-    
-//    MapDataViewController *mapDataViewController = [[MapDataViewController alloc] init];
-//    
-//    [self.navigationController pushViewController:mapDataViewController animated:YES];
-    
-}
-
 -(void)showCarDetail{
     CarInfoViewController *carInfoViewController = [[CarInfoViewController alloc] init];
     
@@ -516,38 +506,103 @@
 -(void) showActionSheet:(id)sender forEvent:(UIEvent*)event
 {
     TSActionSheet *actionSheet = [[TSActionSheet alloc] initWithTitle:nil];
+    
     [actionSheet addButtonWithTitle:@"会员信息" block:^{
-        NSLog(@"pushed hoge1 button");
         
-        MemberTableViewController *memberTableViewController = [[MemberTableViewController alloc] initWithStyle:UITableViewStylePlain];
+        NSDictionary *userLoginInfo = [[ValidataLogin alloc] validataUserInfo];
         
-        [self.navigationController pushViewController:memberTableViewController animated:YES];
+        if (![[userLoginInfo objectForKey:@"password"] isEqualToString:@""]) {
+            
+            MemberTableViewController *memberTableViewController = [[MemberTableViewController alloc] initWithStyle:UITableViewStylePlain];
+            
+            [self.navigationController pushViewController:memberTableViewController animated:YES];
+            
+        }else{
+            
+            LoginAndRegisterViewController *loginAndRegisterViewController = [[LoginAndRegisterViewController alloc] init];
+            
+            
+            
+            [self.navigationController pushViewController:loginAndRegisterViewController animated:YES];
+        }
         
     }];
+    
     [actionSheet addButtonWithTitle:@"相册" block:^{
-        NSLog(@"pushed hoge1 button");
         
-        PhotoSetViewController *photoSetViewController = [[PhotoSetViewController alloc] init];
+        NSDictionary *userLoginInfo = [[ValidataLogin alloc] validataUserInfo];
         
-        [self.navigationController pushViewController:photoSetViewController animated:YES];
+        if ([[userLoginInfo objectForKey:@"isAutoLogin"] isEqualToString:@"1"]&&![[userLoginInfo objectForKey:@"password"] isEqualToString:@""]) {
+            
+            PhotoSetViewController *photoSetViewController = [[PhotoSetViewController alloc] init];
+            
+            [self.navigationController pushViewController:photoSetViewController animated:YES];
+            
+        }else{
+            
+            LoginAndRegisterViewController *loginAndRegisterViewController = [[LoginAndRegisterViewController alloc] init];
+            
+            [self.navigationController pushViewController:loginAndRegisterViewController animated:YES];
+        }
         
     }];
+    
     [actionSheet addButtonWithTitle:@"设置" block:^{
-        NSLog(@"pushed hoge2 button");
         
-        SetupUserInfoViewController *setupUserInfoViewController = [[SetupUserInfoViewController alloc] init];
+        NSDictionary *userLoginInfo = [[ValidataLogin alloc] validataUserInfo];
         
-        [self.navigationController pushViewController:setupUserInfoViewController animated:YES];
+        if ([[userLoginInfo objectForKey:@"isAutoLogin"] isEqualToString:@"1"]&&![[userLoginInfo objectForKey:@"password"] isEqualToString:@""]) {
+            
+            SetupUserInfoViewController *setupUserInfoViewController = [[SetupUserInfoViewController alloc] init];
+            
+            [self.navigationController pushViewController:setupUserInfoViewController animated:YES];
+            
+        }else{
+            
+            LoginAndRegisterViewController *loginAndRegisterViewController = [[LoginAndRegisterViewController alloc] init];
+            
+            [self.navigationController pushViewController:loginAndRegisterViewController animated:YES];
+        }
         
     }];
+    
     [actionSheet addButtonWithTitle:@"修改密码" block:^{
-        NSLog(@"pushed hoge2 button");
         
-        ChangePasswordViewController *changePasswordViewController = [[ChangePasswordViewController alloc] init];
+        NSDictionary *userLoginInfo = [[ValidataLogin alloc] validataUserInfo];
         
-        [self.navigationController pushViewController:changePasswordViewController animated:YES];
+        if ([[userLoginInfo objectForKey:@"isAutoLogin"] isEqualToString:@"1"]&&![[userLoginInfo objectForKey:@"password"] isEqualToString:@""]) {
+            
+            ChangePasswordViewController *changePasswordViewController = [[ChangePasswordViewController alloc] init];
+            
+            [self.navigationController pushViewController:changePasswordViewController animated:YES];
+            
+        }else{
+            
+            LoginAndRegisterViewController *loginAndRegisterViewController = [[LoginAndRegisterViewController alloc] init];
+            
+            [self.navigationController pushViewController:loginAndRegisterViewController animated:YES];
+        }
+        
     }];
-    [actionSheet cancelButtonWithTitle:@"意见反馈" block:nil];
+    
+    [actionSheet cancelButtonWithTitle:@"意见反馈" block:^{
+        
+        NSDictionary *userLoginInfo = [[ValidataLogin alloc] validataUserInfo];
+        
+        if ([[userLoginInfo objectForKey:@"isAutoLogin"] isEqualToString:@"1"]&&![[userLoginInfo objectForKey:@"password"] isEqualToString:@""]) {
+            
+            ChangePasswordViewController *changePasswordViewController = [[ChangePasswordViewController alloc] init];
+            
+            [self.navigationController pushViewController:changePasswordViewController animated:YES];
+            
+        }else{
+            
+            LoginAndRegisterViewController *loginAndRegisterViewController = [[LoginAndRegisterViewController alloc] init];
+            
+            [self.navigationController pushViewController:loginAndRegisterViewController animated:YES];
+        }
+        
+    }];
     actionSheet.cornerRadius = 5;
     
     [actionSheet showWithTouch:event];
@@ -653,8 +708,18 @@
     }
 }
 
+-(void)loginAndRegister{
+
+    LoginAndRegisterViewController *loginAndRegisterViewController = [[LoginAndRegisterViewController alloc] init];
+    
+    [self.navigationController pushViewController:loginAndRegisterViewController animated:YES];
+    
+}
+
 -(void)getDatePickerViewData:(NSString *)data{
 
+    _queryOtherTime = data;
+    
     NSLog(@"%@",data);
     
     [UIView animateWithDuration:0.5
@@ -669,6 +734,38 @@
                          
                          
                      }];
+    
+}
+
+-(void)pushCarInfoView:(HomeInfoModel *)homeInfoModel{
+
+    if ([[homeInfoModel queryTime] isEqualToString:@"other"]) {
+        if ([_queryOtherTime isEqualToString:@""]) {
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"日期不能空" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+            
+            [alert show];
+            
+        }else{
+        
+            [homeInfoModel setQueryTime:_queryOtherTime];
+            
+            SetupCarInfoViewController *setupCarInfoViewController = [[SetupCarInfoViewController alloc] init];
+            
+            [setupCarInfoViewController set_homeInfoModel:homeInfoModel];
+            
+            [self.navigationController pushViewController:setupCarInfoViewController animated:YES];
+            
+        }
+    }else{
+    
+        SetupCarInfoViewController *setupCarInfoViewController = [[SetupCarInfoViewController alloc] init];
+        
+        [setupCarInfoViewController set_homeInfoModel:homeInfoModel];
+        
+        [self.navigationController pushViewController:setupCarInfoViewController animated:YES];
+    
+    }
     
 }
 

@@ -10,6 +10,10 @@
 
 #import "PushViewDelegate.h"
 
+#import "HomeInfoModel.h"
+
+#import "ValidataLogin.h"
+
 @interface MeddleTextField : UIView<UITextFieldDelegate>
 
 @property(strong,nonatomic)UITextField *_oneTextFiled;
@@ -25,6 +29,8 @@
 @property(strong,nonatomic)NSString *_meddleButtonText;
 
 @property(strong,nonatomic)NSString *_rightButtonText;
+
+@property(strong,nonatomic)NSString *_queryTime;
 
 @property(strong,nonatomic)id<PushViewDelegate> _pushViewDelegate;
 

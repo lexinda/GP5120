@@ -45,9 +45,23 @@
     
     NSString *username = [defaults objectForKey:@"username"];
     
+    NSString *password = [defaults objectForKey:@"password"];
+    
+    if (username==nil) {
+        
+        username=@"";
+        
+    }
+    
+    if (password==nil) {
+        
+        password=@"";
+        
+    }
+    
     if ([isAutoLogin isEqualToString:@"1"]) {
         
-        NSString *password = [defaults objectForKey:@"password"];
+        
         
         NSString *loginDate = [defaults objectForKey:@"loginDate"];
         
@@ -97,7 +111,7 @@
             
         }else{
             
-            NSDictionary *resultData = [NSDictionary dictionaryWithObjectsAndKeys:username,@"username",@"",@"password",isAutoLogin,@"isAutoLogin", nil];
+            NSDictionary *resultData = [NSDictionary dictionaryWithObjectsAndKeys:username,@"username",password,@"password",isAutoLogin,@"isAutoLogin", nil];
             
             return resultData;
         
@@ -106,10 +120,49 @@
         
         
     }else{
-    
-        NSDictionary *resultData = [NSDictionary dictionaryWithObjectsAndKeys:username,@"username",@"",@"password",@"0",@"isAutoLogin", nil];
         
-        return resultData;
+        if ([password isEqualToString:@""]) {
+            
+            NSDictionary *resultData = [NSDictionary dictionaryWithObjectsAndKeys:username,@"username",password,@"password",isAutoLogin,@"isAutoLogin", nil];
+            
+            return resultData;
+            
+        }else{
+        
+            NSString *loginDate = [defaults objectForKey:@"loginDate"];
+            
+            NSDateFormatter* dateFormat = [[NSDateFormatter alloc] init];//实例化一个NSDateFormatter对象
+            
+            [dateFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];//设定时间格式,要注意跟下面的dateString匹配，否则日起将无效
+            
+            NSDate *loginLastDate =[dateFormat dateFromString:loginDate];
+            
+            NSTimeInterval timeInterval = [loginLastDate timeIntervalSinceNow];
+            
+            timeInterval = -timeInterval;
+            
+            long temp = 0;
+            
+            temp = timeInterval/60/60/24;
+            
+            if(temp<1){
+                
+                NSDictionary *resultData = [NSDictionary dictionaryWithObjectsAndKeys:username,@"username",password,@"password",isAutoLogin,@"isAutoLogin", nil];
+                
+                return resultData;
+                
+            }else{
+                [defaults setObject:@"" forKey:@"password"];
+                
+                [defaults synchronize];
+                
+                NSDictionary *resultData = [NSDictionary dictionaryWithObjectsAndKeys:username,@"username",@"",@"password",isAutoLogin,@"isAutoLogin", nil];
+                
+                return resultData;
+                
+            }
+
+        }
     }
 }
 

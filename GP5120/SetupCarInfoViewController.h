@@ -12,8 +12,12 @@
 
 #import "SuccessViewController.h"
 
+#import "HomeInfoModel.h"
+
 @interface SetupCarInfoViewController : UIViewController<UITextFieldDelegate>
 
 @property(strong,nonatomic)UIScrollView *_mainScrollView;
+
+@property(strong,nonatomic)HomeInfoModel *_homeInfoModel;
 
 @end

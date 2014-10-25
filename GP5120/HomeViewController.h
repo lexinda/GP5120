@@ -54,6 +54,12 @@
 
 #import "ChangePasswordViewController.h"
 
+#import "ValidataLogin.h"
+
+#import "LoginAndRegisterViewController.h"
+
+#import "ValidataLogin.h"
+
 @interface HomeViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,PushViewDelegate>
 
 @property(strong,nonatomic)UITableView *_tableView;
@@ -63,5 +69,7 @@
 @property(strong,nonatomic)UIView *_meddleView;
 
 @property(strong,nonatomic)DatePickerView *_datePicker;
+
+@property(strong,nonatomic)NSString *_queryOtherTime;
 
 @end

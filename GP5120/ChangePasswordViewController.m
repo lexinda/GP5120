@@ -185,7 +185,7 @@
     NSTimeInterval timeInterval =1.0 ;
     //定时器
     _timer = [NSTimer scheduledTimerWithTimeInterval:timeInterval
-                                                           target:self
+                                                            target:self
                                                          selector:@selector(changeLabelNumber)
                                                          userInfo:nil
                                                           repeats:YES];

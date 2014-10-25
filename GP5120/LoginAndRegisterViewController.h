@@ -12,6 +12,10 @@
 
 #import "RegisterViewController.h"
 
+#import "ASIFormDataRequest.h"
+
+#import "MemberTableViewController.h"
+
 @interface LoginAndRegisterViewController : UIViewController<UITextFieldDelegate>
 
 @property(strong,nonatomic)UITextField *_usernameTextField;
@@ -19,5 +23,7 @@
 @property(strong,nonatomic)UITextField *_passwordTextField;
 
 @property(strong,nonatomic)NSString *_isAutoLogin;
+
+@property(strong,nonatomic)NSString *_redirectView;
 
 @end

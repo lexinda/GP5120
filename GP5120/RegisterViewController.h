@@ -22,10 +22,22 @@
 
 #import "ASIFormDataRequest.h"
 
-@interface RegisterViewController : UIViewController<PushViewDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate>
+#import "MBProgressHUD.h"
+
+#import "JSONKit.h"
+
+#import "AdList.h"
+
+@interface RegisterViewController : UIViewController<PushViewDelegate,UINavigationControllerDelegate,UIImagePickerControllerDelegate,UITableViewDataSource,UITableViewDelegate,MBProgressHUDDelegate>
 
 @property(strong,nonatomic)UIScrollView *_meddleView;
 
 @property(strong,nonatomic)NSString *_filePath;
+
+@property(strong,nonatomic)UITableView *_adTable;
+
+@property(strong,nonatomic)NSMutableArray *_adData;
+
+@property(strong,nonatomic)MBProgressHUD *_hub;
 
 @end

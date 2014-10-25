@@ -8,6 +8,8 @@
 
 #import "MemberTableViewController.h"
 
+#define FONT [UIFont fontWithName:@"Helvetica" size:14.0]
+
 @interface MemberTableViewController ()
 
 @end
@@ -21,6 +23,12 @@
 @synthesize _activeIndex;
 
 @synthesize _clickIndex;
+
+@synthesize _memberInfo;
+
+@synthesize _hub;
+
+@synthesize _appUserInfo;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -51,6 +59,8 @@
 {
     [super viewDidLoad];
     
+    _memberInfo = [[NSMutableArray alloc] init];
+    
     _activeIndex = [[NSNumber alloc] initWithInt:-1];
     
     _clickIndex = [[NSNumber alloc] initWithInt:-1];
@@ -59,14 +69,15 @@
     
     [self setExtraCellLineHidden:self.tableView];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(expandCollapseNode:) name:@"ProjectTreeNodeButtonClicked" object:nil];
+    _hub = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
     
-    [self fillNodesArray];
+    [self.navigationController.view addSubview:_hub];
     
-    [self fillDisplayArray:nil];
+    _hub.delegate = self;
     
-    [self.tableView reloadData];
+    _hub.labelText = @"加载中...";
     
+    [_hub showWhileExecuting:@selector(getMemberData) onTarget:self withObject:nil animated:YES];
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -90,6 +101,8 @@
 }
 
 -(void)fillNodesArray{
+    
+    _nodes = [[NSMutableArray alloc] init];
 
     TreeViewNode *levelNode = [[TreeViewNode alloc] init];
     
@@ -103,6 +116,8 @@
     
     levelNode.index=0;
     
+    [_nodes addObject:levelNode];
+    
     TreeViewNode *levelNode1 = [[TreeViewNode alloc] init];
     
     levelNode1.nodeLevel = 0;
@@ -114,6 +129,8 @@
     levelNode1.nodeChildren =[[self fillChildrenForNode1] mutableCopy];
     
     levelNode1.index=1;
+    
+    [_nodes addObject:levelNode1];
     
     TreeViewNode *levelNode2 = [[TreeViewNode alloc] init];
     
@@ -127,6 +144,8 @@
     
     levelNode2.index=2;
     
+    [_nodes addObject:levelNode2];
+    
     TreeViewNode *levelNode3 = [[TreeViewNode alloc] init];
     
     levelNode3.nodeLevel = 0;
@@ -139,49 +158,125 @@
     
     levelNode3.index=3;
     
-    _nodes = [NSMutableArray arrayWithObjects:levelNode,levelNode1,levelNode2,levelNode3, nil];
+    [_nodes addObject:levelNode3];
     
 }
 
--(NSArray *)fillChildrenForNode{
-
-    TreeViewNode *secondLevelNode = [[TreeViewNode alloc] init];
+-(NSMutableArray *)fillChildrenForNode1{
     
-    secondLevelNode.nodeLevel=1;
+    NSMutableArray *childrenArray = [[NSMutableArray alloc] init];
     
-    secondLevelNode.isExpanded=NO;
-    
-    secondLevelNode.nodeObject = [NSString stringWithFormat:@"second"];
-    
-    secondLevelNode.index=0;
-    
-    TreeViewNode *secondLevelNode1 = [[TreeViewNode alloc] init];
-    
-    secondLevelNode1.nodeLevel=1;
-    
-    secondLevelNode1.isExpanded=NO;
-    
-    secondLevelNode1.nodeObject = [NSString stringWithFormat:@"three"];
-    
-    secondLevelNode1.index=1;
-    
-    TreeViewNode *secondLevelNode2 = [[TreeViewNode alloc] init];
-    
-    secondLevelNode2.nodeLevel=1;
-    
-    secondLevelNode2.isExpanded=NO;
-    
-    secondLevelNode2.nodeObject = [NSString stringWithFormat:@"four"];
-    
-    secondLevelNode2.index=2;
-    
-    NSArray *childrenArray = [NSArray arrayWithObjects:secondLevelNode,secondLevelNode1,secondLevelNode2, nil];
+    for (int i=0; i<_memberInfo.count; i++) {
+        
+        if ([[_memberInfo objectAtIndex:i] isKindOfClass:[Table class]]) {
+            
+            Table *table = (Table *)[_memberInfo objectAtIndex:i];
+            
+            TreeViewNode *secondLevelNode = [[TreeViewNode alloc] init];
+            
+            secondLevelNode.nodeLevel=1;
+            
+            secondLevelNode.isExpanded=NO;
+            
+            secondLevelNode.nodeObjectDetail = table;
+            
+            secondLevelNode.nodeObjectType=@"table";
+            
+            secondLevelNode.nodeObject = [NSString stringWithFormat:@"%@\n尊敬的%@用户，你发布的派单信息已经成功了",table.releasetime,table.CONTACT_PERSON];
+            
+            secondLevelNode.index=i;
+            
+            [childrenArray addObject:secondLevelNode];
+            
+        }
+        
+    }
     
     return childrenArray;
     
 }
 
--(NSArray *)fillChildrenForNode1{
+-(NSMutableArray *)fillChildrenForNode{
+    
+    NSMutableArray *childrenArrays = [[NSMutableArray alloc] init];
+    
+    int index=0;
+    
+    for (int i=0; i<_memberInfo.count; i++) {
+        
+        if ([[_memberInfo objectAtIndex:i] isKindOfClass:[ViewReleaseInfoDriverOrder class]]) {
+            
+            ViewReleaseInfoDriverOrder *order = (ViewReleaseInfoDriverOrder *)[_memberInfo objectAtIndex:i];
+            
+            TreeViewNode *secondLevelNode = [[TreeViewNode alloc] init];
+            
+            secondLevelNode.nodeLevel=1;
+            
+            secondLevelNode.isExpanded=NO;
+            
+            secondLevelNode.nodeObjectDetail=order;
+            
+            secondLevelNode.nodeObjectType=@"order";
+            
+            if ([[order.remark stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] isEqualToString:@"2"]) {
+                
+                secondLevelNode.nodeObject = [NSString stringWithFormat:@"%@\n尊敬的%@用户，你发布的派单信息已经被%@用户成功接收",order.insertTime,order.releasePerson,order.usr];
+                
+            }else if([[order.remark stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] isEqualToString:@"3"]){
+                
+                secondLevelNode.nodeObject = [NSString stringWithFormat:@"%@\n尊敬的%@用户，你发布的派单信息已经被%@用户成功送达",order.insertTime,order.releasePerson,order.usr];
+
+            }
+            
+            secondLevelNode.index=index;
+            
+            [childrenArrays addObject:secondLevelNode];
+            
+        }else if([[_memberInfo objectAtIndex:i] isKindOfClass:[UsrInGpMemberOrder class]]){
+            
+            UsrInGpMemberOrder *usrOrder = (UsrInGpMemberOrder *)[_memberInfo objectAtIndex:i];
+            
+            TreeViewNode *secondLevelNode = [[TreeViewNode alloc] init];
+            
+            secondLevelNode.nodeLevel=1;
+            
+            secondLevelNode.isExpanded=NO;
+            
+            secondLevelNode.index=index;
+            
+            secondLevelNode.nodeObjectDetail = usrOrder;
+            
+            secondLevelNode.nodeObjectType=@"usrOrder";
+            
+            if ([usrOrder.isBid isEqualToString:@"1"]) {
+                
+                secondLevelNode.nodeObject = [NSString stringWithFormat:@"%@\n尊敬的xxx用户，你接收了新的的派单申请",usrOrder.insertTime];
+                
+                [childrenArrays addObject:secondLevelNode];
+                
+                
+            }else if([usrOrder.isBid isEqualToString:@"4"]){
+            
+                secondLevelNode.nodeObject = [NSString stringWithFormat:@"%@\n尊敬的xxx用户，你接收的%@用户的派单信息对方已经确认完成了",
+                                              usrOrder.insertTime,usrOrder.usr];
+                
+                [childrenArrays addObject:secondLevelNode];
+                
+            }
+            
+        }
+        
+        index++;
+        
+    }
+    
+    return childrenArrays;
+    
+}
+
+-(NSMutableArray *)fillChildrenForNode2{
+    
+     NSMutableArray *childrenArray = [[NSMutableArray alloc] init];
     
     TreeViewNode *secondLevelNode = [[TreeViewNode alloc] init];
     
@@ -189,17 +284,19 @@
     
     secondLevelNode.isExpanded=NO;
     
-    secondLevelNode.nodeObject = [NSString stringWithFormat:@"second"];
+    secondLevelNode.nodeObject = [NSString stringWithFormat:@"暂无信息！"];
     
     secondLevelNode.index=0;
     
-    NSArray *childrenArray = [NSArray arrayWithObjects:secondLevelNode, nil];
+    [childrenArray addObject:secondLevelNode];
     
     return childrenArray;
     
 }
 
--(NSArray *)fillChildrenForNode2{
+-(NSMutableArray *)fillChildrenForNode3{
+    
+    NSMutableArray *childrenArray = [[NSMutableArray alloc] init];
     
     TreeViewNode *secondLevelNode = [[TreeViewNode alloc] init];
     
@@ -207,29 +304,11 @@
     
     secondLevelNode.isExpanded=NO;
     
-    secondLevelNode.nodeObject = [NSString stringWithFormat:@"second"];
+    secondLevelNode.nodeObject = [NSString stringWithFormat:@"MyInfo"];
     
     secondLevelNode.index=0;
     
-    NSArray *childrenArray = [NSArray arrayWithObjects:secondLevelNode, nil];
-    
-    return childrenArray;
-    
-}
-
--(NSArray *)fillChildrenForNode3{
-    
-    TreeViewNode *secondLevelNode = [[TreeViewNode alloc] init];
-    
-    secondLevelNode.nodeLevel=1;
-    
-    secondLevelNode.isExpanded=NO;
-    
-    secondLevelNode.nodeObject = [NSString stringWithFormat:@"second"];
-    
-    secondLevelNode.index=0;
-    
-    NSArray *childrenArray = [NSArray arrayWithObjects:secondLevelNode, nil];
+    [childrenArray addObject:secondLevelNode];
     
     return childrenArray;
     
@@ -335,44 +414,64 @@
     
     static NSString *cellIdentifier = @"treeNodeCell";
     
-    TableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    
-    if (cell == nil) {
-        cell = [[TableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
-    }
-    
-    cell.treeNode = node;
-    
-    cell.cellLabel.text = node.nodeObject;
-    
-    NSLog(@"%@,%i",node.nodeObject,node.nodeLevel);
-    
-    cell.backgroundColor = [UIColor clearColor];
-    
-    [cell setTheButtonBackgroundImage:nil];
-    
-    if(cell.treeNode.nodeLevel==0){
+    if (![node.nodeObject isEqualToString:@"MyInfo"]) {
         
-        cell.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"_12"]];
+        TableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
         
-        if (node.isExpanded) {
+        //if (cell == nil) {
+        cell = [[TableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier treeViewNode:node];
+        //}
+        
+        cell.treeNode = node;
+        
+        [cell.cellsLabel setFont:FONT];
+        
+        cell.cellsLabel.numberOfLines=0;  //可多行显示
+        
+        cell.cellsLabel.lineBreakMode=NSLineBreakByWordWrapping;
+        
+        cell.cellsLabel.text = node.nodeObject;
+        
+        NSLog(@"%@,%i",node.nodeObject,node.nodeLevel);
+        
+        cell.backgroundColor = [UIColor clearColor];
+        
+        [cell set_memberDelegate:self];
+        
+        [cell setTheButtonBackgroundImage:nil];
+        
+        if(cell.treeNode.nodeLevel==0){
             
-            [cell setTheButtonBackgroundImage:[UIImage imageNamed:@"close"]];
+            cell.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"_12"]];
             
+            if (node.isExpanded) {
+                
+                [cell setTheButtonBackgroundImage:[UIImage imageNamed:@"close"]];
+                
+            }else{
+                
+                [cell setTheButtonBackgroundImage:[UIImage imageNamed:@"open"]];
+                
+            }
         }else{
             
-            [cell setTheButtonBackgroundImage:[UIImage imageNamed:@"open"]];
+            cell.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"releasesuccess_top"]];
             
         }
-    }else{
         
-        cell.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"releasesuccess_top"]];
+        return cell;
+        
+    }else{
+    
+        UserInfoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+
+        
+        cell = [[UserInfoTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier appUserInfo:_appUserInfo];
+        
+        return cell;
         
     }
-    
-    // Configure the cell...
-    
-    return cell;
+
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -380,6 +479,37 @@
     TreeViewNode *node = [_displayArray objectAtIndex:indexPath.row];
     
     if (node.nodeLevel==1) {
+        
+        TreeViewNode *threeLevelNode = [[TreeViewNode alloc] init];
+        
+        threeLevelNode.nodeLevel=2;
+        
+        threeLevelNode.isExpanded=NO;
+        
+        threeLevelNode.index=0;
+        
+        threeLevelNode.nodeObjectDetail = node.nodeObjectDetail;
+        
+        threeLevelNode.nodeObjectType = node.nodeObjectType;
+        
+        if ([node.nodeObjectDetail isKindOfClass:[Table class]]) {
+            
+            Table *table = (Table *)node.nodeObjectDetail;
+            
+            threeLevelNode.nodeObject = [NSString stringWithFormat:@"尊敬的%@用户，您于%@发布港口：%@,重量为：%@的派单信息已经成功发布了",table.CONTACT_PERSON,table.releasetime,table.port,table.WEIGHT];
+            
+            NSLog(@"%@",threeLevelNode.nodeObject);
+            
+        }else if([node.nodeObjectDetail isKindOfClass:[ViewReleaseInfoDriverOrder class]]){
+            
+            ViewReleaseInfoDriverOrder *viewReleaseInfoDriverOrder = (ViewReleaseInfoDriverOrder*)node.nodeObjectDetail;
+            
+            threeLevelNode.nodeObject = [NSString stringWithFormat:@"尊敬的%@用户，您于%@发布的派单信息已经被%@用户的成功接收了，请你在对方确认送到后去进行验收.",viewReleaseInfoDriverOrder.releasePerson,viewReleaseInfoDriverOrder.insertTime,viewReleaseInfoDriverOrder.usr];
+            
+        }else if([node.nodeObjectDetail isKindOfClass:[UsrInGpMemberOrder class]]){
+        
+        }
+        
         NSLog(@"node%@",node.nodeObject);
         
         
@@ -405,16 +535,6 @@
                 if (indexPath.row!=_clickIndex.intValue) {
                     
                     NSLog(@"%i",indexPath.row);
-                    
-                    TreeViewNode *threeLevelNode = [[TreeViewNode alloc] init];
-                    
-                    threeLevelNode.nodeLevel=3;
-                    
-                    threeLevelNode.isExpanded=NO;
-                    
-                    threeLevelNode.nodeObject = [NSString stringWithFormat:@"add"];
-                    
-                    threeLevelNode.index=0;
                     
                     //NSDictionary *infoDictionary = [NSDictionary dictionaryWithObjectsAndKeys:@"six",@"name",@"0",@"type",nil];
                     
@@ -444,16 +564,6 @@
                 
             }else{
                 
-                TreeViewNode *threeLevelNode = [[TreeViewNode alloc] init];
-                
-                threeLevelNode.nodeLevel=3;
-                
-                threeLevelNode.isExpanded=NO;
-                
-                threeLevelNode.nodeObject = [NSString stringWithFormat:@"add"];
-                
-                threeLevelNode.index=0;
-                
                 //NSDictionary *infoDictionary = [NSDictionary dictionaryWithObjectsAndKeys:@"six",@"name",@"0",@"levelType",nil];
                 
                 [_displayArray insertObject:threeLevelNode atIndex:indexPath.row+1];
@@ -474,7 +584,36 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
 
-    return 37;
+    
+    TreeViewNode *node = [_displayArray objectAtIndex:indexPath.row];
+    
+    if (node.nodeLevel==0) {
+        
+        return 37;
+        
+    }else if(node.nodeLevel==1){
+    
+        if ([node.nodeObject isEqualToString:@"MyInfo"]) {
+            
+            return 230.0;
+            
+        }else{
+            
+            return 70;
+            
+        }
+        
+    }else{
+        if ([node.nodeObjectDetail isKindOfClass:[ViewReleaseInfoDriverOrder class]]||[node.nodeObjectDetail isKindOfClass:[UsrInGpMemberOrder class]]) {
+            
+            return 130;
+            
+        }else{
+        
+            return 80;
+            
+        }
+    }
     
 }
 
@@ -489,12 +628,274 @@
     [tableView setTableHeaderView:view];
 }
 
+-(NSString *)getMemberData{
+    
+    NSUserDefaults *defaults =[NSUserDefaults standardUserDefaults];
+    
+    NSString *username = [defaults objectForKey:@"username"];
+    
+    NSString *requestData = [NSString stringWithFormat:@"%@&flag=11&username=%@",SERVER_URL,username];
+
+    ASIFormDataRequest *requestForm = [[ASIFormDataRequest alloc] initWithURL:[NSURL URLWithString:requestData]];
+    
+    [requestForm startSynchronous];
+    
+    
+    NSString *responseStr=[requestForm responseString];
+    
+    NSLog(@"%@",responseStr);
+    
+    NSArray *responseData = [responseStr componentsSeparatedByString:@"$$"];
+    
+    if(responseData.count>0){
+        for (int i=0; i<responseData.count; i++) {
+            
+            if (i==0) {
+                
+                NSString *strData = [responseData objectAtIndex:i];
+                
+                if(![strData isEqualToString:@"3"]){
+                    
+                    NSDictionary *tableData = [strData objectFromJSONString];
+                    
+                    NSArray *tableArray = [tableData objectForKey:@"Table"];
+                    
+                    if(tableArray.count>0){
+                        
+                        for (NSDictionary *tableDictionary in tableArray) {
+                            
+                            Table *tableInfo = [[Table alloc] getTableInfo:tableDictionary];
+                            
+                            [_memberInfo addObject:tableInfo];
+                        }
+                        
+                    }
+                
+                }
+                
+            }else if(i==1){
+                
+                NSString *strData = [responseData objectAtIndex:i];
+                
+                if (![strData isEqualToString:@"5"]) {
+                    
+                    NSDictionary *orderData = [[responseData objectAtIndex:i] objectFromJSONString];
+                    
+                    NSArray *orderArray = [orderData objectForKey:@"VIEW_RELEASE_INFO_DRIVER_ORDER"];
+                    
+                    if (orderArray.count>0) {
+                        
+                        for (NSDictionary *adListDictionary in orderArray) {
+                            
+                            ViewReleaseInfoDriverOrder *viewReleaseInfoDriverOrder = [[ViewReleaseInfoDriverOrder alloc] getViewReleaseInfoDriverOrder:adListDictionary];
+                            
+                            [_memberInfo addObject:viewReleaseInfoDriverOrder];
+                            
+                        }
+                        
+                    }
+                    
+                }
+                
+            }
+            else if(i==2){
+                
+                NSString *strData = [responseData objectAtIndex:i];
+                
+                if (![strData isEqualToString:@"5"]) {
+                    
+                    NSDictionary *orderData = [[responseData objectAtIndex:i] objectFromJSONString];
+                    
+                    NSArray *orderArray = [orderData objectForKey:@"VIEW_RELEASE_INFO_DRIVER_ORDER"];
+                    
+                    if (orderArray.count>0) {
+                        
+                        for (NSDictionary *adListDictionary in orderArray) {
+                            
+                            ViewReleaseInfoDriverOrder *viewReleaseInfoDriverOrder = [[ViewReleaseInfoDriverOrder alloc] getViewReleaseInfoDriverOrder:adListDictionary];
+                            
+                            [_memberInfo addObject:viewReleaseInfoDriverOrder];
+                            
+                        }
+                        
+                    }
+                    
+                }
+                
+            }
+            else if(i==3){
+                
+                NSString *usrOrder = [responseData objectAtIndex:i];
+                
+                NSDictionary *listData = [usrOrder objectFromJSONString];
+                
+                NSArray *listArray = [listData objectForKey:@"USR_IN_GP_MEMBER_ORDER"];
+                
+                if (listArray.count>0) {
+                    
+                    for (NSDictionary *dictionary in listArray) {
+                        
+                        UsrInGpMemberOrder *usrInGpMemberOrder = [[UsrInGpMemberOrder alloc] getUsrInGpMemberOrder:dictionary];
+                        
+                        [_memberInfo addObject:usrInGpMemberOrder];
+                        
+                    }
+                    
+                }
+                
+            }
+        }
+    }
+    
+    NSString *requestUserData = [NSString stringWithFormat:@"%@&flag=21&username=%@",SERVER_URL,username];
+    
+    ASIFormDataRequest *requestUserForm = [[ASIFormDataRequest alloc] initWithURL:[NSURL URLWithString:requestUserData]];
+    
+    [requestUserForm startSynchronous];
+    
+    
+    NSString *responseUserStr=[requestUserForm responseString];
+    
+    NSLog(@"%@",responseUserStr);
+    
+    NSDictionary *userData = [responseUserStr objectFromJSONString];//USER_INFO
+    
+    NSLog(@"%@",userData);
+    
+    NSArray *userInfoData = [userData objectForKey:@"USER_INFO"];
+    
+    _appUserInfo = nil;
+    
+    for (NSDictionary *dictionary in userInfoData) {
+        
+        _appUserInfo = [[AppUserInfo alloc] getAppUserInfo:dictionary];
+        
+    }
+    
+     NSLog(@"%@",userInfoData);
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(expandCollapseNode:) name:@"ProjectTreeNodeButtonClicked" object:nil];
+    
+    [self fillNodesArray];
+    
+    [self fillDisplayArray:nil];
+    
+    [self.tableView reloadData];
+    
+    //sleep(3);
+
+    return responseStr;
+    
+}
+
+-(void)confirm:(NSDictionary *)dictionary{
+    
+    NSString *confirmUrl = [NSString stringWithFormat:@"%@&flag=13&username=%@&info_no=%@&deal_name=%@",SERVER_URL,[dictionary objectForKey:@"username"],[dictionary objectForKey:@"info_no"],[dictionary objectForKey:@"deal_name"]];
+    
+    NSLog(@"%@",confirmUrl);
+    
+    ASIFormDataRequest *confirmRequest = [[ASIFormDataRequest alloc] initWithURL:[NSURL URLWithString:confirmUrl]];
+    
+    [confirmRequest startSynchronous];
+    
+    NSString *responseStr = [confirmRequest responseString];
+    
+    if ([responseStr isEqualToString:@"0"]) {
+        
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:@"系统错误！" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+        
+        [alertView show];
+        
+    }else if ([responseStr isEqualToString:@"1"]) {
+        
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:@"成功确认！" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+        
+        [alertView show];
+        
+    }else{
+        
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:@"参数错误！" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+        
+        [alertView show];
+    
+    }
+
+}
+
+-(void)accusation:(NSDictionary *)dictionary{
+
+    NSString *confirmUrl = [NSString stringWithFormat:@"%@&flag=15&username=%@&info_no=%@&deal_name=%@",SERVER_URL,[dictionary objectForKey:@"username"],[dictionary objectForKey:@"info_no"],[dictionary objectForKey:@"deal_name"]];
+    
+    NSLog(@"%@",confirmUrl);
+    
+    ASIFormDataRequest *confirmRequest = [[ASIFormDataRequest alloc] initWithURL:[NSURL URLWithString:confirmUrl]];
+    
+    [confirmRequest startSynchronous];
+    
+    NSString *responseStr = [confirmRequest responseString];
+    
+    if ([responseStr isEqualToString:@"3"]) {
+        
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:@"系统错误！" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+        
+        [alertView show];
+        
+    }else if ([responseStr isEqualToString:@"1"]) {
+        
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:@"成功确认！" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+        
+        [alertView show];
+        
+    }else if ([responseStr isEqualToString:@"4"]) {
+        
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:@"没有该登录用户！" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+        
+        [alertView show];
+        
+    }else{
+        
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:@"参数错误！" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+        
+        [alertView show];
+        
+    }
+    
+}
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+
+        _hub = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
+    
+        [self.navigationController.view addSubview:_hub];
+    
+        _hub.delegate = self;
+    
+        _hub.labelText = @"加载中...";
+    
+        [_hub showWhileExecuting:@selector(reloadTableView) onTarget:self withObject:nil animated:YES];
+    
+}
+
+-(void)reloadTableView{
+    
+    _activeIndex = [[NSNumber alloc] initWithInt:-1];
+    
+    _clickIndex = [[NSNumber alloc] initWithInt:-1];
+    
+    TreeViewNode *treeNode = [_displayArray objectAtIndex:0];
+    
+    NSDictionary *userInfODictionary = [[NSDictionary alloc] initWithObjectsAndKeys:[NSString stringWithFormat:@"%i",treeNode.index],@"index",[NSString stringWithFormat:@"%i",treeNode.nodeLevel],@"level", nil];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"ProjectTreeNodeButtonClicked" object:self userInfo:userInfODictionary];
+                                                                        
+};
+
 /*
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Return NO if you do not want the specified item to be editable.
-    return YES;
+    return YES;ß
 }
 */
 

@@ -16,7 +16,11 @@
 
 @synthesize nodeObject;
 
+@synthesize nodeObjectDetail;
+
 @synthesize nodeChildren;
+
+@synthesize nodeObjectType;
 
 @synthesize index;
 

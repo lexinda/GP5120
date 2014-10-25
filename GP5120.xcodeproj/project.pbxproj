@@ -15,6 +15,7 @@
 		283D634419C5BFD000404BE6 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 283D634319C5BFD000404BE6 /* OpenGLES.framework */; };
 		283D634619C5BFE000404BE6 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 283D634519C5BFE000404BE6 /* Security.framework */; };
 		283D634F19C5C9D500404BE6 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 283D634E19C5C9D500404BE6 /* MessageUI.framework */; };
+		285E3E6119FBA41F009B5401 /* UserInfoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 285E3E6019FBA41F009B5401 /* UserInfoTableViewCell.m */; };
 		286A493619F3A281005B1749 /* Table.m in Sources */ = {isa = PBXBuildFile; fileRef = 286A493519F3A281005B1749 /* Table.m */; };
 		286A493919F3A726005B1749 /* FindPortTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 286A493819F3A726005B1749 /* FindPortTableView.m */; };
 		286A493C19F3AFC0005B1749 /* ValidataLogin.m in Sources */ = {isa = PBXBuildFile; fileRef = 286A493B19F3AFC0005B1749 /* ValidataLogin.m */; };
@@ -29,6 +30,9 @@
 		289D319119C5D085006D8D8F /* libbaidumapapi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 289D318E19C5D085006D8D8F /* libbaidumapapi.a */; };
 		289D319219C5D085006D8D8F /* mapapi.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 289D318F19C5D085006D8D8F /* mapapi.bundle */; };
 		289D319519C5D6B5006D8D8F /* MapDataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 289D319419C5D6B5006D8D8F /* MapDataViewController.m */; };
+		289FAC7819F7DB44002970FD /* HomeInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 289FAC7719F7DB44002970FD /* HomeInfoModel.m */; };
+		28ACFC4D19F909EE00E0414E /* ViewReleaseInfoDriverOrder.m in Sources */ = {isa = PBXBuildFile; fileRef = 28ACFC4C19F909EE00E0414E /* ViewReleaseInfoDriverOrder.m */; };
+		28ACFC5019F9247600E0414E /* UsrInGpMemberOrder.m in Sources */ = {isa = PBXBuildFile; fileRef = 28ACFC4F19F9247600E0414E /* UsrInGpMemberOrder.m */; };
 		28DC58E319F0054E00370600 /* AppUserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 28DC58E219F0054E00370600 /* AppUserInfo.m */; };
 		28DC58E619F0093C00370600 /* AdList.m in Sources */ = {isa = PBXBuildFile; fileRef = 28DC58E519F0093C00370600 /* AdList.m */; };
 		28F0830619F542CF00656B73 /* uploadpicture.png in Resources */ = {isa = PBXBuildFile; fileRef = 28F0830519F542CF00656B73 /* uploadpicture.png */; };
@@ -155,6 +159,9 @@
 		283D634319C5BFD000404BE6 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		283D634519C5BFE000404BE6 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		283D634E19C5C9D500404BE6 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		285E3E5F19FBA41F009B5401 /* UserInfoTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfoTableViewCell.h; sourceTree = "<group>"; };
+		285E3E6019FBA41F009B5401 /* UserInfoTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfoTableViewCell.m; sourceTree = "<group>"; };
+		285E3E6219FBD5F1009B5401 /* MemberDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MemberDelegate.h; sourceTree = "<group>"; };
 		286A493419F3A281005B1749 /* Table.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Table.h; sourceTree = "<group>"; };
 		286A493519F3A281005B1749 /* Table.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Table.m; sourceTree = "<group>"; };
 		286A493719F3A726005B1749 /* FindPortTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindPortTableView.h; sourceTree = "<group>"; };
@@ -240,6 +247,12 @@
 		289D318F19C5D085006D8D8F /* mapapi.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = mapapi.bundle; sourceTree = "<group>"; };
 		289D319319C5D6B5006D8D8F /* MapDataViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapDataViewController.h; sourceTree = "<group>"; };
 		289D319419C5D6B5006D8D8F /* MapDataViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapDataViewController.m; sourceTree = "<group>"; };
+		289FAC7619F7DB44002970FD /* HomeInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeInfoModel.h; sourceTree = "<group>"; };
+		289FAC7719F7DB44002970FD /* HomeInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeInfoModel.m; sourceTree = "<group>"; };
+		28ACFC4B19F909EE00E0414E /* ViewReleaseInfoDriverOrder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewReleaseInfoDriverOrder.h; sourceTree = "<group>"; };
+		28ACFC4C19F909EE00E0414E /* ViewReleaseInfoDriverOrder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewReleaseInfoDriverOrder.m; sourceTree = "<group>"; };
+		28ACFC4E19F9247600E0414E /* UsrInGpMemberOrder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UsrInGpMemberOrder.h; sourceTree = "<group>"; };
+		28ACFC4F19F9247600E0414E /* UsrInGpMemberOrder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UsrInGpMemberOrder.m; sourceTree = "<group>"; };
 		28B9A1A819EEB07E00CA0343 /* Public.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Public.h; sourceTree = "<group>"; };
 		28DC58E119F0054E00370600 /* AppUserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppUserInfo.h; sourceTree = "<group>"; };
 		28DC58E219F0054E00370600 /* AppUserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppUserInfo.m; sourceTree = "<group>"; };
@@ -713,6 +726,12 @@
 				286A493519F3A281005B1749 /* Table.m */,
 				286A493A19F3AFC0005B1749 /* ValidataLogin.h */,
 				286A493B19F3AFC0005B1749 /* ValidataLogin.m */,
+				289FAC7619F7DB44002970FD /* HomeInfoModel.h */,
+				289FAC7719F7DB44002970FD /* HomeInfoModel.m */,
+				28ACFC4B19F909EE00E0414E /* ViewReleaseInfoDriverOrder.h */,
+				28ACFC4C19F909EE00E0414E /* ViewReleaseInfoDriverOrder.m */,
+				28ACFC4E19F9247600E0414E /* UsrInGpMemberOrder.h */,
+				28ACFC4F19F9247600E0414E /* UsrInGpMemberOrder.m */,
 			);
 			name = model;
 			sourceTree = "<group>";
@@ -748,6 +767,8 @@
 				286A494F19F3E683005B1749 /* RegisterDetailView.m */,
 				286A495119F3E691005B1749 /* RegisterPhotoView.h */,
 				286A495219F3E691005B1749 /* RegisterPhotoView.m */,
+				285E3E5F19FBA41F009B5401 /* UserInfoTableViewCell.h */,
+				285E3E6019FBA41F009B5401 /* UserInfoTableViewCell.m */,
 			);
 			name = view;
 			sourceTree = "<group>";
@@ -791,6 +812,7 @@
 			isa = PBXGroup;
 			children = (
 				EA645238198DDC7700C19EA6 /* PushViewDelegate.h */,
+				285E3E6219FBD5F1009B5401 /* MemberDelegate.h */,
 			);
 			name = delegate;
 			sourceTree = "<group>";
@@ -1075,12 +1097,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				28ACFC5019F9247600E0414E /* UsrInGpMemberOrder.m in Sources */,
 				286A494A19F3E39F005B1749 /* RegisterTopView.m in Sources */,
 				EA91403D198CF84D006D50B8 /* MeddleTextField.m in Sources */,
 				EADA97CE1995BE5C00949648 /* RecommandTeamCell.m in Sources */,
 				EA09684A198C913A001E89FF /* ASIDataCompressor.m in Sources */,
 				EADA97D41995C7D500949648 /* RecommandTeamTableView.m in Sources */,
 				286A493919F3A726005B1749 /* FindPortTableView.m in Sources */,
+				289FAC7819F7DB44002970FD /* HomeInfoModel.m in Sources */,
 				286A493F19F3BA7E005B1749 /* LoginAndRegisterViewController.m in Sources */,
 				28DC58E319F0054E00370600 /* AppUserInfo.m in Sources */,
 				EA8C4CA7199A457F0091DA0C /* TreeViewNode.m in Sources */,
@@ -1101,6 +1125,7 @@
 				EA8C4CAD199A54910091DA0C /* TableViewCell.m in Sources */,
 				286A493619F3A281005B1749 /* Table.m in Sources */,
 				EA9140A7198D08F6006D50B8 /* MJRefreshHeaderView.m in Sources */,
+				285E3E6119FBA41F009B5401 /* UserInfoTableViewCell.m in Sources */,
 				28016D7019CD332D005ACA98 /* DatePickerView.m in Sources */,
 				EA096869198C972B001E89FF /* TopButtonView.m in Sources */,
 				EA682E7A198E777B004D23E8 /* TSPopoverPopoverView.m in Sources */,
@@ -1137,6 +1162,7 @@
 				286A495019F3E683005B1749 /* RegisterDetailView.m in Sources */,
 				EA33C5B91993BB230029F7DF /* CarInfoCell.m in Sources */,
 				EA682E7B198E777B004D23E8 /* TSPopoverTouchView.m in Sources */,
+				28ACFC4D19F909EE00E0414E /* ViewReleaseInfoDriverOrder.m in Sources */,
 				EA682E79198E777B004D23E8 /* TSPopoverController.m in Sources */,
 				EA64523B198DDDD200C19EA6 /* SetupCarInfoViewController.m in Sources */,
 			);
@@ -1259,7 +1285,7 @@
 				GCC_PREFIX_HEADER = "GP5120/GP5120-Prefix.pch";
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/inc/**";
 				INFOPLIST_FILE = "GP5120/GP5120-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(SRCROOT)/libs/Release$(EFFECTIVE_PLATFORM_NAME)",
 					"$(inherited)",
@@ -1281,7 +1307,7 @@
 				GCC_PREFIX_HEADER = "GP5120/GP5120-Prefix.pch";
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/inc/**";
 				INFOPLIST_FILE = "GP5120/GP5120-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(SRCROOT)/libs/Release$(EFFECTIVE_PLATFORM_NAME)",
 					"$(inherited)",

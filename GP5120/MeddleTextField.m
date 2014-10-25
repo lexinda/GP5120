@@ -24,11 +24,15 @@
 
 @synthesize _pushViewDelegate;
 
+@synthesize _queryTime;
+
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
+        
+        _queryTime = @"";
     }
     return self;
 }
@@ -130,6 +134,10 @@
     
     [leftButton setTitle:@"派单给他" forState:UIControlStateNormal];
     
+    [leftButton addTarget:self action:@selector(sendCarInfoToPeople:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [leftButton setTag:20];
+    
     [leftButton setBackgroundImage:[UIImage imageNamed:@"_12"] forState:UIControlStateNormal];
     
     [self addSubview:leftButton];
@@ -138,9 +146,11 @@
     
     [meddleButton setFrame:CGRectMake(leftButton.frame.origin.x+leftButton.frame.size.width+5.0, nowButton.frame.origin.y+nowButton.frame.size.height+10.0, 100.0, 30.0)];
     
-     [meddleButton addTarget:self action:@selector(setupCarInfo:) forControlEvents:UIControlEventTouchUpInside];
+    [meddleButton addTarget:self action:@selector(sendCarInfoToPeople:) forControlEvents:UIControlEventTouchUpInside];
     
     [meddleButton setTitle:@"发布派车信息" forState:UIControlStateNormal];
+    
+    [meddleButton setTag:21];
     
     [meddleButton setBackgroundImage:[UIImage imageNamed:@"_12"] forState:UIControlStateNormal];
     
@@ -157,6 +167,97 @@
     [rightButton setBackgroundImage:[UIImage imageNamed:@"_12"] forState:UIControlStateNormal];
     
     [self addSubview:rightButton];
+    
+}
+
+-(void)sendCarInfoToPeople:(id)sender{
+    
+    UIButton *button = (UIButton *)sender;
+    
+    
+    if (button.tag==20) {
+        
+        NSDictionary *userLoginInfo = [[ValidataLogin alloc] validataUserInfo];
+        
+        if ([[userLoginInfo objectForKey:@"username"] isEqualToString:@""]&&[[userLoginInfo objectForKey:@"password"] isEqualToString:@""]){
+            
+            [_pushViewDelegate loginAndRegister];
+            
+        }else if ([_oneTextFiled.text isEqualToString:@""]) {
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"司机用户名不能空" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+            
+            [alert show];
+            
+        }else if([_twoTextFiled.text isEqualToString:@""]){
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"司机手机号不能空" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+            
+            [alert show];
+            
+        }else if(![self checkPhoneNumInput:_twoTextFiled.text]){
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"司机手机号输入不正确" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+            
+            [alert show];
+            
+        }else if([_queryTime isEqualToString:@""]){
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"日期不能空" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+            
+            [alert show];
+            
+        }else{
+            
+            NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:_oneTextFiled.text,@"oneField",_twoTextFiled.text,@"twoField",_queryTime,@"queryTime",[userLoginInfo objectForKey:@"username"],@"userName", nil];
+            
+            HomeInfoModel *homeInfoModel = [[HomeInfoModel alloc] getHomeInfoModel:dictionary];
+            
+            [_pushViewDelegate pushCarInfoView:homeInfoModel];
+            
+        }
+        
+    }else if(button.tag==21){
+        
+        HomeInfoModel *homeInfoModel = [[HomeInfoModel alloc] getHomeInfoModelNoLogin];
+        
+        [_pushViewDelegate pushCarInfoView:homeInfoModel];
+        
+    }
+        
+    
+    
+}
+
+-(BOOL)checkPhoneNumInput:(NSString *)phone{
+    
+    NSString * MOBILE = @"^1(3[0-9]|5[0-35-9]|8[025-9])\\d{8}$";
+    
+    NSString * CM = @"^1(34[0-8]|(3[5-9]|5[017-9]|8[278])\\d)\\d{7}$";
+    
+    NSString * CU = @"^1(3[0-2]|5[256]|8[56])\\d{8}$";
+    
+    NSString * CT = @"^1((33|53|8[09])[0-9]|349)\\d{7}$";
+    
+    // NSString * PHS = @"^0(10|2[0-5789]|\\d{3})\\d{7,8}$";
+    
+    NSPredicate *regextestmobile = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", MOBILE];
+    NSPredicate *regextestcm = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", CM];
+    NSPredicate *regextestcu = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", CU];
+    NSPredicate *regextestct = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", CT];
+    BOOL res1 = [regextestmobile evaluateWithObject:phone];
+    BOOL res2 = [regextestcm evaluateWithObject:phone];
+    BOOL res3 = [regextestcu evaluateWithObject:phone];
+    BOOL res4 = [regextestct evaluateWithObject:phone];
+    
+    if (res1 || res2 || res3 || res4 )
+    {
+        return YES;
+    }
+    else
+    {
+        return NO;
+    }
     
 }
 
@@ -190,13 +291,50 @@
         
         [button setBackgroundImage:[UIImage imageNamed:@"today1"] forState:UIControlStateNormal];
         
+        //NSDate *_yesterday = [[NSDate alloc] initWithTimeIntervalSinceNow:-timer];
+        
+        NSDate *date = [[NSDate alloc] initWithTimeIntervalSinceNow:0];
+        
+        NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+        
+        [formatter setDateFormat:@"yyyy-MM-dd"];
+        
+        _queryTime = [NSString stringWithFormat:@"%@",
+                                       [formatter stringFromDate:date]];
+        
     }else if(button.tag == 11){
         
         [button setBackgroundImage:[UIImage imageNamed:@"tomorrow1"] forState:UIControlStateNormal];
         
+        NSTimeInterval timer = 24 * 60 * 60;
+        
+        //NSDate *_yesterday = [[NSDate alloc] initWithTimeIntervalSinceNow:-timer];
+        
+        NSDate *date = [[NSDate alloc] initWithTimeIntervalSinceNow:timer];
+        
+        NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+        
+        [formatter setDateFormat:@"yyyy-MM-dd"];
+        
+        _queryTime = [NSString stringWithFormat:@"%@",
+                      [formatter stringFromDate:date]];
+        
     }else if(button.tag == 12){
         
         [button setBackgroundImage:[UIImage imageNamed:@"nextday1"] forState:UIControlStateNormal];
+        
+        NSTimeInterval timer = 24 * 60 * 60 * 24;
+        
+        //NSDate *_yesterday = [[NSDate alloc] initWithTimeIntervalSinceNow:-timer];
+        
+        NSDate *date = [[NSDate alloc] initWithTimeIntervalSinceNow:timer];
+        
+        NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+        
+        [formatter setDateFormat:@"yyyy-MM-dd"];
+        
+        _queryTime = [NSString stringWithFormat:@"%@",
+                      [formatter stringFromDate:date]];
         
     }
 }
@@ -216,13 +354,9 @@
     
 }
 
--(void)setupCarInfo:(id)action{
-    
-    [_pushViewDelegate setupCarInfo];
-    
-}
-
 -(void)showCarDetail:(id)action{
+    
+    _queryTime = @"other";
     
     [_pushViewDelegate showCarDetail];
     

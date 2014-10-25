@@ -50,6 +50,10 @@
 @property(strong,nonatomic)NSString *PROFIT_BY;
 @property(strong,nonatomic)NSString *MSGTO_NUM;
 
+@property(strong,nonatomic)NSString *port;
+@property(strong,nonatomic)NSString *userCompanyName;
+@property(strong,nonatomic)NSString *releasetime;
+
 -(Table *)getTableInfo:(NSDictionary *)tableDictionary;
 
 -(Table *)getTableInfoDemo;

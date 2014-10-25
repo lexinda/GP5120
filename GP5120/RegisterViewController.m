@@ -18,6 +18,12 @@
 
 @synthesize _filePath;
 
+@synthesize _adTable;
+
+@synthesize _adData;
+
+@synthesize _hub;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -55,10 +61,51 @@
 }
 
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
     
+    _hub = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
     
-    RegisterTopView *registerTopView = [[RegisterTopView alloc] initWithFrame:CGRectMake(0.0, 20.0+44.0, self.view.frame.size.width, 40.0)];
+    [self.navigationController.view addSubview:_hub];
+    
+    _hub.delegate = self;
+    
+    _hub.labelText = @"加载中...";
+    
+    [_hub showWhileExecuting:@selector(getRegisterData) onTarget:self withObject:nil animated:YES];
+    
+    // Do any additional setup after loading the view.
+}
+
+-(void)getRegisterData{
+    
+    _adData = [[NSMutableArray alloc] init];
+    
+    NSString *requestAdUrl = [NSString stringWithFormat:@"%@&flag=27",SERVER_URL];
+    
+    NSLog(@"%@",requestAdUrl);
+    
+    ASIFormDataRequest *requestForm = [[ASIFormDataRequest alloc] initWithURL:[NSURL URLWithString:requestAdUrl]];
+    
+    [requestForm startSynchronous];
+    
+    NSString *reponseData = [requestForm responseString];
+    
+    NSLog(@"%@",reponseData);
+    
+    NSDictionary *responseDictionary = [reponseData objectFromJSONString];
+    
+    _adData = [responseDictionary objectForKey:@"AD_LIST"];
+    
+//    for (NSDictionary *dictionary in responseAd) {
+//        
+//        AdList *adList = (AdList *)dictionary;
+//        
+//        [_adData addObject:adList];
+//        
+//    }
+    
+    RegisterTopView *registerTopView = [[RegisterTopView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.view.frame.size.width, 40.0)];
     
     [registerTopView setBackgroundColor:[UIColor whiteColor]];
     
@@ -66,20 +113,28 @@
     
     [self.view addSubview:registerTopView];
     
-    _meddleView = [[UIScrollView alloc] initWithFrame:CGRectMake(registerTopView.frame.origin.x, registerTopView.frame.origin.y+registerTopView.frame.size.height+10.0, self.view.frame.size.width, self.view.frame.size.height-registerTopView.frame.size.height-49-64)];
+    _meddleView = [[UIScrollView alloc] initWithFrame:CGRectMake(registerTopView.frame.origin.x, registerTopView.frame.origin.y+registerTopView.frame.size.height+10.0, self.view.frame.size.width, self.view.frame.size.height-registerTopView.frame.size.height-49)];
     
-    RegisterView *registerView = [[RegisterView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.view.frame.size.width, self.view.frame.size.height-registerTopView.frame.size.height-49-64)];
+    RegisterView *registerView = [[RegisterView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.view.frame.size.width, 120.0)];
     
     [registerView set_pushViewDelegate:self];
     
     [_meddleView addSubview:registerView];
     
+    _adTable = [[UITableView alloc] initWithFrame:CGRectMake(registerView.frame.origin.x, registerView.frame.size.height, self.view.frame.size.width, _meddleView.frame.size.height-registerView.frame.size.height)];
+    
+    _adTable.delegate = self;
+    
+    _adTable.dataSource = self;
+    
+    [_meddleView addSubview:_adTable];
+    
     [self.view addSubview:_meddleView];
     
-    FootButtonView *footButtonView = [[FootButtonView alloc] initWithFrame:CGRectMake(0.0,_meddleView.frame.size.height+_meddleView.frame.origin.y, self.view.frame.size.width, 49)];
+    FootButtonView *footButtonView = [[FootButtonView alloc] initWithFrame:CGRectMake(0.0,self.view.frame.size.height-49, self.view.frame.size.width, 49)];
     
     [self.view addSubview:footButtonView];
-    // Do any additional setup after loading the view.
+
 }
 
 -(void)popToLoginView{
@@ -319,6 +374,52 @@
     CGPoint offset = CGPointMake(0, 0);
     [_meddleView setContentOffset:offset animated:YES];
     [UIView commitAnimations];
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return _adData.count;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    NSDictionary *data = [_adData objectAtIndex:indexPath.row];
+    
+     NSDictionary *attribute = @{NSFontAttributeName: [UIFont systemFontOfSize:15]};
+
+    CGSize size=[[data objectForKey:@"AD_CONTENT"] boundingRectWithSize:CGSizeMake(156, 1000)//最大限制宽和高
+                                                options:NSStringDrawingUsesLineFragmentOrigin
+                                             attributes:attribute
+                                                context:nil].size;
+    
+    return size.height+20.0;
+    
+}
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    static NSString *reuseIdetify = @"adTableViewCell";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdetify];
+    
+    NSDictionary *data = [_adData objectAtIndex:indexPath.row];
+    
+    if (cell==nil) {
+        
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdetify];
+        
+    }
+    
+    cell.textLabel.numberOfLines=0;  //可多行显示
+    
+    cell.textLabel.lineBreakMode=NSLineBreakByWordWrapping;
+        
+    NSString *adText = [NSString stringWithFormat:@"[活动通知]%@",[data objectForKey:@"AD_CONTENT"]];
+        
+    cell.textLabel.text = [adText stringByReplacingOccurrencesOfString:@"<br/>"withString:@"\n"];
+    
+    return cell;
+    
 }
 
 /*

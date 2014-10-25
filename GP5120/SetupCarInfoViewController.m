@@ -16,6 +16,8 @@
 
 @synthesize _mainScrollView;
 
+@synthesize _homeInfoModel;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -477,12 +479,12 @@
     
 }
 
-//- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
 //    if ((![_oneTextFiled isExclusiveTouch])||(![_twoTextFiled isExclusiveTouch])) {
 //        [_oneTextFiled resignFirstResponder];
 //        [_twoTextFiled resignFirstResponder];
 //    }
-//}
+}
 
 -(BOOL)textFieldShouldReturn:(UITextField *)textField{
     
