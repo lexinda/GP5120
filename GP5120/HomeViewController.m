@@ -29,6 +29,8 @@
 
 @synthesize _queryOtherTime;
 
+@synthesize _phoneArray;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -498,9 +500,28 @@
 }
 
 -(void)showCarDetail{
-    CarInfoViewController *carInfoViewController = [[CarInfoViewController alloc] init];
     
-    [self.navigationController pushViewController:carInfoViewController animated:YES];
+//    CarInfoViewController *carInfoViewController = [[CarInfoViewController alloc] init];
+//    
+//    [self.navigationController pushViewController:carInfoViewController animated:YES];
+    
+    NSDictionary *userLoginInfo = [[ValidataLogin alloc] validataUserInfo];
+    
+    if (![[userLoginInfo objectForKey:@"password"] isEqualToString:@""]) {
+        
+        QueryCarInfoViewController *queryCarInfoViewController = [[QueryCarInfoViewController alloc] init];
+        
+        [self.navigationController pushViewController:queryCarInfoViewController animated:YES];
+        
+    }else{
+        
+        LoginAndRegisterViewController *loginAndRegisterViewController = [[LoginAndRegisterViewController alloc] init];
+        
+        
+        
+        [self.navigationController pushViewController:loginAndRegisterViewController animated:YES];
+    }
+    
 }
 
 -(void) showActionSheet:(id)sender forEvent:(UIEvent*)event
@@ -532,7 +553,7 @@
         
         NSDictionary *userLoginInfo = [[ValidataLogin alloc] validataUserInfo];
         
-        if ([[userLoginInfo objectForKey:@"isAutoLogin"] isEqualToString:@"1"]&&![[userLoginInfo objectForKey:@"password"] isEqualToString:@""]) {
+        if (![[userLoginInfo objectForKey:@"password"] isEqualToString:@""]) {
             
             PhotoSetViewController *photoSetViewController = [[PhotoSetViewController alloc] init];
             
@@ -551,7 +572,7 @@
         
         NSDictionary *userLoginInfo = [[ValidataLogin alloc] validataUserInfo];
         
-        if ([[userLoginInfo objectForKey:@"isAutoLogin"] isEqualToString:@"1"]&&![[userLoginInfo objectForKey:@"password"] isEqualToString:@""]) {
+        if (![[userLoginInfo objectForKey:@"password"] isEqualToString:@""]) {
             
             SetupUserInfoViewController *setupUserInfoViewController = [[SetupUserInfoViewController alloc] init];
             
@@ -570,7 +591,7 @@
         
         NSDictionary *userLoginInfo = [[ValidataLogin alloc] validataUserInfo];
         
-        if ([[userLoginInfo objectForKey:@"isAutoLogin"] isEqualToString:@"1"]&&![[userLoginInfo objectForKey:@"password"] isEqualToString:@""]) {
+        if (![[userLoginInfo objectForKey:@"password"] isEqualToString:@""]) {
             
             ChangePasswordViewController *changePasswordViewController = [[ChangePasswordViewController alloc] init];
             
@@ -589,11 +610,11 @@
         
         NSDictionary *userLoginInfo = [[ValidataLogin alloc] validataUserInfo];
         
-        if ([[userLoginInfo objectForKey:@"isAutoLogin"] isEqualToString:@"1"]&&![[userLoginInfo objectForKey:@"password"] isEqualToString:@""]) {
+        if (![[userLoginInfo objectForKey:@"password"] isEqualToString:@""]) {
             
-            ChangePasswordViewController *changePasswordViewController = [[ChangePasswordViewController alloc] init];
+            FeedbackViewController *feedbackViewController = [[FeedbackViewController alloc] init];
             
-            [self.navigationController pushViewController:changePasswordViewController animated:YES];
+            [self.navigationController pushViewController:feedbackViewController animated:YES];
             
         }else{
             
@@ -686,7 +707,17 @@
         [self setupRefresh:@"paiche"];
     
     }else if(id==3){
-    
+        
+        ABPeoplePickerNavigationController *picker = [[ABPeoplePickerNavigationController alloc] init];
+        
+        picker.peoplePickerDelegate = self;
+        
+        [self presentViewController:picker animated:YES completion:^{
+        
+            NSLog(@"载入通讯录！");
+            
+        }];
+        
     }
 }
 
@@ -768,6 +799,224 @@
     }
     
 }
+
+- (void)peoplePickerNavigationControllerDidCancel:(ABPeoplePickerNavigationController *)peoplePicker {
+    
+    [peoplePicker dismissViewControllerAnimated:YES completion:^{
+        
+        NSLog(@"退出通讯录");
+        
+    }];
+    
+}
+
+-(void)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker didSelectPerson:(ABRecordRef)person{
+
+    _phoneArray = [[NSMutableArray alloc] init];
+    
+    ABMultiValueRef telRef;
+    telRef = ABRecordCopyValue(person,  kABPersonPhoneProperty);
+    if (ABMultiValueGetCount(telRef) > 0) {
+        for (int i=0; i<ABMultiValueGetCount(telRef); i++) {
+            NSString * tel = (__bridge NSString *)ABMultiValueCopyValueAtIndex(telRef, i);
+            NSLog(@"电话号码：%@",[tel stringByReplacingOccurrencesOfString:@"-"withString:@""]);
+            [_phoneArray addObject:[tel stringByReplacingOccurrencesOfString:@"-"withString:@""]];
+        }
+    }
+    
+    if (_phoneArray.count>0) {
+        
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:@"推荐给此朋友！" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:@"取消", nil];
+        
+        [alertView setTag:1];
+        
+        [alertView show];
+        
+    }else{
+    
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:@"号码为空请重新选择！" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+        
+        [alertView setTag:2];
+        
+        [alertView show];
+        
+    }
+    
+    
+    
+//    NSString *firstName, *lastName;
+//    
+//    //对于地址薄中的firstName, lastName都是唯一的不会重复，故直接转化字符串
+//    firstName = (__bridge NSString *)ABRecordCopyValue(person, kABPersonFirstNameProperty);
+//    lastName = (__bridge NSString *)ABRecordCopyValue(person, kABPersonLastNameProperty);
+//    
+//    //电话是多个, 要用数组来处理
+//    ABMultiValueRef telRef;
+//    telRef = ABRecordCopyValue(person,  kABPersonPhoneProperty);
+//    if (ABMultiValueGetCount(telRef) > 0) {
+//        for (int i=0; i<ABMultiValueGetCount(telRef); i++) {
+//            
+//            NSString * tel = (__bridge NSString *)ABMultiValueCopyValueAtIndex(telRef, i);
+//            
+//            NSLog(@"电话号码：%@",tel);
+//        }
+//    }
+//    //Email 和电话类似
+//    ABMultiValueRef emailRef;
+//    emailRef = ABRecordCopyValue(person, kABPersonEmailProperty);
+//    if (ABMultiValueGetCount(emailRef) > 0) {
+//        NSString *email = (__bridge NSString *)ABMultiValueCopyValueAtIndex(emailRef, 0);
+//        NSLog(@"游戏：%@",email);
+//    }
+//    
+//    //而相对于地址来说比较复杂。 地址信息包含信息量比较大
+//    ABMultiValueRef addressRef;
+//    NSDictionary *addressDic;
+//    NSString *zipCode;
+//    
+//    addressRef = ABRecordCopyValue(person, kABPersonAddressProperty);
+//    if (ABMultiValueGetCount(addressRef) > 0) {
+//        addressDic = (__bridge NSDictionary *)ABMultiValueCopyValueAtIndex(addressRef, 0);
+//        zipCode = [addressDic objectForKey: @"ZIP"];
+//        
+//    }
+//    
+//    //关闭模态
+//    [self dismissViewControllerAnimated: YES completion: ^{
+//    
+//        NSLog(@"关闭通讯录！");
+//        
+//    }];
+    
+}
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+
+    NSLog(@"%i",alertView.tag);
+    
+    if (alertView.tag==1) {
+        if (buttonIndex==0) {
+            NSUserDefaults *defaults =[NSUserDefaults standardUserDefaults];
+            
+            NSString *result = @"0";
+            
+            if (_phoneArray.count>0) {
+                for (int i=0; i<_phoneArray.count; i++) {
+                    
+                    NSString *phone = [_phoneArray objectAtIndex:i];
+                    
+                    NSString *phoneUrl = [NSString stringWithFormat:@"%@&flag=10&username=%@&mobile=%@",SERVER_URL,[defaults objectForKey:@"username"],phone];
+                    
+                    ASIFormDataRequest *phoneForm = [[ASIFormDataRequest alloc] initWithURL:[NSURL URLWithString:phoneUrl]];
+                    
+                    [phoneForm startSynchronous];
+                    
+                    result = [phoneForm responseString];
+                    
+                }
+            }
+            
+            if ([result isEqualToString:@"0"]) {
+                [self showAlert:@"推荐失败"];
+            }else if ([result isEqualToString:@"1"]) {
+                [self showAlert:@"推荐成功"];
+            }else if ([result isEqualToString:@"2"]) {
+                [self showAlert:@"参数出错"];
+            }else if ([result isEqualToString:@"3"]) {
+                [self showAlert:@"推荐成功，但加积分失败"];
+            }
+        }
+    }
+    
+}
+
+- (void)timerFireMethod:(NSTimer*)theTimer//弹出框
+{
+    UIAlertView *promptAlert = (UIAlertView*)[theTimer userInfo];
+    [promptAlert dismissWithClickedButtonIndex:0 animated:NO];
+    promptAlert =NULL;
+}
+
+
+- (void)showAlert:(NSString *) _message{//时间
+    UIAlertView *promptAlert = [[UIAlertView alloc] initWithTitle:@"提示:" message:_message delegate:nil cancelButtonTitle:nil otherButtonTitles:nil];
+    
+    [NSTimer scheduledTimerWithTimeInterval:1.5f
+                                     target:self
+                                   selector:@selector(timerFireMethod:)
+                                   userInfo:promptAlert
+                                    repeats:YES];
+    [promptAlert show];
+}
+
+//-(BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker shouldContinueAfterSelectingPerson:(ABRecordRef)person {
+//    
+//    NSString *firstName, *lastName;
+//    
+//    //对于地址薄中的firstName, lastName都是唯一的不会重复，故直接转化字符串
+//    firstName = (__bridge NSString *)ABRecordCopyValue(person, kABPersonFirstNameProperty);
+//    lastName = (__bridge NSString *)ABRecordCopyValue(person, kABPersonLastNameProperty);
+//    
+//    //电话是多个, 要用数组来处理
+//    ABMultiValueRef telRef;
+//    telRef = ABRecordCopyValue(person,  kABPersonPhoneProperty);
+//    if (ABMultiValueGetCount(telRef) > 0) {
+//        NSString * tel = (__bridge NSString *)ABMultiValueCopyValueAtIndex(telRef, 1);
+//    }
+//    //Email 和电话类似
+//    ABMultiValueRef emailRef;
+//    emailRef = ABRecordCopyValue(person, kABPersonEmailProperty);
+//    if (ABMultiValueGetCount(emailRef) > 0) {
+//        NSString *email = (__bridge NSString *)ABMultiValueCopyValueAtIndex(emailRef, 0);
+//    }
+//    
+//    //而相对于地址来说比较复杂。 地址信息包含信息量比较大
+//    ABMultiValueRef addressRef;
+//    NSDictionary *addressDic;
+//    NSString *zipCode;
+//    
+//    addressRef = ABRecordCopyValue(person, kABPersonAddressProperty);
+//    if (ABMultiValueGetCount(addressRef) > 0) {
+//        addressDic = (__bridge NSDictionary *)ABMultiValueCopyValueAtIndex(addressRef, 0);
+//        zipCode = [addressDic objectForKey: @"ZIP"];
+//        
+//    }
+//    
+//    //关闭模态
+//    [self dismissViewControllerAnimated: YES completion: nil];
+//    return  NO;
+//}
+//
+//- (BOOL)peoplePickerNavigationController: (ABPeoplePickerNavigationController *)peoplePicker
+//      shouldContinueAfterSelectingPerson:(ABRecordRef)person property:(ABPropertyID)property identifier:(ABMultiValueIdentifier)identifier
+//{
+//    NSString *firstName, *lastName;
+//    
+//    //对于地址薄中的firstName, lastName都是唯一的不会重复，故直接转化字符串
+//    firstName = (__bridge NSString *)ABRecordCopyValue(person, kABPersonFirstNameProperty);
+//    lastName = (__bridge NSString *)ABRecordCopyValue(person, kABPersonLastNameProperty);
+//    
+//    return NO;
+//}
+
+////  展示所有联系人
+//- (void)getAllPerson{
+//    
+//    CFArrayRef allPerson = ABAddressBookCopyArrayOfAllPeople(_personPickVC.addressBook);
+//    for (id person in ((__bridge NSArray *)allPerson)) {
+//        
+//        NSString *firstName = (__bridge NSString*)ABRecordCopyValue((__bridge ABRecordRef)person, kABPersonFirstNameProperty);
+//        NSLog(@"firstName = %@",firstName);
+//        
+//        //  因为一个用户可能有多个电话,所以需要循环调取
+//        ABMultiValueRef phones = ABRecordCopyValue((__bridge ABRecordRef)person,kABPersonPhoneProperty);
+//        for (int i = 0; i < ABMultiValueGetCount(phones); i++) {
+//            NSString *phone = (__bridge NSString *)(ABMultiValueCopyValueAtIndex(phones, i));
+//            NSLog(@"telephone = %@",phone);
+//        }
+//        
+//    }
+//}
 
 /*
 #pragma mark - Navigation

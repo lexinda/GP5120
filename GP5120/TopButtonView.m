@@ -131,23 +131,27 @@
     
     NSLog(@"%i",button.tag);
     
-    [_pathData removeAllObjects];
-    
-    NSNumber *startPointX = [NSNumber numberWithFloat:button.frame.origin.x];
-    
-    NSNumber *startPointY = [NSNumber numberWithFloat:button.frame.size.height];
-    
-    NSNumber *endPointX = [NSNumber numberWithFloat:button.frame.origin.x+button.frame.size.width];
-    
-    NSNumber *endPointY = [NSNumber numberWithFloat:button.frame.size.height];
-    
-    [_pathData setValue:startPointX forKey:@"startPointX"];
-    
-    [_pathData setValue:startPointY forKey:@"startPointY"];
-    
-    [_pathData setValue:endPointX forKey:@"endPointX"];
-    
-    [_pathData setValue:endPointY forKey:@"endPointY"];
+    if (button.tag!=3) {
+        
+        [_pathData removeAllObjects];
+        
+        NSNumber *startPointX = [NSNumber numberWithFloat:button.frame.origin.x];
+        
+        NSNumber *startPointY = [NSNumber numberWithFloat:button.frame.size.height];
+        
+        NSNumber *endPointX = [NSNumber numberWithFloat:button.frame.origin.x+button.frame.size.width];
+        
+        NSNumber *endPointY = [NSNumber numberWithFloat:button.frame.size.height];
+        
+        [_pathData setValue:startPointX forKey:@"startPointX"];
+        
+        [_pathData setValue:startPointY forKey:@"startPointY"];
+        
+        [_pathData setValue:endPointX forKey:@"endPointX"];
+        
+        [_pathData setValue:endPointY forKey:@"endPointY"];
+        
+    }
     
     [self setNeedsDisplay];
     

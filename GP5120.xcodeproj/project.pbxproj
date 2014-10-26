@@ -11,10 +11,16 @@
 		2812E3F719F69F2200246AED /* SetupUserInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2812E3F619F69F2200246AED /* SetupUserInfoViewController.m */; };
 		2812E3FA19F6AB8200246AED /* ChangePasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2812E3F919F6AB8200246AED /* ChangePasswordViewController.m */; };
 		2836B46119C9C23000493099 /* MeddleTextFieldTwo.m in Sources */ = {isa = PBXBuildFile; fileRef = 2836B46019C9C23000493099 /* MeddleTextFieldTwo.m */; };
+		2837DFE919FCECF700B118D6 /* QueryCarInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2837DFE819FCECF700B118D6 /* QueryCarInfoViewController.m */; };
+		2837DFEC19FCED2000B118D6 /* QueryCarInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2837DFEB19FCED2000B118D6 /* QueryCarInfoView.m */; };
+		2837DFEF19FCEDE100B118D6 /* ReleasePersonInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 2837DFEE19FCEDE100B118D6 /* ReleasePersonInfo.m */; };
+		2837DFF219FD0A2200B118D6 /* FeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2837DFF119FD0A2200B118D6 /* FeedbackViewController.m */; };
 		283D634219C5BFC600404BE6 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 283D634119C5BFC600404BE6 /* CoreLocation.framework */; };
 		283D634419C5BFD000404BE6 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 283D634319C5BFD000404BE6 /* OpenGLES.framework */; };
 		283D634619C5BFE000404BE6 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 283D634519C5BFE000404BE6 /* Security.framework */; };
 		283D634F19C5C9D500404BE6 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 283D634E19C5C9D500404BE6 /* MessageUI.framework */; };
+		2854447119FC9CE200EFC1D1 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2854447019FC9CE200EFC1D1 /* AddressBook.framework */; };
+		2854447319FC9CE600EFC1D1 /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2854447219FC9CE600EFC1D1 /* AddressBookUI.framework */; };
 		285E3E6119FBA41F009B5401 /* UserInfoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 285E3E6019FBA41F009B5401 /* UserInfoTableViewCell.m */; };
 		286A493619F3A281005B1749 /* Table.m in Sources */ = {isa = PBXBuildFile; fileRef = 286A493519F3A281005B1749 /* Table.m */; };
 		286A493919F3A726005B1749 /* FindPortTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 286A493819F3A726005B1749 /* FindPortTableView.m */; };
@@ -155,10 +161,20 @@
 		2812E3F919F6AB8200246AED /* ChangePasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChangePasswordViewController.m; sourceTree = "<group>"; };
 		2836B45F19C9C23000493099 /* MeddleTextFieldTwo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeddleTextFieldTwo.h; sourceTree = "<group>"; };
 		2836B46019C9C23000493099 /* MeddleTextFieldTwo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeddleTextFieldTwo.m; sourceTree = "<group>"; };
+		2837DFE719FCECF700B118D6 /* QueryCarInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QueryCarInfoViewController.h; sourceTree = "<group>"; };
+		2837DFE819FCECF700B118D6 /* QueryCarInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QueryCarInfoViewController.m; sourceTree = "<group>"; };
+		2837DFEA19FCED2000B118D6 /* QueryCarInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QueryCarInfoView.h; sourceTree = "<group>"; };
+		2837DFEB19FCED2000B118D6 /* QueryCarInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QueryCarInfoView.m; sourceTree = "<group>"; };
+		2837DFED19FCEDE100B118D6 /* ReleasePersonInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReleasePersonInfo.h; sourceTree = "<group>"; };
+		2837DFEE19FCEDE100B118D6 /* ReleasePersonInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReleasePersonInfo.m; sourceTree = "<group>"; };
+		2837DFF019FD0A2200B118D6 /* FeedbackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedbackViewController.h; sourceTree = "<group>"; };
+		2837DFF119FD0A2200B118D6 /* FeedbackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedbackViewController.m; sourceTree = "<group>"; };
 		283D634119C5BFC600404BE6 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		283D634319C5BFD000404BE6 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		283D634519C5BFE000404BE6 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		283D634E19C5C9D500404BE6 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		2854447019FC9CE200EFC1D1 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
+		2854447219FC9CE600EFC1D1 /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
 		285E3E5F19FBA41F009B5401 /* UserInfoTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfoTableViewCell.h; sourceTree = "<group>"; };
 		285E3E6019FBA41F009B5401 /* UserInfoTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfoTableViewCell.m; sourceTree = "<group>"; };
 		285E3E6219FBD5F1009B5401 /* MemberDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MemberDelegate.h; sourceTree = "<group>"; };
@@ -421,6 +437,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2854447319FC9CE600EFC1D1 /* AddressBookUI.framework in Frameworks */,
+				2854447119FC9CE200EFC1D1 /* AddressBook.framework in Frameworks */,
 				283D634F19C5C9D500404BE6 /* MessageUI.framework in Frameworks */,
 				283D634619C5BFE000404BE6 /* Security.framework in Frameworks */,
 				283D634419C5BFD000404BE6 /* OpenGLES.framework in Frameworks */,
@@ -617,6 +635,8 @@
 		EA0967FB198C8F12001E89FF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2854447219FC9CE600EFC1D1 /* AddressBookUI.framework */,
+				2854447019FC9CE200EFC1D1 /* AddressBook.framework */,
 				283D634E19C5C9D500404BE6 /* MessageUI.framework */,
 				283D634519C5BFE000404BE6 /* Security.framework */,
 				283D634319C5BFD000404BE6 /* OpenGLES.framework */,
@@ -732,6 +752,8 @@
 				28ACFC4C19F909EE00E0414E /* ViewReleaseInfoDriverOrder.m */,
 				28ACFC4E19F9247600E0414E /* UsrInGpMemberOrder.h */,
 				28ACFC4F19F9247600E0414E /* UsrInGpMemberOrder.m */,
+				2837DFED19FCEDE100B118D6 /* ReleasePersonInfo.h */,
+				2837DFEE19FCEDE100B118D6 /* ReleasePersonInfo.m */,
 			);
 			name = model;
 			sourceTree = "<group>";
@@ -769,6 +791,8 @@
 				286A495219F3E691005B1749 /* RegisterPhotoView.m */,
 				285E3E5F19FBA41F009B5401 /* UserInfoTableViewCell.h */,
 				285E3E6019FBA41F009B5401 /* UserInfoTableViewCell.m */,
+				2837DFEA19FCED2000B118D6 /* QueryCarInfoView.h */,
+				2837DFEB19FCED2000B118D6 /* QueryCarInfoView.m */,
 			);
 			name = view;
 			sourceTree = "<group>";
@@ -804,6 +828,10 @@
 				2812E3F619F69F2200246AED /* SetupUserInfoViewController.m */,
 				2812E3F819F6AB8200246AED /* ChangePasswordViewController.h */,
 				2812E3F919F6AB8200246AED /* ChangePasswordViewController.m */,
+				2837DFE719FCECF700B118D6 /* QueryCarInfoViewController.h */,
+				2837DFE819FCECF700B118D6 /* QueryCarInfoViewController.m */,
+				2837DFF019FD0A2200B118D6 /* FeedbackViewController.h */,
+				2837DFF119FD0A2200B118D6 /* FeedbackViewController.m */,
 			);
 			name = controller;
 			sourceTree = "<group>";
@@ -1134,12 +1162,15 @@
 				286A494D19F3E674005B1749 /* RegisterView.m in Sources */,
 				EADA97D11995BE9A00949648 /* RecommandTeam.m in Sources */,
 				EA4E75991992798800BE7EF3 /* CarInfo.m in Sources */,
+				2837DFE919FCECF700B118D6 /* QueryCarInfoViewController.m in Sources */,
 				2812E3F719F69F2200246AED /* SetupUserInfoViewController.m in Sources */,
 				EA4E75931992785400BE7EF3 /* CarInfoViewController.m in Sources */,
+				2837DFEF19FCEDE100B118D6 /* ReleasePersonInfo.m in Sources */,
 				EA09685A198C9296001E89FF /* HomeViewController.m in Sources */,
 				EA096809198C8F12001E89FF /* main.m in Sources */,
 				EA8797A5199B9DAD000C3B69 /* AcceptInfoViewController.m in Sources */,
 				EA33C5B61993BACA0029F7DF /* CarInfoBottomCell.m in Sources */,
+				2837DFEC19FCED2000B118D6 /* QueryCarInfoView.m in Sources */,
 				EA09684F198C913A001E89FF /* ASIInputStream.m in Sources */,
 				EA9140A9198D08F6006D50B8 /* UIScrollView+MJRefresh.m in Sources */,
 				EA682E7C198E777B004D23E8 /* UIBarButtonItem+WEPopover.m in Sources */,
@@ -1165,6 +1196,7 @@
 				28ACFC4D19F909EE00E0414E /* ViewReleaseInfoDriverOrder.m in Sources */,
 				EA682E79198E777B004D23E8 /* TSPopoverController.m in Sources */,
 				EA64523B198DDDD200C19EA6 /* SetupCarInfoViewController.m in Sources */,
+				2837DFF219FD0A2200B118D6 /* FeedbackViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1222,7 +1254,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: MENGLE ZHU (ZAY28623G3)";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1260,7 +1292,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: MENGLE ZHU (ZAY28623G3)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1285,7 +1317,7 @@
 				GCC_PREFIX_HEADER = "GP5120/GP5120-Prefix.pch";
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/inc/**";
 				INFOPLIST_FILE = "GP5120/GP5120-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(SRCROOT)/libs/Release$(EFFECTIVE_PLATFORM_NAME)",
 					"$(inherited)",
@@ -1307,7 +1339,7 @@
 				GCC_PREFIX_HEADER = "GP5120/GP5120-Prefix.pch";
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/inc/**";
 				INFOPLIST_FILE = "GP5120/GP5120-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(SRCROOT)/libs/Release$(EFFECTIVE_PLATFORM_NAME)",
 					"$(inherited)",

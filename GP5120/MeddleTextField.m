@@ -356,13 +356,13 @@
 
 -(void)showCarDetail:(id)action{
     
-    _queryTime = @"other";
-    
     [_pushViewDelegate showCarDetail];
     
 }
 
 -(void)showDataPicker:(id)action{
+    
+    _queryTime = @"other";
     
     for (UIView *view in [self subviews]) {
         if (view.tag==10) {

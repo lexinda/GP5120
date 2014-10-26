@@ -144,7 +144,7 @@
         
         self.concatEmail = [[UILabel alloc] initWithFrame:CGRectMake(self.concatPeople.frame.origin.x+self.concatPeople.frame.size.width, self.concatPeople.frame.origin.y, (self.frame.size.width-20.0)/2, 20.0)];
         
-        [self.concatEmail setText:[NSString stringWithFormat:@"联系人：%@",appUserInfo.E_MAIL]];
+        [self.concatEmail setText:[NSString stringWithFormat:@"E_mail：%@",appUserInfo.E_MAIL]];
         
         [self.concatEmail setFont:FONT];
         

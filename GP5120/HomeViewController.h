@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+#import <AddressBook/AddressBook.h>
+
+#import <AddressBookUI/AddressBookUI.h>
+
 #import "TopButtonView.h"
 
 #import "MeddleTextField.h"
@@ -36,8 +40,6 @@
 
 #import "DatePickerView.h"
 
-#import "ASIHTTPRequest.h"
-
 #import "ASIFormDataRequest.h"
 
 #import "AppUserInfo.h"
@@ -60,7 +62,11 @@
 
 #import "ValidataLogin.h"
 
-@interface HomeViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,PushViewDelegate>
+#import "QueryCarInfoViewController.h"
+
+#import "FeedbackViewController.h"
+
+@interface HomeViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,PushViewDelegate,ABPeoplePickerNavigationControllerDelegate,UIAlertViewDelegate>
 
 @property(strong,nonatomic)UITableView *_tableView;
 
@@ -71,5 +77,7 @@
 @property(strong,nonatomic)DatePickerView *_datePicker;
 
 @property(strong,nonatomic)NSString *_queryOtherTime;
+
+@property(strong,nonatomic)NSMutableArray *_phoneArray;
 
 @end

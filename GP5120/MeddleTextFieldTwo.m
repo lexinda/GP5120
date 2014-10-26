@@ -134,8 +134,6 @@
     
     [rightButton setFrame:CGRectMake(leftButton.frame.origin.x+leftButton.frame.size.width+10.0, nowButton.frame.origin.y+nowButton.frame.size.height+10.0, 120, 30.0)];
     
-    [rightButton addTarget:self action:@selector(setupCarInfo:) forControlEvents:UIControlEventTouchUpInside];
-    
     [rightButton setTitle:@"找出港柜" forState:UIControlStateNormal];
     
     [rightButton setBackgroundImage:[UIImage imageNamed:@"_12"] forState:UIControlStateNormal];

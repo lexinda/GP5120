@@ -66,6 +66,8 @@
 {
     [super viewDidLoad];
     
+    NSLog(@"%@",_homeInfoModel);
+    
     UIImage *topImage = [UIImage imageNamed:@"putout_picture"];
     
     UIImageView *topImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.view.frame.size.width, 37)];
