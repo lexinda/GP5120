@@ -20,6 +20,8 @@
 
 @property(strong,nonatomic)NSString *nodeObjectType;
 
+@property(strong,nonatomic)NSString *nodeRemarkOrIsBid;
+
 @property(strong,nonatomic)NSMutableArray *nodeChildren;
 
 @property(nonatomic)NSUInteger index;

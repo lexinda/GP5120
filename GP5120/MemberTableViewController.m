@@ -222,9 +222,13 @@
                 
                 secondLevelNode.nodeObject = [NSString stringWithFormat:@"%@\n尊敬的%@用户，你发布的派单信息已经被%@用户成功接收",order.insertTime,order.releasePerson,order.usr];
                 
+                secondLevelNode.nodeRemarkOrIsBid = @"2";
+                
             }else if([[order.remark stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] isEqualToString:@"3"]){
                 
                 secondLevelNode.nodeObject = [NSString stringWithFormat:@"%@\n尊敬的%@用户，你发布的派单信息已经被%@用户成功送达",order.insertTime,order.releasePerson,order.usr];
+                
+                secondLevelNode.nodeRemarkOrIsBid = @"3";
 
             }
             
@@ -254,6 +258,8 @@
                 
                 [childrenArrays addObject:secondLevelNode];
                 
+                secondLevelNode.nodeRemarkOrIsBid = @"1";
+                
                 
             }else if([usrOrder.isBid isEqualToString:@"4"]){
             
@@ -261,6 +267,8 @@
                                               usrOrder.insertTime,usrOrder.usr];
                 
                 [childrenArrays addObject:secondLevelNode];
+                
+                secondLevelNode.nodeRemarkOrIsBid = @"4";
                 
             }
             

@@ -103,25 +103,62 @@
                 
                 [self addSubview:youcanlabel];
                 
-                UIButton *oneButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+                if ([treeNodeInfo.nodeObjectType isEqualToString:@"order"]) {
+                    
+                    if ([treeNodeInfo.nodeRemarkOrIsBid isEqualToString:@"2"]) {
+                        
+                        UIButton *oneButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+                        
+                        [oneButton setTitle:@"已经完成，确认送达！" forState:UIControlStateNormal];
+                        
+                        [oneButton addTarget:self action:@selector(confirm) forControlEvents:UIControlEventTouchUpInside];
+                        
+                        [oneButton setFrame:CGRectMake(youcanlabel.frame.origin.x+youcanlabel.frame.size.width, youcanlabel.frame.origin.y, 150.0, 20.0)];
+                        
+                        [self addSubview:oneButton];
+                        
+                        UIButton *twoButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+                        
+                        [twoButton setTitle:@"举报对方未完成工作！" forState:UIControlStateNormal];
+                        
+                        [twoButton addTarget:self action:@selector(accusation) forControlEvents:UIControlEventTouchUpInside];
+                        
+                        [twoButton setFrame:CGRectMake(oneButton.frame.origin.x, oneButton.frame.origin.y+oneButton.frame.size.height, 150.0, 20.0)];
+                        
+                        [self addSubview:twoButton];
+                        
+                    }else if([treeNodeInfo.nodeRemarkOrIsBid isEqualToString:@"3"]){
+                    
+                        UIButton *oneButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+                        
+                        [oneButton setTitle:@"确认付款！" forState:UIControlStateNormal];
+                        
+                        [oneButton addTarget:self action:@selector(confirm) forControlEvents:UIControlEventTouchUpInside];
+                        
+                        [oneButton setFrame:CGRectMake(youcanlabel.frame.origin.x+youcanlabel.frame.size.width, youcanlabel.frame.origin.y, 150.0, 20.0)];
+                        
+                        [self addSubview:oneButton];
+                        
+                    }
+                    
+                    
+                }else if([treeNodeInfo.nodeObjectType isEqualToString:@"usrOrder"]){
+                    
+                    if([treeNodeInfo.nodeRemarkOrIsBid isEqualToString:@"4"]){
+                        
+                        UIButton *oneButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+                        
+                        [oneButton setTitle:@"双方互评！" forState:UIControlStateNormal];
+                        
+                        [oneButton addTarget:self action:@selector(confirm) forControlEvents:UIControlEventTouchUpInside];
+                        
+                        [oneButton setFrame:CGRectMake(youcanlabel.frame.origin.x+youcanlabel.frame.size.width, youcanlabel.frame.origin.y, 150.0, 20.0)];
+                        
+                        [self addSubview:oneButton];
+                        
+                    }
                 
-                [oneButton setTitle:@"已经完成，确认送达！" forState:UIControlStateNormal];
-                
-                [oneButton addTarget:self action:@selector(confirm) forControlEvents:UIControlEventTouchUpInside];
-                
-                [oneButton setFrame:CGRectMake(youcanlabel.frame.origin.x+youcanlabel.frame.size.width, youcanlabel.frame.origin.y, 150.0, 20.0)];
-                
-                [self addSubview:oneButton];
-                
-                UIButton *twoButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-                
-                [twoButton setTitle:@"举报对方未完成工作！" forState:UIControlStateNormal];
-                
-                [twoButton addTarget:self action:@selector(accusation) forControlEvents:UIControlEventTouchUpInside];
-                
-                [twoButton setFrame:CGRectMake(oneButton.frame.origin.x, oneButton.frame.origin.y+oneButton.frame.size.height, 150.0, 20.0)];
-                
-                [self addSubview:twoButton];
+                }
                 
                 [self addSubview:self.cellsLabel];
             

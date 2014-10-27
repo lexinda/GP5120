@@ -501,17 +501,41 @@
 
 -(void)showCarDetail{
     
-//    CarInfoViewController *carInfoViewController = [[CarInfoViewController alloc] init];
-//    
-//    [self.navigationController pushViewController:carInfoViewController animated:YES];
-    
     NSDictionary *userLoginInfo = [[ValidataLogin alloc] validataUserInfo];
     
     if (![[userLoginInfo objectForKey:@"password"] isEqualToString:@""]) {
         
-        QueryCarInfoViewController *queryCarInfoViewController = [[QueryCarInfoViewController alloc] init];
+        NSUserDefaults *defaults =[NSUserDefaults standardUserDefaults];
         
-        [self.navigationController pushViewController:queryCarInfoViewController animated:YES];
+        NSString *username = [defaults objectForKey:@"username"];
+        
+        NSString *isPush = [NSString stringWithFormat:@"%@&flag=610&username=%@",SERVER_URL,username];
+        
+        ASIFormDataRequest *isPushForm = [[ASIFormDataRequest alloc] initWithURL:[NSURL URLWithString:isPush]];
+        
+        [isPushForm startSynchronous];
+        
+        NSString *pushResult = [isPushForm responseString];
+        
+        if ([pushResult isEqualToString:@"0"]) {
+            
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:@"失败" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+            
+            [alertView show];
+            
+        }else if([pushResult isEqualToString:@"1"]){
+            
+            CarInfoViewController *carInfoViewController = [[CarInfoViewController alloc] init];
+            
+            [self.navigationController pushViewController:carInfoViewController animated:YES];
+            
+        }else if([pushResult isEqualToString:@"4"]){
+            
+            QueryCarInfoViewController *queryCarInfoViewController = [[QueryCarInfoViewController alloc] init];
+            
+            [self.navigationController pushViewController:queryCarInfoViewController animated:YES];
+        
+        }
         
     }else{
         

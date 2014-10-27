@@ -35,7 +35,7 @@
     
     [self addSubview:peopleLabel];
     
-    UILabel *peopleInfoLabel = [[UILabel alloc] initWithFrame:CGRectMake(peopleLabel.frame.origin.x+peopleLabel.frame.size.width, 0.0, 50.0, 20.0)];
+    UILabel *peopleInfoLabel = [[UILabel alloc] initWithFrame:CGRectMake(peopleLabel.frame.origin.x+peopleLabel.frame.size.width, 0.0, (self.frame.size.width-60-60)/2, 20.0)];
     
     [peopleInfoLabel setFont:[UIFont fontWithName:@"Arial-BoldItalicMT" size:14.0]];
     
@@ -51,7 +51,7 @@
     
     [self addSubview:addressLabel];
     
-    UILabel *addressInfoLabel = [[UILabel alloc] initWithFrame:CGRectMake(addressLabel.frame.origin.x+addressLabel.frame.size.width, 0.0, 100.0, 20.0)];
+    UILabel *addressInfoLabel = [[UILabel alloc] initWithFrame:CGRectMake(addressLabel.frame.origin.x+addressLabel.frame.size.width, 0.0, (self.frame.size.width-60-60)/2, 20.0)];
     
     [addressInfoLabel setFont:[UIFont fontWithName:@"Arial-BoldItalicMT" size:14.0]];
     
@@ -75,7 +75,7 @@
     
     [self addSubview:phoneInfoLabel];
     
-    UILabel *otherLabel = [[UILabel alloc] initWithFrame:CGRectMake(phoneLabel.frame.origin.x, phoneLabel.frame.origin.y+phoneLabel.frame.size.height, self.frame.size.width-20.0, 70.0)];
+    UILabel *otherLabel = [[UILabel alloc] initWithFrame:CGRectMake(phoneLabel.frame.origin.x, phoneLabel.frame.origin.y+phoneLabel.frame.size.height, self.frame.size.width-20.0, 30.0)];
     
     [otherLabel setFont:[UIFont fontWithName:@"Arial-BoldItalicMT" size:14.0]];
     

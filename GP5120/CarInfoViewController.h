@@ -24,10 +24,22 @@
 
 #import "AcceptInfoViewController.h"
 
-@interface CarInfoViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,PushViewDelegate>
+#import "MBProgressHUD.h"
+
+#import "ASIFormDataRequest.h"
+
+#import "JSONKit.h"
+
+#import "Table.h"
+
+@interface CarInfoViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,PushViewDelegate,MBProgressHUDDelegate>
 
 @property(strong,nonatomic)UITableView *_bottomTableView;
 
 @property(strong, nonatomic) NSMutableArray *_fakeData;
+
+@property(strong,nonatomic)MBProgressHUD *_hud;
+
+@property(strong,nonatomic)Table *_table;
 
 @end

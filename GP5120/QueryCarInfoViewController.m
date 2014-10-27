@@ -67,11 +67,11 @@
 }
 
 -(void)pushQueryCarInfoView{
-
+    
     NSUserDefaults *defaults =[NSUserDefaults standardUserDefaults];
     
     NSString *username = [defaults objectForKey:@"username"];
-    
+        
     NSString *carInfoUrl = [NSString stringWithFormat:@"%@&flag=621&username=%@",SERVER_URL,username];
     
     NSLog(@"%@",carInfoUrl);
@@ -99,7 +99,7 @@
         
         [alertView show];
     }else{
-    
+        
         NSLog(@"%@",result);
         
         NSArray *responseData = [result componentsSeparatedByString:@"$$"];
@@ -110,55 +110,55 @@
                 if (i==0) {
                     
                     NSString *strData = [responseData objectAtIndex:i];
-                        
+                    
                     NSDictionary *userData = [strData objectFromJSONString];
-                        
+                    
                     NSArray *userArray = [userData objectForKey:@"APP_USER_INFO"];
-                        
+                    
                     if(userArray.count>0){
-                            
+                        
                         for (NSDictionary *dictionary in userArray) {
-                                
+                            
                             _appUserInfo = [[AppUserInfo alloc] getAppUserInfo:dictionary];
                         }
-                            
+                        
                     }
                     
                 }else if(i==1){
                     
                     NSString *strData = [responseData objectAtIndex:i];
-                        
+                    
                     NSDictionary *tableData = [strData objectFromJSONString];
-                        
+                    
                     NSArray *tableArray = [tableData objectForKey:@"Table"];
-                        
+                    
                     if (tableArray.count>0) {
-                            
+                        
                         for (NSDictionary *dictionary in tableArray) {
-                                
-                             _table = [[Table alloc] getTableInfo:dictionary];
-                                
-                        }
                             
+                            _table = [[Table alloc] getTableInfo:dictionary];
+                            
+                        }
+                        
                     }
                     
                 }
                 else if(i==2){
                     
                     NSString *strData = [responseData objectAtIndex:i];
-                        
+                    
                     NSDictionary *releaseData = [strData objectFromJSONString];
                     
                     NSArray *releaseArray = [releaseData objectForKey:@"RELEASE_PERSON_INFO"];
-                        
+                    
                     if (releaseArray.count>0) {
-                            
+                        
                         for (NSDictionary *dctionary in releaseArray) {
-                                
-                            _releasePersonInfo = [[ReleasePersonInfo alloc] getReleasePersonInfo:dctionary];
-                                
-                        }
                             
+                            _releasePersonInfo = [[ReleasePersonInfo alloc] getReleasePersonInfo:dctionary];
+                            
+                        }
+                        
                     }
                     
                 }

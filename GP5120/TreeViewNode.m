@@ -22,6 +22,8 @@
 
 @synthesize nodeObjectType;
 
+@synthesize nodeRemarkOrIsBid;
+
 @synthesize index;
 
 @end

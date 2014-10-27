@@ -23,6 +23,10 @@
 
 @synthesize _fakeData;
 
+@synthesize _hud;
+
+@synthesize _table;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -60,33 +64,95 @@
 {
     [super viewDidLoad];
     
-    CarInfoTopView *carInfoTopView = [[CarInfoTopView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.view.frame.size.width, 190)];
+    _hud = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
+    
+    [self.navigationController.view addSubview:_hud];
+    
+    _hud.delegate = self;
+    
+    _hud.labelText = @"加载中...";
+    
+    [_hud showWhileExecuting:@selector(pushCarInfoView) onTarget:self withObject:nil animated:YES];
+    
+    // Do any additional setup after loading the view.
+}
+
+-(void)pushCarInfoView{
+
+    NSUserDefaults *defaults =[NSUserDefaults standardUserDefaults];
+    
+    NSString *username = [defaults objectForKey:@"username"];
+    
+    NSString *haveCarInfo = [NSString stringWithFormat:@"%@&flag=611&username=%@",SERVER_URL,username];
+    
+    ASIFormDataRequest *haveCarInfoForm = [[ASIFormDataRequest alloc] initWithURL:[NSURL URLWithString:haveCarInfo]];
+    
+    [haveCarInfoForm startSynchronous];
+    
+    NSString *haveCarInfoResult = [haveCarInfoForm responseString];
+    
+    NSLog(@"%@",haveCarInfoResult);
+    
+    NSArray *haveCarInfoData = [haveCarInfoResult componentsSeparatedByString:@"$$"];
+    
+    if(haveCarInfoData.count>0){
+        for (int i=0; i<haveCarInfoData.count; i++) {
+            
+            if (i==0) {
+                
+                NSDictionary *tableData = [[haveCarInfoData objectAtIndex:i] objectFromJSONString];
+                
+                NSArray *tableArray = [tableData objectForKey:@"Table"];
+                
+                if(tableArray.count>0){
+                    
+                    for (NSDictionary *tableDictionary in tableArray) {
+                        
+                        _table = [[Table alloc] getTableInfo:tableDictionary];
+                        
+                    }
+                    
+                }
+                
+            }else if(i==1){
+            
+                if(![[haveCarInfoData objectAtIndex:i] isEqualToString:@"5"]){
+                    
+                }
+                
+            }
+        }
+    }
+    
+    CarInfoTopView *carInfoTopView = [[CarInfoTopView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.view.frame.size.width, 160)];
     
     CarInfo *carInfo = [[CarInfo alloc] init];
     
-    [carInfo setPeople:@"皇太极"];
+    NSArray *contract = [_table.CONTRACT componentsSeparatedByString:@"/"];
     
-    [carInfo setAddress:@"青岛港"];
+    [carInfo setPeople:[contract objectAtIndex:0]];
     
-    [carInfo setPhone:@"12345678901"];
+    [carInfo setAddress:_table.DESTINATION];
     
-    [carInfo setOtherInfo:@"其他信息其他信息其他信息其他信息其他信息其他信息其他信息其他信息其他信息其他信息其他信息其他信息其他信息其他信息其他信息其他信息"];
+    [carInfo setPhone:[contract objectAtIndex:1]];
     
-    [carInfo setGetTime:@"2014-10-10 00:02:04"];
+    [carInfo setOtherInfo:_table.ESPECIAL_REQUEST];
     
-    [carInfo setBoxType:@"20小柜"];
+    [carInfo setGetTime:_table.LAST_OUT];
     
-    [carInfo setCreateTime:@"2014-6-26 08:09:08"];
+    [carInfo setBoxType:_table.CHUNK_TYPE];
     
-    [carInfo setPrice:@"电议面谈"];
+    [carInfo setCreateTime:_table.STOWAGE_TIME];
     
-    [carInfo setInfoType:@"紧急派车"];
+    [carInfo setPrice:_table.PRICE];
     
-    [carInfo setWeight:@"10吨"];
+    [carInfo setInfoType:_table.INFO_TYPE];
     
-    [carInfo setPort:@"青岛港"];
+    [carInfo setWeight:_table.WEIGHT];
     
-    [carInfo setTransportType:@"出口"];
+    [carInfo setPort:_table.PORT];
+    
+    [carInfo setTransportType:_table.TRAFFIC_TYPE];
     
     [carInfoTopView set_carInfo:carInfo];
     
@@ -114,7 +180,6 @@
     
     [self.view addSubview:footButtonView];
     
-    // Do any additional setup after loading the view.
 }
 
 -(void)setupRefresh{
