@@ -95,7 +95,7 @@
     
     [getTimeLabel setFont:[UIFont fontWithName:@"Arial-BoldItalicMT" size:14.0]];
     
-    [getTimeLabel setText:@"提箱时间："];
+    [getTimeLabel setText:@"出港时间："];
     
     [self addSubview:getTimeLabel];
     
@@ -106,23 +106,6 @@
     [getTimeInfoLabel setText:[_carInfo getTime]];
     
     [self addSubview:getTimeInfoLabel];
-    
-    
-    UILabel *boxLabel = [[UILabel alloc] initWithFrame:CGRectMake(getTimeInfoLabel.frame.origin.x+getTimeInfoLabel.frame.size.width-10.0, getTimeInfoLabel.frame.origin.y, 50.0, 20.0)];
-    
-    [boxLabel setFont:[UIFont fontWithName:@"Arial-BoldItalicMT" size:14.0]];
-    
-    [boxLabel setText:@"箱型："];
-    
-    [self addSubview:boxLabel];
-    
-    UILabel *boxInfoLabel = [[UILabel alloc] initWithFrame:CGRectMake(boxLabel.frame.origin.x+boxLabel.frame.size.width-10.0, boxLabel.frame.origin.y, 60.0, 20.0)];
-    
-    [boxInfoLabel setFont:[UIFont fontWithName:@"Arial-BoldItalicMT" size:14.0]];
-    
-    [boxInfoLabel setText:[_carInfo boxType]];
-    
-    [self addSubview:boxInfoLabel];
     
     UILabel *createTimeLabel = [[UILabel alloc] initWithFrame:CGRectMake(getTimeLabel.frame.origin.x, getTimeLabel.frame.origin.y+getTimeLabel.frame.size.height, 70.0, 20.0)];
     
@@ -141,7 +124,7 @@
     [self addSubview:createTimeInfoLabel];
     
     
-    UILabel *priceLabel = [[UILabel alloc] initWithFrame:CGRectMake(createTimeInfoLabel.frame.origin.x+createTimeInfoLabel.frame.size.width-10.0, createTimeInfoLabel.frame.origin.y, 50.0, 20.0)];
+    UILabel *priceLabel = [[UILabel alloc] initWithFrame:CGRectMake(phoneInfoLabel.frame.origin.x+phoneInfoLabel.frame.size.width-10.0, phoneInfoLabel.frame.origin.y, 50.0, 20.0)];
     
     [priceLabel setFont:[UIFont fontWithName:@"Arial-BoldItalicMT" size:14.0]];
     
@@ -173,13 +156,29 @@
     
     [self addSubview:infoTypeInfoLabel];
     
+    UILabel *boxLabel = [[UILabel alloc] initWithFrame:CGRectMake(infoTypeInfoLabel.frame.origin.x+infoTypeInfoLabel.frame.size.width-10.0, infoTypeInfoLabel.frame.origin.y, 50.0, 20.0)];
+    
+    [boxLabel setFont:[UIFont fontWithName:@"Arial-BoldItalicMT" size:14.0]];
+    
+    [boxLabel setText:@"箱型："];
+    
+    [self addSubview:boxLabel];
+    
+    UILabel *boxInfoLabel = [[UILabel alloc] initWithFrame:CGRectMake(boxLabel.frame.origin.x+boxLabel.frame.size.width-10.0, boxLabel.frame.origin.y, 60.0, 20.0)];
+    
+    [boxInfoLabel setFont:[UIFont fontWithName:@"Arial-BoldItalicMT" size:14.0]];
+    
+    [boxInfoLabel setText:[_carInfo boxType]];
+    
+    [self addSubview:boxInfoLabel];
+    
     UILabel *weightLabel = [[UILabel alloc] initWithFrame:CGRectMake(infoTypeInfoLabel.frame.origin.x+infoTypeInfoLabel.frame.size.width, infoTypeInfoLabel.frame.origin.y, 50.0, 20.0)];
     
     [weightLabel setFont:[UIFont fontWithName:@"Arial-BoldItalicMT" size:14.0]];
     
     [weightLabel setText:@"重量："];
     
-    [self addSubview:weightLabel];
+    //[self addSubview:weightLabel];
     
     UILabel *weightInfoLabel = [[UILabel alloc] initWithFrame:CGRectMake(weightLabel.frame.origin.x+weightLabel.frame.size.width-10.0, weightLabel.frame.origin.y, 50.0, 20.0)];
     
@@ -187,9 +186,9 @@
     
     [weightInfoLabel setText:[_carInfo weight]];
     
-    [self addSubview:weightInfoLabel];
+    //[self addSubview:weightInfoLabel];
     
-    UILabel *portLabel = [[UILabel alloc] initWithFrame:CGRectMake(weightInfoLabel.frame.origin.x+weightInfoLabel.frame.size.width-10.0, weightInfoLabel.frame.origin.y, 50.0, 20.0)];
+    UILabel *portLabel = [[UILabel alloc] initWithFrame:CGRectMake(infoTypeLabel.frame.origin.x, infoTypeLabel.frame.origin.y+infoTypeLabel.frame.size.height, 50.0, 20.0)];
     
     [portLabel setFont:[UIFont fontWithName:@"Arial-BoldItalicMT" size:14.0]];
     
@@ -209,7 +208,7 @@
     
     [transportTypeLabel setFont:[UIFont fontWithName:@"Arial-BoldItalicMT" size:14.0]];
     
-    [transportTypeLabel setText:@"信息类型："];
+    //[transportTypeLabel setText:@"信息类型："];
     
     [self addSubview:transportTypeLabel];
     
@@ -219,7 +218,7 @@
     
     [transportInfoLabel setText:[_carInfo transportType]];
     
-    [self addSubview:transportInfoLabel];
+    //[self addSubview:transportInfoLabel];
 
     
 }

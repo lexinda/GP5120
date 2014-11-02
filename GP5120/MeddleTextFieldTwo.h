@@ -10,11 +10,13 @@
 
 #import "PushViewDelegate.h"
 
+#import "ValidataLogin.h"
+
 @interface MeddleTextFieldTwo : UIView<UITextFieldDelegate>
 
-@property(strong,nonatomic)UITextField *_oneTextFiled;
+@property(strong,nonatomic)UITextField *_onePortTextFiled;
 
-@property(strong,nonatomic)UITextField *_twoTextFiled;
+@property(strong,nonatomic)UITextField *_twoPortTextFiled;
 
 @property(strong,nonatomic)NSString *_oneText;
 
@@ -23,6 +25,8 @@
 @property(strong,nonatomic)NSString *_leftButtonText;
 
 @property(strong,nonatomic)NSString *_rightButtonText;
+
+@property(strong,nonatomic)NSString *_queryPortTime;
 
 @property(strong,nonatomic)id<PushViewDelegate> _pushViewDelegate;
 

@@ -31,6 +31,10 @@
 
 @synthesize _phoneArray;
 
+@synthesize _meddleTextField;
+
+@synthesize _meddleTextFieldTwo;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -101,17 +105,34 @@
     
     _meddleView = [[UIView alloc] initWithFrame:CGRectMake(topButtonView.frame.origin.x, topButtonView.frame.origin.y+topButtonView.frame.size.height+10.0, self.view.frame.size.width, self.view.frame.size.height-topButtonView.frame.size.height-49-64)];
     
-    MeddleTextField *meddleTextField = [[MeddleTextField alloc] initWithFrame:CGRectMake(0.0, 0.0, self.view.frame.size.width, 150.0)];
+    _meddleTextField = [[MeddleTextField alloc] initWithFrame:CGRectMake(0.0, 0.0, self.view.frame.size.width, 150.0)];
     
-    [meddleTextField set_pushViewDelegate:self];
+    [_meddleTextField set_pushViewDelegate:self];
     
-    [meddleTextField set_oneText:@"输入司机用户名"];
+    [_meddleTextField set_oneText:@"输入司机用户名"];
     
-    [meddleTextField set_twoText:@"输入司机手机号"];
+    [_meddleTextField set_twoText:@"输入司机手机号"];
     
-    [meddleTextField setBackgroundColor:[UIColor whiteColor]];
+    [_meddleTextField setBackgroundColor:[UIColor whiteColor]];
     
-    [_meddleView addSubview:meddleTextField];
+    [_meddleView addSubview:_meddleTextField];
+    
+    _meddleTextFieldTwo = [[MeddleTextFieldTwo alloc] initWithFrame:CGRectMake(0.0, 0.0, self.view.frame.size.width, 150.0)];
+    
+    [_meddleTextFieldTwo setHidden:YES];
+    
+    [_meddleTextFieldTwo set_pushViewDelegate:self];
+    
+    [_meddleTextFieldTwo set_oneText:@"输入集装箱港口"];
+    
+    [_meddleTextFieldTwo set_twoText:@"输入大陆地区县级或地级市"];
+    
+    [_meddleTextFieldTwo setBackgroundColor:[UIColor whiteColor]];
+    
+    [_meddleView addSubview:_meddleTextFieldTwo];
+    
+    [self setupRefresh:@"zhaogui"];
+
     
     _fakeData = [NSMutableArray array];
     
@@ -413,13 +434,17 @@
             
             AppUserInfo *appUserInfo = (AppUserInfo *)object;
             
-            cell.textLabel.text = [NSString stringWithFormat:@"[派车]%@",appUserInfo.USER_COMPANY_NAME];
+            cell.textLabel.text = [NSString stringWithFormat:@"[%@]%@",appUserInfo.COMPANY_TYPE,appUserInfo.PORT];
             
         }if ([object isKindOfClass:[Table class]]) {
             
             Table *tableInfo = (Table *)object;
             
-            cell.textLabel.text = [NSString stringWithFormat:@"[%@]%@",tableInfo.TRAFFIC_TYPE,tableInfo.USER_COMPANY_NAME];
+            cell.textLabel.numberOfLines=0;  //可多行显示
+            
+            cell.textLabel.lineBreakMode=NSLineBreakByWordWrapping;
+            
+            cell.textLabel.text = [NSString stringWithFormat:@"[%@]%@进柜急需司机，希望尽快联系",tableInfo.INFO_TYPE,tableInfo.PORT];
             
         }else if([object isKindOfClass:[AdList class]]){
         
@@ -428,7 +453,7 @@
             
             cell.textLabel.lineBreakMode=NSLineBreakByWordWrapping;
             
-            NSString *adText = [NSString stringWithFormat:@"[活动通知]%@",adList.AD_CONTENT];
+            NSString *adText = [NSString stringWithFormat:@"[活动通知]%@%@",adList.PORT,adList.AD_CONTENT];
             
             cell.textLabel.text = [adText stringByReplacingOccurrencesOfString:@"<br/>"withString:@"\n"];
             
@@ -447,7 +472,7 @@
     
     if ([object isKindOfClass:[AppUserInfo class]]) {
         
-        AppUserInfo *appUserInfo = (AppUserInfo *)object;
+        //AppUserInfo *appUserInfo = (AppUserInfo *)object;
         
         RecommandTeamTableView *recommandTeamTableView = [[RecommandTeamTableView alloc] init];
         
@@ -455,7 +480,7 @@
         
     }if ([object isKindOfClass:[Table class]]) {
         
-        Table *tableInfo = (Table *)object;
+        //Table *tableInfo = (Table *)object;
         
         FindPortTableView *findPortTableView = [[FindPortTableView alloc] init];
         
@@ -463,7 +488,7 @@
         
     }else if([object isKindOfClass:[AdList class]]){
         
-        AdList *adList = (AdList *)object;
+        //AdList *adList = (AdList *)object;
         
     }
     
@@ -487,6 +512,21 @@
                                                               options:NSStringDrawingUsesLineFragmentOrigin
                                                            attributes:attribute
                                                               context:nil].size;
+        
+        return size.height+20.0;
+        
+    }else if([object isKindOfClass:[Table class]]){
+        
+        NSDictionary *attribute = @{NSFontAttributeName: [UIFont systemFontOfSize:15]};
+        
+        Table *tableInfo = (Table *)object;
+        
+        NSString *content = [NSString stringWithFormat:@"[%@]%@进柜急需司机，希望尽快联系",tableInfo.INFO_TYPE,tableInfo.PORT];
+        
+        CGSize size=[content boundingRectWithSize:CGSizeMake(156, 1000)//最大限制宽和高
+                                                    options:NSStringDrawingUsesLineFragmentOrigin
+                                                 attributes:attribute
+                                                    context:nil].size;
         
         return size.height+20.0;
         
@@ -677,56 +717,26 @@
 }
 
 -(void)swapView:(int)id{
-
-    if(id==1){
     
-        for(UIView *view in [_meddleView subviews]){
+    for(UIView *view in [_meddleView subviews]){
             
-            if([view isKindOfClass:[MeddleTextField class]]||[view isKindOfClass:[MeddleTextFieldTwo class]]){
-                
-                [view removeFromSuperview];
-                
-            }
+        if([view isKindOfClass:[MeddleTextField class]]||[view isKindOfClass:[MeddleTextFieldTwo class]]){
+            
+            [view setHidden:YES];
             
         }
         
-        MeddleTextFieldTwo *meddleTextField = [[MeddleTextFieldTwo alloc] initWithFrame:CGRectMake(0.0, 0.0, self.view.frame.size.width, 100.0)];
+    }
+
+    if(id==1){
         
-        [meddleTextField set_pushViewDelegate:self];
-        
-        [meddleTextField set_oneText:@"输入集装箱港口"];
-        
-        [meddleTextField set_twoText:@"输入大陆地区县级或地级市"];
-        
-        [meddleTextField setBackgroundColor:[UIColor whiteColor]];
-        
-        [_meddleView addSubview:meddleTextField];
+        [_meddleTextFieldTwo setHidden:NO];
         
         [self setupRefresh:@"zhaogui"];
         
     }else if(id==2){
         
-        for(UIView *view in [_meddleView subviews]){
-            
-            if([view isKindOfClass:[MeddleTextField class]]||[view isKindOfClass:[MeddleTextFieldTwo class]]){
-                
-                [view removeFromSuperview];
-                
-            }
-            
-        }
-        
-        MeddleTextField *meddleTextField = [[MeddleTextField alloc] initWithFrame:CGRectMake(0.0, 0.0, self.view.frame.size.width, 100.0)];
-        
-        [meddleTextField set_pushViewDelegate:self];
-        
-        [meddleTextField set_oneText:@"输入司机用户名"];
-        
-        [meddleTextField set_twoText:@"输入司机手机号"];
-        
-        [meddleTextField setBackgroundColor:[UIColor whiteColor]];
-        
-        [_meddleView addSubview:meddleTextField];
+        [_meddleTextField setHidden:NO];
         
         [self setupRefresh:@"paiche"];
     
@@ -820,6 +830,52 @@
         
         [self.navigationController pushViewController:setupCarInfoViewController animated:YES];
     
+    }
+    
+}
+
+-(void)pushPortInfoView:(HomeInfoModel *)homeInfoModel{
+    
+    NSUserDefaults *defaults =[NSUserDefaults standardUserDefaults];
+    
+    NSString *username = [defaults objectForKey:@"username"];
+
+    if ([[homeInfoModel queryTime] isEqualToString:@"other"]) {
+        if ([_queryOtherTime isEqualToString:@""]) {
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"日期不能空" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+            
+            [alert show];
+            
+        }else{
+            
+            [homeInfoModel setQueryTime:_queryOtherTime];
+            
+//            NSString *queryPortUrl = [NSString stringWithFormat:@"%@&flag=91&username=%@&port=%@&address=%@&pack_date=%@&find_type=%@",SERVER_URL,username,homeInfoModel.oneField,homeInfoModel.twoField,homeInfoModel.queryTime,homeInfoModel.portType];
+            
+            NSString *queryPortUrl = [NSString stringWithFormat:@"%@&flag=91&username=%@&port=青岛港&address=里叽叽叽叽&pack_date=2014-11-02&find_type=in",SERVER_URL,username];
+            
+            ASIFormDataRequest *queryPortForm = [[ASIFormDataRequest alloc] initWithURL:[NSURL URLWithString:queryPortUrl]];
+            
+            [queryPortForm startSynchronous];
+            
+            NSLog(@"%@",[queryPortForm responseString]);
+            
+//            AcceptInfoViewController *acceptInfoViewController = [[AcceptInfoViewController alloc] init];
+//            
+//            //[acceptInfoViewController set_homeInfoModel:homeInfoModel];
+//            
+//            [self.navigationController pushViewController:acceptInfoViewController animated:YES];
+            
+        }
+    }else{
+        
+        AcceptInfoViewController *acceptInfoViewController = [[AcceptInfoViewController alloc] init];
+        
+        //[acceptInfoViewController set_homeInfoModel:homeInfoModel];
+        
+        [self.navigationController pushViewController:acceptInfoViewController animated:YES];
+        
     }
     
 }

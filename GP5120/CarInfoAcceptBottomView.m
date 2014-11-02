@@ -146,7 +146,7 @@
     
     [faxLabel setText:@" 传真："];
     
-    [self addSubview:faxLabel];
+    //[self addSubview:faxLabel];
     
     UILabel *faxInfoLabel = [[UILabel alloc] initWithFrame:CGRectMake(faxLabel.frame.origin.x+faxLabel.frame.size.width, faxLabel.frame.origin.y, 250.0, 20.0)];
     
@@ -154,7 +154,7 @@
     
     [faxInfoLabel setText:[_carInfoCell faxNum]];
     
-    [self addSubview:faxInfoLabel];
+    //[self addSubview:faxInfoLabel];
     
 }
 

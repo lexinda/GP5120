@@ -16,6 +16,26 @@
 
 #import "CarInfoAcceptBottomView.h"
 
-@interface AcceptInfoViewController : UIViewController
+#import "ReleaseInfo.h"
+
+#import "MBProgressHUD.h"
+
+#import "AppUserInfo.h"
+
+#import "ReleasePersonInfo.h"
+
+#import "ASIFormDataRequest.h"
+
+#import "JSONKit.h"
+
+@interface AcceptInfoViewController : UIViewController<MBProgressHUDDelegate>
+
+@property(strong,nonatomic)AppUserInfo *_appUserInfo;
+
+@property(strong,nonatomic)ReleasePersonInfo *_releasePersonInfo;
+
+@property(strong,nonatomic)ReleaseInfo *_releaseInfo;
+
+@property(strong,nonatomic)MBProgressHUD *_hud;
 
 @end

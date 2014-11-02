@@ -18,11 +18,13 @@
 
 @synthesize _rightButtonText;
 
-@synthesize _oneTextFiled;
+@synthesize _onePortTextFiled;
 
-@synthesize _twoTextFiled;
+@synthesize _twoPortTextFiled;
 
 @synthesize _pushViewDelegate;
+
+@synthesize _queryPortTime;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -37,47 +39,49 @@
 // An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect
 {
-    _oneTextFiled = [[UITextField alloc] initWithFrame:CGRectMake((rect.size.width-rect.size.width/3*2)/2, 0.0, rect.size.width/3*2, 30.0)];
+    _queryPortTime = @"";
     
-    [_oneTextFiled setBorderStyle:UITextBorderStyleRoundedRect];
+    _onePortTextFiled = [[UITextField alloc] initWithFrame:CGRectMake((rect.size.width-rect.size.width/3*2)/2, 0.0, rect.size.width/3*2, 30.0)];
     
-    _oneTextFiled.placeholder = _oneText;
+    [_onePortTextFiled setBorderStyle:UITextBorderStyleRoundedRect];
     
-    _oneTextFiled.delegate = self;
+    _onePortTextFiled.placeholder = _oneText;
     
-    _oneTextFiled.autocorrectionType = UITextAutocorrectionTypeNo;
+    _onePortTextFiled.delegate = self;
     
-    _oneTextFiled.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    _onePortTextFiled.autocorrectionType = UITextAutocorrectionTypeNo;
     
-    _oneTextFiled.returnKeyType = UIReturnKeyDone;
+    _onePortTextFiled.autocapitalizationType = UITextAutocapitalizationTypeNone;
     
-    _oneTextFiled.clearButtonMode = UITextFieldViewModeWhileEditing;
+    _onePortTextFiled.returnKeyType = UIReturnKeyDone;
     
-    _oneTextFiled.contentVerticalAlignment= UIControlContentVerticalAlignmentCenter;
+    _onePortTextFiled.clearButtonMode = UITextFieldViewModeWhileEditing;
     
-    [self addSubview:_oneTextFiled];
+    _onePortTextFiled.contentVerticalAlignment= UIControlContentVerticalAlignmentCenter;
     
-    _twoTextFiled = [[UITextField alloc] initWithFrame:CGRectMake((rect.size.width-rect.size.width/3*2)/2, _oneTextFiled.frame.size.height+10.0, rect.size.width/3*2, 30.0)];
+    [self addSubview:_onePortTextFiled];
     
-    [_twoTextFiled setBorderStyle:UITextBorderStyleRoundedRect];
+    _twoPortTextFiled = [[UITextField alloc] initWithFrame:CGRectMake((rect.size.width-rect.size.width/3*2)/2, _onePortTextFiled.frame.size.height+10.0, rect.size.width/3*2, 30.0)];
     
-    _twoTextFiled.placeholder = _twoText;
+    [_twoPortTextFiled setBorderStyle:UITextBorderStyleRoundedRect];
     
-    _twoTextFiled.delegate = self;
+    _twoPortTextFiled.placeholder = _twoText;
     
-    _twoTextFiled.autocorrectionType = UITextAutocorrectionTypeNo;
+    _twoPortTextFiled.delegate = self;
     
-    _twoTextFiled.autocapitalizationType = UITextAutocapitalizationTypeNone;
+    _twoPortTextFiled.autocorrectionType = UITextAutocorrectionTypeNo;
     
-    _twoTextFiled.returnKeyType = UIReturnKeyDone;
+    _twoPortTextFiled.autocapitalizationType = UITextAutocapitalizationTypeNone;
     
-    _twoTextFiled.clearButtonMode = UITextFieldViewModeWhileEditing;
+    _twoPortTextFiled.returnKeyType = UIReturnKeyDone;
     
-    [self addSubview:_twoTextFiled];
+    _twoPortTextFiled.clearButtonMode = UITextFieldViewModeWhileEditing;
+    
+    [self addSubview:_twoPortTextFiled];
     
     UIButton *nowButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     
-    [nowButton setFrame:CGRectMake(_twoTextFiled.frame.origin.x-5.0, _twoTextFiled.frame.origin.y+_twoTextFiled.frame.size.height+10.0, (_twoTextFiled.frame.size.width-9)/4, 20.0)];
+    [nowButton setFrame:CGRectMake(_twoPortTextFiled.frame.origin.x-5.0, _twoPortTextFiled.frame.origin.y+_twoPortTextFiled.frame.size.height+10.0, (_twoPortTextFiled.frame.size.width-9)/4, 20.0)];
     
     [nowButton setBackgroundImage:[UIImage imageNamed:@"today"] forState:UIControlStateNormal];
     
@@ -89,7 +93,7 @@
     
     UIButton *tomorrowButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     
-    [tomorrowButton setFrame:CGRectMake(nowButton.frame.origin.x+nowButton.frame.size.width+5.0, _twoTextFiled.frame.origin.y+_twoTextFiled.frame.size.height+10.0, (_twoTextFiled.frame.size.width-9)/4, 20.0)];
+    [tomorrowButton setFrame:CGRectMake(nowButton.frame.origin.x+nowButton.frame.size.width+5.0, _twoPortTextFiled.frame.origin.y+_twoPortTextFiled.frame.size.height+10.0, (_twoPortTextFiled.frame.size.width-9)/4, 20.0)];
     
     [tomorrowButton setBackgroundImage:[UIImage imageNamed:@"tomorrow"] forState:UIControlStateNormal];
     
@@ -101,44 +105,53 @@
     
     UIButton *afterTomorrowButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     
-    [afterTomorrowButton setFrame:CGRectMake(tomorrowButton.frame.origin.x+tomorrowButton.frame.size.width+5.0, _twoTextFiled.frame.origin.y+_twoTextFiled.frame.size.height+10.0, (_twoTextFiled.frame.size.width-9)/4, 20.0)];
+    [afterTomorrowButton setFrame:CGRectMake(tomorrowButton.frame.origin.x+tomorrowButton.frame.size.width+5.0, _twoPortTextFiled.frame.origin.y+_twoPortTextFiled.frame.size.height+10.0, (_twoPortTextFiled.frame.size.width-9)/4, 20.0)];
     
     [afterTomorrowButton setBackgroundImage:[UIImage imageNamed:@"nextday"] forState:UIControlStateNormal];
     
     [afterTomorrowButton setTag:12];
     
     [afterTomorrowButton addTarget:self action:@selector(activeButton:) forControlEvents:UIControlEventTouchUpInside];
-
     
     [self addSubview:afterTomorrowButton];
     
     UIButton *otherButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     
-    [otherButton setFrame:CGRectMake(afterTomorrowButton.frame.origin.x+afterTomorrowButton.frame.size.width+5.0, _twoTextFiled.frame.origin.y+_twoTextFiled.frame.size.height+10.0, (_twoTextFiled.frame.size.width-9)/4, 20.0)];
+    [otherButton setFrame:CGRectMake(afterTomorrowButton.frame.origin.x+afterTomorrowButton.frame.size.width+5.0, _twoPortTextFiled.frame.origin.y+_twoPortTextFiled.frame.size.height+10.0, (_twoPortTextFiled.frame.size.width-9)/4, 20.0)];
     
     [otherButton setBackgroundImage:[UIImage imageNamed:@"otherday"] forState:UIControlStateNormal];
     
+    [otherButton addTarget:self action:@selector(showDataPicker:) forControlEvents:UIControlEventTouchUpInside];
+    
     [self addSubview:otherButton];
     
-    UIButton *leftButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    UIButton *leftPortButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     
-    [leftButton setFrame:CGRectMake((self.frame.size.width-250.0)/2, nowButton.frame.origin.y+nowButton.frame.size.height+10.0, 120, 30.0)];
+    [leftPortButton setFrame:CGRectMake((self.frame.size.width-250.0)/2, nowButton.frame.origin.y+nowButton.frame.size.height+10.0, 120, 30.0)];
     
-    [leftButton setTitle:@"找进港柜" forState:UIControlStateNormal];
+    [leftPortButton setTitle:@"找进港柜" forState:UIControlStateNormal];
     
-    [leftButton setBackgroundImage:[UIImage imageNamed:@"_12"] forState:UIControlStateNormal];
+    [leftPortButton addTarget:self action:@selector(pushFindPortInfoView:) forControlEvents:UIControlEventTouchUpInside];
     
-    [self addSubview:leftButton];
+    [leftPortButton setTag:14];
     
-    UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [leftPortButton setBackgroundImage:[UIImage imageNamed:@"_12"] forState:UIControlStateNormal];
     
-    [rightButton setFrame:CGRectMake(leftButton.frame.origin.x+leftButton.frame.size.width+10.0, nowButton.frame.origin.y+nowButton.frame.size.height+10.0, 120, 30.0)];
+    [self addSubview:leftPortButton];
     
-    [rightButton setTitle:@"找出港柜" forState:UIControlStateNormal];
+    UIButton *rightPortButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     
-    [rightButton setBackgroundImage:[UIImage imageNamed:@"_12"] forState:UIControlStateNormal];
+    [rightPortButton setFrame:CGRectMake(leftPortButton.frame.origin.x+leftPortButton.frame.size.width+10.0, leftPortButton.frame.origin.y, 120, 30.0)];
     
-    [self addSubview:rightButton];
+    [rightPortButton setTitle:@"找出港柜" forState:UIControlStateNormal];
+    
+    [rightPortButton addTarget:self action:@selector(pushFindPortInfoView:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [rightPortButton setTag:15];
+    
+    [rightPortButton setBackgroundImage:[UIImage imageNamed:@"_12"] forState:UIControlStateNormal];
+    
+    [self addSubview:rightPortButton];
 }
 
 -(void)activeButton:(id)sender{
@@ -171,21 +184,56 @@
         
         [button setBackgroundImage:[UIImage imageNamed:@"today1"] forState:UIControlStateNormal];
         
+        NSDate *date = [[NSDate alloc] initWithTimeIntervalSinceNow:0];
+        
+        NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+        
+        [formatter setDateFormat:@"yyyy-MM-dd"];
+        
+        _queryPortTime = [NSString stringWithFormat:@"%@",
+                      [formatter stringFromDate:date]];
+        
     }else if(button.tag == 11){
         
         [button setBackgroundImage:[UIImage imageNamed:@"tomorrow1"] forState:UIControlStateNormal];
+        
+        NSTimeInterval timer = 24 * 60 * 60;
+        
+        //NSDate *_yesterday = [[NSDate alloc] initWithTimeIntervalSinceNow:-timer];
+        
+        NSDate *date = [[NSDate alloc] initWithTimeIntervalSinceNow:timer];
+        
+        NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+        
+        [formatter setDateFormat:@"yyyy-MM-dd"];
+        
+        _queryPortTime = [NSString stringWithFormat:@"%@",
+                      [formatter stringFromDate:date]];
         
     }else if(button.tag == 12){
         
         [button setBackgroundImage:[UIImage imageNamed:@"nextday1"] forState:UIControlStateNormal];
         
+        NSTimeInterval timer = 24 * 60 * 60 * 24;
+        
+        //NSDate *_yesterday = [[NSDate alloc] initWithTimeIntervalSinceNow:-timer];
+        
+        NSDate *date = [[NSDate alloc] initWithTimeIntervalSinceNow:timer];
+        
+        NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+        
+        [formatter setDateFormat:@"yyyy-MM-dd"];
+        
+        _queryPortTime = [NSString stringWithFormat:@"%@",
+                      [formatter stringFromDate:date]];
+        
     }
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-    if ((![_oneTextFiled isExclusiveTouch])||(![_twoTextFiled isExclusiveTouch])) {
-        [_oneTextFiled resignFirstResponder];
-        [_twoTextFiled resignFirstResponder];
+    if ((![_onePortTextFiled isExclusiveTouch])||(![_twoPortTextFiled isExclusiveTouch])) {
+        [_onePortTextFiled resignFirstResponder];
+        [_twoPortTextFiled resignFirstResponder];
     }
 }
 
@@ -196,5 +244,90 @@
     return YES;
     
 }
+
+-(void)pushFindPortInfoView:(id)sender{
+    
+    UIButton *button = (UIButton *)sender;
+
+    NSDictionary *userLoginInfo = [[ValidataLogin alloc] validataUserInfo];
+    
+    if ([[userLoginInfo objectForKey:@"username"] isEqualToString:@""]&&[[userLoginInfo objectForKey:@"password"] isEqualToString:@""]){
+        
+        [_pushViewDelegate loginAndRegister];
+        
+    }else if ([_onePortTextFiled.text isEqualToString:@""]) {
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"集装箱港口不能为空" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+        
+        [alert show];
+        
+    }else if([_twoPortTextFiled.text isEqualToString:@""]){
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"目的地不能为空" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+        
+        [alert show];
+        
+    }else if([_queryPortTime isEqualToString:@""]){
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"日期不能空" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+        
+        [alert show];
+        
+    }else{
+        
+        NSDictionary *dictionary = [[NSDictionary alloc] init];
+        
+        if (button.tag == 14) {
+            
+            dictionary = [NSDictionary dictionaryWithObjectsAndKeys:_onePortTextFiled.text,@"port",_twoPortTextFiled.text,@"address",_queryPortTime,@"queryTime",[userLoginInfo objectForKey:@"username"],@"userName",@"in",@"find_type", nil];
+            
+        }else if(button.tag == 15){
+            
+            dictionary = [NSDictionary dictionaryWithObjectsAndKeys:_onePortTextFiled.text,@"oneField",_twoPortTextFiled.text,@"twoField",_queryPortTime,@"queryTime",[userLoginInfo objectForKey:@"username"],@"userName",@"out",@"find_type", nil];
+        }
+        
+        HomeInfoModel *homeInfoModel = [[HomeInfoModel alloc] getHomeInfoModel:dictionary];
+        
+        [_pushViewDelegate pushPortInfoView:homeInfoModel];
+        
+    }
+
+    
+}
+
+-(void)showDataPicker:(id)action{
+    
+    if ((![_onePortTextFiled isExclusiveTouch])||(![_twoPortTextFiled isExclusiveTouch])) {
+        [_onePortTextFiled resignFirstResponder];
+        [_twoPortTextFiled resignFirstResponder];
+    }
+    
+    _queryPortTime = @"other";
+    
+    for (UIView *view in [self subviews]) {
+        if (view.tag==10) {
+            
+            UIButton *button = (UIButton *)view;
+            
+            [button setBackgroundImage:[UIImage imageNamed:@"today"] forState:UIControlStateNormal];
+            
+        }else if(view.tag==11){
+            
+            UIButton *button = (UIButton *)view;
+            
+            [button setBackgroundImage:[UIImage imageNamed:@"tomorrow"] forState:UIControlStateNormal];
+            
+        }else if(view.tag==12){
+            
+            UIButton *button = (UIButton *)view;
+            
+            [button setBackgroundImage:[UIImage imageNamed:@"nextday"] forState:UIControlStateNormal];
+            
+        }
+    }
+    
+    
+    [_pushViewDelegate showDataPicker];
+};
 
 @end

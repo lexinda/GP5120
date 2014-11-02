@@ -140,7 +140,7 @@
     // PickerView -  Months data
     
     
-    monthArray = @[@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9",@"10",@"11",@"12"];
+    monthArray = @[@"01",@"02",@"03",@"04",@"05",@"06",@"07",@"08",@"09",@"10",@"11",@"12"];
     
     
     // PickerView -  Hours data
@@ -173,7 +173,13 @@
     
     for (int i = 1; i <= 31; i++)
     {
-        [dayArray addObject:[NSString stringWithFormat:@"%d",i]];
+        if (i<10) {
+            [dayArray addObject:[NSString stringWithFormat:@"0%d",i]];
+        }else{
+            [dayArray addObject:[NSString stringWithFormat:@"%d",i]];
+        }
+        
+        
         
     }
     

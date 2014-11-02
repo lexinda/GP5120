@@ -18,6 +18,8 @@
 
 @property(strong,nonatomic)NSString *userName;
 
+@property(strong,nonatomic)NSString *portType;
+
 @property(strong,nonatomic)NSString *type;
 
 -(HomeInfoModel *)getHomeInfoModel:(NSDictionary *)dictionary;

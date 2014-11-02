@@ -22,11 +22,21 @@
 
 @implementation AcceptInfoViewController
 
+@synthesize _appUserInfo;
+
+@synthesize _releasePersonInfo;
+
+@synthesize _releaseInfo;
+
+@synthesize _hud;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        
+        self.title = @"找柜详情";
         
         UIImage *backImage = [UIImage imageNamed:@"releasesuccess_return"];
         
@@ -59,21 +69,126 @@
 {
     [super viewDidLoad];
     
-    UIScrollView *mainScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.view.frame.size.width, 568)];
+    _hud = [[MBProgressHUD alloc] initWithView:self.navigationController.view];
     
-    [mainScrollView setContentSize:CGSizeMake(self.view.frame.size.width, 568)];
+    [self.navigationController.view addSubview:_hud];
+    
+    _hud.delegate = self;
+    
+    _hud.labelText = @"加载中...";
+    
+    [_hud showWhileExecuting:@selector(pushAcceptInfoView) onTarget:self withObject:nil animated:YES];
+    
+    // Do any additional setup after loading the view.
+}
+
+-(void)pushAcceptInfoView{
+    
+    NSUserDefaults *defaults =[NSUserDefaults standardUserDefaults];
+    
+    NSString *username = [defaults objectForKey:@"username"];
+    
+    NSString *findPortUrl = [NSString stringWithFormat:@"%@&flag=93&username=%@&info_no=%@",SERVER_URL,username,_releaseInfo.INFO_NO];
+    
+    NSLog(@"%@",findPortUrl);
+    
+    ASIFormDataRequest *findPortInfoForm = [[ASIFormDataRequest alloc] initWithURL:[NSURL URLWithString:findPortUrl]];
+    
+    [findPortInfoForm startSynchronous];
+    
+    NSString *result = [findPortInfoForm responseString];
+    
+    if ([result isEqualToString:@"0"]) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:@"请求失败！" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+        
+        [alertView show];
+    }else if ([result isEqualToString:@"4"]) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:@"暂无该用户发布的集装箱信息！" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+        
+        [alertView show];
+    }else if ([result isEqualToString:@"5"]) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:@"暂无接单司机！" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+        
+        [alertView show];
+    }else if ([result isEqualToString:@"6"]) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:@"系统错误！" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+        
+        [alertView show];
+    }else{
+        
+        NSLog(@"%@",result);
+        
+        NSArray *responseData = [result componentsSeparatedByString:@"$$"];
+        
+        if(responseData.count>0){
+            for (int i=0; i<responseData.count; i++) {
+                
+                if (i==0) {
+                    
+                    NSString *strData = [responseData objectAtIndex:i];
+                    
+                    NSDictionary *userData = [strData objectFromJSONString];
+                    
+                    NSArray *userArray = [userData objectForKey:@"APP_USER_INFO"];
+                    
+                    if(userArray.count>0){
+                        
+                        for (NSDictionary *dictionary in userArray) {
+                            
+                            _appUserInfo = [[AppUserInfo alloc] getAppUserInfo:dictionary];
+                        }
+                        
+                    }
+                    
+                }
+                else if(i==1){
+                    
+                    NSString *strData = [responseData objectAtIndex:i];
+                    
+                    NSDictionary *releaseData = [strData objectFromJSONString];
+                    
+                    NSArray *releaseArray = [releaseData objectForKey:@"RELEASE_PERSON_INFO"];
+                    
+                    if (releaseArray.count>0) {
+                        
+                        for (NSDictionary *dctionary in releaseArray) {
+                            
+                            _releasePersonInfo = [[ReleasePersonInfo alloc] getReleasePersonInfo:dctionary];
+                            
+                        }
+                        
+                    }
+                    
+                }
+                
+            }
+        }
+        
+    }
+    
+    UIScrollView *mainScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0.0, 0.0, self.view.frame.size.width, self.view.frame.size.height)];
+    
+    [mainScrollView setContentSize:CGSizeMake(self.view.frame.size.width, 460)];
     
     [self.view addSubview:mainScrollView];
     
+    UIButton *photoButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    
+    [photoButton setTitle:@"查看相册>" forState:UIControlStateNormal];
+    
+    [photoButton setFrame:CGRectMake(10.0, 0.0, 100.0, 20.0)];
+    
+    [mainScrollView addSubview:photoButton];
+    
     UIImage *carImage = [UIImage imageNamed:@"car"];
     
-    UIImageView *carImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10.0, 0.0, 130.0, 120.0)];
+    UIImageView *carImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10.0, photoButton.frame.size.height, 100.0, 100.0)];
     
     [carImageView setImage:carImage];
     
     [mainScrollView addSubview:carImageView];
     
-    UILabel *userName = [[UILabel alloc] initWithFrame:CGRectMake(140.0, 0.0, THREE_WIDTH, 20.0)];
+    UILabel *userName = [[UILabel alloc] initWithFrame:CGRectMake(110.0, 0.0, THREE_WIDTH, 20.0)];
     
     [userName setText:@"用户名："];
     
@@ -83,15 +198,15 @@
     
     UILabel *userInfoName = [[UILabel alloc] initWithFrame:CGRectMake(userName.frame.origin.x+userName.frame.size.width, userName.frame.origin.y, 100.0, 20.0)];
     
-    [userInfoName setText:@"李先生"];
+    [userInfoName setText:[NSString stringWithFormat:@"%@",_appUserInfo.USER_NAME]];
     
     [userInfoName setFont:FONT];
     
     [mainScrollView addSubview:userInfoName];
     
-    UILabel *rankName = [[UILabel alloc] initWithFrame:CGRectMake(userName.frame.origin.x, userName.frame.origin.y+userName.frame.size.height, TWO_WIDTH, 20.0)];
+    UILabel *rankName = [[UILabel alloc] initWithFrame:CGRectMake(userName.frame.origin.x, userName.frame.origin.y+userName.frame.size.height, FOUR_WIDTH, 20.0)];
     
-    [rankName setText:@"排名："];
+    [rankName setText:@"活跃度："];
     
     [rankName setFont:FONT];
     
@@ -99,7 +214,7 @@
     
     UILabel *rankInfoName = [[UILabel alloc] initWithFrame:CGRectMake(rankName.frame.origin.x+rankName.frame.size.width, rankName.frame.origin.y, 100.0, 20.0)];
     
-    [rankInfoName setText:@"21"];
+    [rankInfoName setText:[NSString stringWithFormat:@"%@",_appUserInfo.ACTIVE_INDEX]];
     
     [rankInfoName setFont:FONT];
     
@@ -115,7 +230,7 @@
     
     UILabel *levelInfoName = [[UILabel alloc] initWithFrame:CGRectMake(levleName.frame.origin.x+levleName.frame.size.width, levleName.frame.origin.y, 100.0, 20.0)];
     
-    [levelInfoName setText:@"4"];
+    [levelInfoName setText:[NSString stringWithFormat:@"%@",_appUserInfo.GRADE]];
     
     [levelInfoName setFont:FONT];
     
@@ -129,9 +244,9 @@
     
     [mainScrollView addSubview:registerName];
     
-    UILabel *registerInfoName = [[UILabel alloc] initWithFrame:CGRectMake(registerName.frame.origin.x+registerName.frame.size.width, registerName.frame.origin.y, 100.0, 20.0)];
+    UILabel *registerInfoName = [[UILabel alloc] initWithFrame:CGRectMake(registerName.frame.origin.x+registerName.frame.size.width, registerName.frame.origin.y, 150.0, 20.0)];
     
-    [registerInfoName setText:@"2013年1月1日"];
+    [registerInfoName setText:[NSString stringWithFormat:@"%@",_appUserInfo.REG_TIME]];
     
     [registerInfoName setFont:FONT];
     
@@ -139,7 +254,7 @@
     
     UILabel *acceptName = [[UILabel alloc] initWithFrame:CGRectMake(userName.frame.origin.x, registerName.frame.origin.y+registerName.frame.size.height, FOUR_WIDTH, 20.0)];
     
-    [acceptName setText:@"接单次数："];
+    [acceptName setText:@"发布消息："];
     
     [acceptName setFont:FONT];
     
@@ -147,7 +262,7 @@
     
     UILabel *acceptInfoName = [[UILabel alloc] initWithFrame:CGRectMake(acceptName.frame.origin.x+acceptName.frame.size.width, acceptName.frame.origin.y, 100.0, 20.0)];
     
-    [acceptInfoName setText:@"99"];
+    [acceptInfoName setText:[NSString stringWithFormat:@"%@",_appUserInfo.RELEASE_COUNT]];
     
     [acceptInfoName setFont:FONT];
     
@@ -163,40 +278,47 @@
     
     UILabel *queryInfoName = [[UILabel alloc] initWithFrame:CGRectMake(queryName.frame.origin.x+queryName.frame.size.width, queryName.frame.origin.y, 100.0, 20.0)];
     
-    [queryInfoName setText:@"199"];
+    [queryInfoName setText:[NSString stringWithFormat:@"%@",_appUserInfo.QUERY_COUNT]];
     
     [queryInfoName setFont:FONT];
     
     [mainScrollView addSubview:queryInfoName];
     
+    UIImageView *middleView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, queryName.frame.origin.y+queryName.frame.size.height, self.view.frame.size.width, 35.0)];
     
-    CarInfoTopView *carInfoTopView = [[CarInfoTopView alloc] initWithFrame:CGRectMake(0.0, queryName.frame.origin.y+queryName.frame.size.height, self.view.frame.size.width, 190)];
+    [middleView setImage:[UIImage imageNamed:@"middle.jpg"]];
+    
+    [mainScrollView addSubview:middleView];
+    
+    CarInfoTopView *carInfoTopView = [[CarInfoTopView alloc] initWithFrame:CGRectMake(0.0, middleView.frame.origin.y+middleView.frame.size.height, self.view.frame.size.width, 190)];
     
     CarInfo *carInfo = [[CarInfo alloc] init];
     
-    [carInfo setPeople:@"皇太极"];
+    NSArray *contract = [[NSString stringWithFormat:@"%@",_releaseInfo.CONTRACT] componentsSeparatedByString:@"/"];
     
-    [carInfo setAddress:@"青岛港"];
+    [carInfo setPeople:[NSString stringWithFormat:@"%@",[contract objectAtIndex:0]]];
     
-    [carInfo setPhone:@"12345678901"];
+    [carInfo setAddress:[NSString stringWithFormat:@"%@",_releaseInfo.DESTINATION]];
     
-    [carInfo setOtherInfo:@"其他信息其他信息其他信息其他信息其他信息其他信息其他信息其他信息其他信息其他信息其他信息其他信息其他信息其他信息其他信息其他信息"];
+    [carInfo setPhone:[NSString stringWithFormat:@"%@",[contract objectAtIndex:1]]];
     
-    [carInfo setGetTime:@"2014-10-10 00:02:04"];
+    [carInfo setOtherInfo:[NSString stringWithFormat:@"%@",_releaseInfo.ESPECIAL_REQUEST]];
     
-    [carInfo setBoxType:@"20小柜"];
+    [carInfo setGetTime:[NSString stringWithFormat:@"%@",_releaseInfo.RELEASE_TIME]];
     
-    [carInfo setCreateTime:@"2014-6-26 08:09:08"];
+    [carInfo setBoxType:[NSString stringWithFormat:@"%@",_releaseInfo.CHUNK_TYPE]];
     
-    [carInfo setPrice:@"电议面谈"];
+    [carInfo setCreateTime:[NSString stringWithFormat:@"%@",_releaseInfo.RELEASE_TIME]];
     
-    [carInfo setInfoType:@"紧急派车"];
+    [carInfo setPrice:[NSString stringWithFormat:@"%@",_releaseInfo.PRICE]];
     
-    [carInfo setWeight:@"10吨"];
+    [carInfo setInfoType:[NSString stringWithFormat:@"%@",_releaseInfo.TRAFFIC_TYPE]];
     
-    [carInfo setPort:@"青岛港"];
+    [carInfo setWeight:[NSString stringWithFormat:@"%@",_releaseInfo.WEIGHT]];
     
-    [carInfo setTransportType:@"出口"];
+    [carInfo setPort:[NSString stringWithFormat:@"%@",_releaseInfo.PORT]];
+    
+    [carInfo setTransportType:[NSString stringWithFormat:@"%@",_releaseInfo.TRAFFIC_TYPE]];
     
     [carInfoTopView set_carInfo:carInfo];
     
@@ -204,21 +326,27 @@
     
     [mainScrollView addSubview:carInfoTopView];
     
+    UIImageView *footView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, carInfoTopView.frame.origin.y+150.0, self.view.frame.size.width, 35.0)];
+    
+    [footView setImage:[UIImage imageNamed:@"foot.jpg"]];
+    
+    [mainScrollView addSubview:footView];
+    
     CarInfoCell *carInfoCell = [[CarInfoCell alloc] init];
     
-    [carInfoCell setCompanyName:@"我是公司名称"];
+    [carInfoCell setCompanyName:[NSString stringWithFormat:@"%@",_releasePersonInfo.userCompanyName]];
     
-    [carInfoCell setCompanyAddress:@"我是公司地址"];
+    [carInfoCell setCompanyAddress:[NSString stringWithFormat:@"%@",_releasePersonInfo.companyPoision]];
     
-    [carInfoCell setCompanyType:@"工厂"];
+    [carInfoCell setCompanyType:[NSString stringWithFormat:@"%@",_releasePersonInfo.companyType]];
     
-    [carInfoCell setPeople:@"王先生"];
+    [carInfoCell setPeople:[NSString stringWithFormat:@"%@",_releasePersonInfo.concatPerson]];
     
-    [carInfoCell setEmail:@"88888888888@163.com"];
+    [carInfoCell setEmail:[NSString stringWithFormat:@"%@",_releasePersonInfo.email]];
     
-    [carInfoCell setCompanyPhone:@"027-883569873"];
+    [carInfoCell setCompanyPhone:[NSString stringWithFormat:@"%@",_releasePersonInfo.concatTel]];
     
-    [carInfoCell setPhone:@"15945678912"];
+    [carInfoCell setPhone:[NSString stringWithFormat:@"%@",_releasePersonInfo.mobile]];
     
     [carInfoCell setFaxNum:@"0532-8685201216/0532-8685201314"];
     
@@ -230,7 +358,6 @@
     
     [mainScrollView addSubview:bottomView];
     
-    // Do any additional setup after loading the view.
 }
 
 -(void)goBack{

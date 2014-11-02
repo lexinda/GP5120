@@ -80,4 +80,8 @@
 
 @property(strong,nonatomic)NSMutableArray *_phoneArray;
 
+@property(strong,nonatomic)MeddleTextField *_meddleTextField;
+
+@property(strong,nonatomic)MeddleTextFieldTwo *_meddleTextFieldTwo;
+
 @end

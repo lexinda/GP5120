@@ -1,20 +1,20 @@
 //
-//  RecommandTeamCell.h
+//  RecommandCarTeamCell.h
 //  GP5120
 //
-//  Created by lele126 on 14-8-9.
+//  Created by 朱孟乐 on 14/11/2.
 //  Copyright (c) 2014年 com.lexindasoft. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-#import "RecommandTeam.h"
+#import "AppUserInfo.h"
 
 #import "PushViewDelegate.h"
 
 #import "ReleaseInfo.h"
 
-@interface RecommandTeamCell : UITableViewCell
+@interface RecommandCarTeamCell : UITableViewCell
 
 @property(strong,nonatomic)UILabel *_addressLabel;
 
@@ -42,11 +42,15 @@
 
 @property(strong,nonatomic)UILabel *_rankLabel;
 
-@property(strong,nonatomic)UILabel *_rankInfoLabel;
+@property(strong,nonatomic)UIImageView *_rankInfo;
 
 @property(strong,nonatomic)UILabel *_createTimelabel;
 
 @property(strong,nonatomic)UILabel *_createTimeInfoLabel;
+
+@property(strong,nonatomic)UILabel *_companyIntro;
+
+@property(strong,nonatomic)UILabel *_companyIntroInfo;
 
 @property(strong,nonatomic)UILabel *_queryTimesLabel;
 
@@ -64,6 +68,6 @@
 
 @property(strong,nonatomic)ReleaseInfo *_releaseInfo;
 
--(void)setRecommandTeamInfo:(RecommandTeam *)_recommandTeam;
+-(void)setAppUserInfo:(AppUserInfo *)_appUserInfo;
 
 @end

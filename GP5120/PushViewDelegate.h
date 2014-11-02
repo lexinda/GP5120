@@ -10,11 +10,13 @@
 
 #import "HomeInfoModel.h"
 
+#import "ReleaseInfo.h"
+
 @protocol PushViewDelegate <NSObject>
 
 -(void)successRedirectView;
 
--(void)showInfoDetailView;
+-(void)showInfoDetailView:(ReleaseInfo *)releaseInfo;
 
 -(void)showAcceptView;
 
@@ -45,5 +47,7 @@
 -(void)loginAndRegister;
 
 -(void)pushCarInfoView:(HomeInfoModel *)homeInfoModel;
+
+-(void)pushPortInfoView:(HomeInfoModel *)homeInfoModel;
 
 @end

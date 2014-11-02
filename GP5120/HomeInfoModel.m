@@ -18,6 +18,8 @@
 
 @synthesize userName;
 
+@synthesize portType;
+
 @synthesize type;
 
 -(HomeInfoModel *)getHomeInfoModel:(NSDictionary *)dictionary{
@@ -31,6 +33,8 @@
     [homeInfoModel setQueryTime:[dictionary objectForKey:@"queryTime"]];
     
     [homeInfoModel setUserName:[dictionary objectForKey:@"userName"]];
+    
+    [homeInfoModel setPortType:[dictionary objectForKey:@"find_type"]];
     
     [homeInfoModel setType:@"1"];
     
@@ -49,6 +53,8 @@
     [homeInfoModel setQueryTime:@"notlogin"];
     
     [homeInfoModel setUserName:@"notlogin"];
+    
+    [homeInfoModel setUserName:@"find_type"];
     
     [homeInfoModel setType:@"0"];
     

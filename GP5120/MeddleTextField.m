@@ -128,45 +128,45 @@
     
     [self addSubview:otherButton];
     
-    UIButton *leftButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    UIButton *leftCarButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     
-    [leftButton setFrame:CGRectMake((self.frame.size.width-(100+5+100+5+100))/2, nowButton.frame.origin.y+nowButton.frame.size.height+10.0, 100.0, 30.0)];
+    [leftCarButton setFrame:CGRectMake((self.frame.size.width-(100+5+100+5+100))/2, nowButton.frame.origin.y+nowButton.frame.size.height+10.0, 100.0, 30.0)];
     
-    [leftButton setTitle:@"派单给他" forState:UIControlStateNormal];
+    [leftCarButton setTitle:@"派单给他" forState:UIControlStateNormal];
     
-    [leftButton addTarget:self action:@selector(sendCarInfoToPeople:) forControlEvents:UIControlEventTouchUpInside];
+    [leftCarButton addTarget:self action:@selector(sendCarInfoToPeople:) forControlEvents:UIControlEventTouchUpInside];
     
-    [leftButton setTag:20];
+    [leftCarButton setTag:20];
     
-    [leftButton setBackgroundImage:[UIImage imageNamed:@"_12"] forState:UIControlStateNormal];
+    [leftCarButton setBackgroundImage:[UIImage imageNamed:@"_12"] forState:UIControlStateNormal];
     
-    [self addSubview:leftButton];
+    [self addSubview:leftCarButton];
     
-    UIButton *meddleButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    UIButton *meddleCarButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     
-    [meddleButton setFrame:CGRectMake(leftButton.frame.origin.x+leftButton.frame.size.width+5.0, nowButton.frame.origin.y+nowButton.frame.size.height+10.0, 100.0, 30.0)];
+    [meddleCarButton setFrame:CGRectMake(leftCarButton.frame.origin.x+leftCarButton.frame.size.width+5.0, nowButton.frame.origin.y+nowButton.frame.size.height+10.0, 100.0, 30.0)];
     
-    [meddleButton addTarget:self action:@selector(sendCarInfoToPeople:) forControlEvents:UIControlEventTouchUpInside];
+    [meddleCarButton addTarget:self action:@selector(sendCarInfoToPeople:) forControlEvents:UIControlEventTouchUpInside];
     
-    [meddleButton setTitle:@"发布派车信息" forState:UIControlStateNormal];
+    [meddleCarButton setTitle:@"发布派车信息" forState:UIControlStateNormal];
     
-    [meddleButton setTag:21];
+    [meddleCarButton setTag:21];
     
-    [meddleButton setBackgroundImage:[UIImage imageNamed:@"_12"] forState:UIControlStateNormal];
+    [meddleCarButton setBackgroundImage:[UIImage imageNamed:@"_12"] forState:UIControlStateNormal];
     
-    [self addSubview:meddleButton];
+    [self addSubview:meddleCarButton];
     
-    UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    UIButton *rightCarButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     
-    [rightButton setFrame:CGRectMake(meddleButton.frame.origin.x+meddleButton.frame.size.width+5.0, nowButton.frame.origin.y+nowButton.frame.size.height+10.0, 100.0, 30.0)];
+    [rightCarButton setFrame:CGRectMake(meddleCarButton.frame.origin.x+meddleCarButton.frame.size.width+5.0, nowButton.frame.origin.y+nowButton.frame.size.height+10.0, 100.0, 30.0)];
     
-    [rightButton addTarget:self action:@selector(showCarDetail:) forControlEvents:UIControlEventTouchUpInside];
+    [rightCarButton addTarget:self action:@selector(showCarDetail:) forControlEvents:UIControlEventTouchUpInside];
     
-    [rightButton setTitle:@"查看派车信息" forState:UIControlStateNormal];
+    [rightCarButton setTitle:@"查看派车信息" forState:UIControlStateNormal];
     
-    [rightButton setBackgroundImage:[UIImage imageNamed:@"_12"] forState:UIControlStateNormal];
+    [rightCarButton setBackgroundImage:[UIImage imageNamed:@"_12"] forState:UIControlStateNormal];
     
-    [self addSubview:rightButton];
+    [self addSubview:rightCarButton];
     
 }
 
@@ -209,7 +209,7 @@
             
         }else{
             
-            NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:_oneTextFiled.text,@"oneField",_twoTextFiled.text,@"twoField",_queryTime,@"queryTime",[userLoginInfo objectForKey:@"username"],@"userName", nil];
+            NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:_oneTextFiled.text,@"oneField",_twoTextFiled.text,@"twoField",_queryTime,@"queryTime",[userLoginInfo objectForKey:@"username"],@"userName",@"car",@"find_type", nil];
             
             HomeInfoModel *homeInfoModel = [[HomeInfoModel alloc] getHomeInfoModel:dictionary];
             
@@ -361,6 +361,11 @@
 }
 
 -(void)showDataPicker:(id)action{
+    
+    if ((![_oneTextFiled isExclusiveTouch])||(![_twoTextFiled isExclusiveTouch])) {
+        [_oneTextFiled resignFirstResponder];
+        [_twoTextFiled resignFirstResponder];
+    }
     
     _queryTime = @"other";
     

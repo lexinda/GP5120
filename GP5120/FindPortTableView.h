@@ -26,7 +26,7 @@
 
 #import "ASIFormDataRequest.h"
 
-#import "AppUserInfo.h"
+#import "ReleaseInfo.h"
 
 @interface FindPortTableView : UITableViewController<PushViewDelegate,MBProgressHUDDelegate>
 
@@ -39,5 +39,7 @@
 @property(nonatomic)int _page;
 
 @property(strong,nonatomic)MBProgressHUD *_hud;
+
+@property(strong,nonatomic)ReleaseInfo *_releaseInfo;
 
 @end

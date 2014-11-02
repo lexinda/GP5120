@@ -26,6 +26,8 @@
 
 @synthesize _hud;
 
+@synthesize _activeAppUserInfo;
+
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
@@ -346,46 +348,22 @@
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
         //}
         
-        cell.textLabel.text = info.USER_NAME;
+        cell.textLabel.text = [NSString stringWithFormat:@"[%@]%@",info.COMPANY_TYPE,info.PORT];
         
         return cell;
     }else{
         
-        RecommandTeam *recommandTeam = [[RecommandTeam alloc] init];
-        
-        [recommandTeam setAddress:[NSString stringWithFormat:@"湖北省洪山区光谷广场%i",indexPath.row]];
-        
-        [recommandTeam setBoxType:@"20小箱"];
-        
-        [recommandTeam setDate:@"2014年6月24日"];
-        
-        [recommandTeam setBox:@"20"];
-        
-        [recommandTeam setInput:@"进港"];
-        
-        [recommandTeam setPeople:@"小明"];
-        
-        [recommandTeam setRank:@"3"];
-        
-        [recommandTeam setCreateTime:@"2014年6月24日"];
-        
-        [recommandTeam setQueryTimes:@"20"];
-        
-        [recommandTeam setSmsTimes:@"20"];
-        
-        [recommandTeam setSystemTimes:@"10"];
-        
-        RecommandTeamCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
+        RecommandCarTeamCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
         
        
         
         //if (cell == nil) {
             
-            cell = [[RecommandTeamCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
+            cell = [[RecommandCarTeamCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
             
         //}
         
-        [cell setRecommandTeamInfo:recommandTeam];
+        [cell setAppUserInfo:_activeAppUserInfo];
         
         [cell setBackgroundColor:[UIColor colorWithRed:240.0/255.0 green:240.0/255.0 blue:240.0/255.0 alpha:1.0]];
         
@@ -409,7 +387,11 @@
     
      NSLog(@"%i",_clickIndex.intValue);
     
+    _activeAppUserInfo = [[AppUserInfo alloc] init];
+    
     AppUserInfo *info = (AppUserInfo *)[_dataArray objectAtIndex:indexPath.row];
+    
+    _activeAppUserInfo = (AppUserInfo *)[_dataArray objectAtIndex:indexPath.row];
             
     if ([info.levelType isEqualToString:@"1"]) {
         
@@ -519,7 +501,7 @@
         
     }else{
     
-        return 150.0;
+        return 120.0;
     
     }
     

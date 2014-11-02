@@ -24,6 +24,8 @@
 
 @synthesize _hud;
 
+@synthesize _releaseInfo;
+
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
@@ -147,7 +149,7 @@
     
     _page = 1;
     
-    NSDictionary *dataFlag = [NSDictionary dictionaryWithObject:@"4" forKey:@"flag"];
+    NSDictionary *dataFlag = [NSDictionary dictionaryWithObject:@"92" forKey:@"flag"];
     
     NSDictionary *dataFlag1 = [NSDictionary dictionaryWithObject:@"" forKey:@"username"];
     
@@ -156,6 +158,8 @@
     NSArray *dataArray = [NSArray arrayWithObjects:dataFlag,dataFlag1,dataFlag2,nil];
     
     NSString *requestStr = [self getRequestData:SERVER_URL withRequestTag:1 withDataArray:dataArray];
+    
+    NSLog(@"%@",requestStr);
     
     NSArray *responseData = [requestStr componentsSeparatedByString:@"$$"];
     
@@ -194,17 +198,17 @@
                 
             }else if (![[responseData objectAtIndex:i] isEqualToString:@""]) {
                 
-                NSDictionary *appUserInfoData = [[responseData objectAtIndex:i] objectFromJSONString];
+                NSDictionary *data = [[responseData objectAtIndex:i] objectFromJSONString];
                 
-                NSArray *appUserInfoArray = [appUserInfoData objectForKey:@"APP_USER_INFO"];
+                NSArray *array = [data objectForKey:@"RELEASE_INFO"];
                 
-                if(appUserInfoArray.count>0){
+                if(array.count>0){
                     
-                    for (NSDictionary *appUserInfoDictionary in appUserInfoArray) {
+                    for (NSDictionary *dictionary in array) {
                         
-                        AppUserInfo *appUserInfo = [[AppUserInfo alloc] getAppUserInfo:appUserInfoDictionary];
+                        ReleaseInfo *releaseInfo = [[ReleaseInfo alloc] getReleaseInfo:dictionary];
                         
-                        [_dataArray addObject:appUserInfo];
+                        [_dataArray addObject:releaseInfo];
                     }
                     
                 }
@@ -274,17 +278,17 @@
                 
             }else if (![[responseData objectAtIndex:i] isEqualToString:@""]) {
                 
-                NSDictionary *appUserInfoData = [[responseData objectAtIndex:i] objectFromJSONString];
+                NSDictionary *data = [[responseData objectAtIndex:i] objectFromJSONString];
                 
-                NSArray *appUserInfoArray = [appUserInfoData objectForKey:@"APP_USER_INFO"];
+                NSArray *array = [data objectForKey:@"RELEASE_INFO"];
                 
-                if(appUserInfoArray.count>0){
+                if(array.count>0){
                     
-                    for (NSDictionary *appUserInfoDictionary in appUserInfoArray) {
+                    for (NSDictionary *dictionary in array) {
                         
-                        AppUserInfo *appUserInfo = [[AppUserInfo alloc] getAppUserInfo:appUserInfoDictionary];
+                        ReleaseInfo *releaseInfo = [[ReleaseInfo alloc] getReleaseInfo:dictionary];
                         
-                        [_dataArray insertObject:appUserInfo atIndex:[_dataArray count]];
+                        [_dataArray insertObject:releaseInfo atIndex:[_dataArray count]];
                     }
                     
                 }
@@ -321,7 +325,7 @@
 {
     NSLog(@"%i",indexPath.row);
     
-    AppUserInfo *info = (AppUserInfo *)[_dataArray objectAtIndex:indexPath.row];
+    ReleaseInfo *info = (ReleaseInfo *)[_dataArray objectAtIndex:indexPath.row];
     
     static NSString *reuseIdentifier = @"tableCell";
     
@@ -332,44 +336,48 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
         //}
         
-        cell.textLabel.text = info.USER_NAME;
+        cell.textLabel.text = info.DESTINATION;
         
         return cell;
     }else{
         
+        NSLog(@"%@",_releaseInfo.DESTINATION);
+        
         RecommandTeam *recommandTeam = [[RecommandTeam alloc] init];
         
-        [recommandTeam setAddress:[NSString stringWithFormat:@"湖北省洪山区光谷广场%i",indexPath.row]];
+        [recommandTeam setAddress:[NSString stringWithFormat:@"%@",_releaseInfo.DESTINATION]];
         
-        [recommandTeam setBoxType:@"20小箱"];
+        [recommandTeam setBoxType:[NSString stringWithFormat:@"%@",_releaseInfo.CHUNK_TYPE]];
         
-        [recommandTeam setDate:@"2014年6月24日"];
+        [recommandTeam setDate:[NSString stringWithFormat:@"%@",_releaseInfo.RELEASE_TIME]];
         
-        [recommandTeam setBox:@"20"];
+        NSArray *contract = [[NSString stringWithFormat:@"%@",_releaseInfo.CONTRACT] componentsSeparatedByString:@"/"];
         
-        [recommandTeam setInput:@"进港"];
+        [recommandTeam setBox:[NSString stringWithFormat:@"%@",[contract objectAtIndex:1]]];
         
-        [recommandTeam setPeople:@"小明"];
+        [recommandTeam setInput:[NSString stringWithFormat:@"［%@］",_releaseInfo.TRAFFIC_TYPE]];
         
-        [recommandTeam setRank:@"3"];
+        [recommandTeam setPeople:[NSString stringWithFormat:@"%@",[contract objectAtIndex:0]]];
         
-        [recommandTeam setCreateTime:@"2014年6月24日"];
+        [recommandTeam setRank:[NSString stringWithFormat:@"%@",_releaseInfo.PRICE]];
         
-        [recommandTeam setQueryTimes:@"20"];
+        [recommandTeam setCreateTime:[NSString stringWithFormat:@"%@",_releaseInfo.RELEASE_TIME]];
         
-        [recommandTeam setSmsTimes:@"20"];
+        [recommandTeam setQueryTimes:[NSString stringWithFormat:@"%@",_releaseInfo.QUERY_COUNT]];
         
-        [recommandTeam setSystemTimes:@"10"];
+        [recommandTeam setSmsTimes:[NSString stringWithFormat:@"%@",_releaseInfo.MSGTO_NUM]];
+        
+        [recommandTeam setSystemTimes:[NSString stringWithFormat:@"%@",_releaseInfo.MSGTO_NUM]];
         
         RecommandTeamCell *cell = [tableView dequeueReusableCellWithIdentifier:reuseIdentifier];
-        
-        
         
         //if (cell == nil) {
         
         cell = [[RecommandTeamCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
         
         //}
+        
+        [cell set_releaseInfo:_releaseInfo];
         
         [cell setRecommandTeamInfo:recommandTeam];
         
@@ -391,11 +399,11 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    NSLog(@"%i",indexPath.row);
+    NSLog(@"您点击了：%i",_clickIndex.intValue);
     
-    NSLog(@"%i",_clickIndex.intValue);
+    ReleaseInfo *info = (ReleaseInfo *)[_dataArray objectAtIndex:indexPath.row];
     
-    AppUserInfo *info = (AppUserInfo *)[_dataArray objectAtIndex:indexPath.row];
+    _releaseInfo = info;
     
     if ([info.levelType isEqualToString:@"1"]) {
         
@@ -414,9 +422,7 @@
             
             if (indexPath.row!=_clickIndex.intValue) {
                 
-                NSLog(@"%i",indexPath.row);
-                
-                AppUserInfo *appUserInfo = [[AppUserInfo alloc] getAppUserInfoDemo];
+                ReleaseInfo *appUserInfo = [[ReleaseInfo alloc] getReleaseInfoDemo];
                 
                 //NSDictionary *infoDictionary = [NSDictionary dictionaryWithObjectsAndKeys:@"six",@"name",@"0",@"type",nil];
                 
@@ -446,7 +452,7 @@
             
         }else{
             
-            AppUserInfo *appUserInfo = [[AppUserInfo alloc] getAppUserInfoDemo];
+            ReleaseInfo *appUserInfo = [[ReleaseInfo alloc] getReleaseInfoDemo];
             
             //NSDictionary *infoDictionary = [NSDictionary dictionaryWithObjectsAndKeys:@"six",@"name",@"0",@"levelType",nil];
             
@@ -474,7 +480,7 @@
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
         
-        AppUserInfo *appUserInfo = [[AppUserInfo alloc] getAppUserInfoDemo];
+        ReleaseInfo *appUserInfo = [[ReleaseInfo alloc] getReleaseInfoDemo];
         
         //NSDictionary *infoDictionary = [NSDictionary dictionaryWithObjectsAndKeys:@"six",@"name",@"0",@"type",nil];
         
@@ -497,7 +503,7 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    AppUserInfo *info = (AppUserInfo *)[_dataArray objectAtIndex:indexPath.row];
+    ReleaseInfo *info = (ReleaseInfo *)[_dataArray objectAtIndex:indexPath.row];
     
     if ([info.levelType isEqualToString:@"1"]) {
         
@@ -505,17 +511,19 @@
         
     }else{
         
-        return 150.0;
+        return 190.0;
         
     }
     
 }
 
--(void)showInfoDetailView{
+-(void)showInfoDetailView:(ReleaseInfo *)releaseInfo{
     
     //    CarInfoViewController *carInfoViewController = [[CarInfoViewController alloc] init];
     
     AcceptInfoViewController *acceptInfoViewController = [[AcceptInfoViewController alloc] init];
+    
+    [acceptInfoViewController set_releaseInfo:releaseInfo];
     
     //    [self.navigationController pushViewController:carInfoViewController animated:YES];
     

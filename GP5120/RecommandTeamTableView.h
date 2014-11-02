@@ -12,7 +12,7 @@
 
 #import "MBProgressHUD.h"
 
-#import "RecommandTeamCell.h"
+#import "RecommandCarTeamCell.h"
 
 #import "RecommandTeam.h"
 
@@ -41,5 +41,7 @@
 @property(nonatomic)int _page;
 
 @property(strong,nonatomic)MBProgressHUD *_hud;
+
+@property(strong,nonatomic)AppUserInfo *_activeAppUserInfo;
 
 @end
