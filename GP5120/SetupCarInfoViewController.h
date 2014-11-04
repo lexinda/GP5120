@@ -72,4 +72,6 @@
 
 @property(strong,nonatomic)UIToolbar *_keyboardDoneButtonView;
 
+@property(strong,nonatomic)NSString *_addCarInfoType;
+
 @end

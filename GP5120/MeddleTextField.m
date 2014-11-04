@@ -213,7 +213,7 @@
             
             HomeInfoModel *homeInfoModel = [[HomeInfoModel alloc] getHomeInfoModel:dictionary];
             
-            [_pushViewDelegate pushCarInfoView:homeInfoModel];
+            [_pushViewDelegate pushCarInfoView:homeInfoModel withAddType:@"driver"];
             
         }
         
@@ -221,7 +221,7 @@
         
         HomeInfoModel *homeInfoModel = [[HomeInfoModel alloc] getHomeInfoModelNoLogin];
         
-        [_pushViewDelegate pushCarInfoView:homeInfoModel];
+        [_pushViewDelegate pushCarInfoView:homeInfoModel withAddType:@"consumer"];
         
     }
         

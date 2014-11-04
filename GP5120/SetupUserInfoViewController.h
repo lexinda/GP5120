@@ -8,7 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SetupUserInfoViewController : UIViewController<UITextFieldDelegate>
+#import "ASIFormDataRequest.h"
+
+#import "MBProgressHUD.h"
+
+#import "JSONKit.h"
+
+#import "AppUserInfo.h"
+
+@interface SetupUserInfoViewController : UIViewController<UITextFieldDelegate,MBProgressHUDDelegate,UIAlertViewDelegate>
 
 @property(strong,nonatomic)UITextField *_nickName;
 
@@ -25,5 +33,7 @@
 @property(strong,nonatomic)UITextField *_email;
 
 @property(strong,nonatomic)UITextField *_fax;
+
+@property(strong,nonatomic)MBProgressHUD *_hud;
 
 @end

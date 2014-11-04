@@ -64,6 +64,8 @@
 
 @synthesize _keyboardDoneButtonView;
 
+@synthesize _addCarInfoType;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -987,7 +989,16 @@
         
         NSString *username = [defaults objectForKey:@"username"];
         
-        NSString *carInfoUrl = [NSString stringWithFormat:@"%@&flag=2&username=%@&pub_name=%@&address=%@&contact=%@&ask=%@&pack_date=%@&pack_type=%@&price=%@&mobile_ip=%@&weight=%@&port=%@&tran_type=%@",SERVER_URL,username,_peopleField.text,_destinationField.text,_phoneField.text,_otherField.text,_pack_date,_boxTextField.text,_price,@"",_weightField.text,_portTextField.text,_transportType];
+        NSString *carInfoUrl=nil;
+        
+        if ([_addCarInfoType isEqualToString:@"driver"]) {
+            
+            carInfoUrl = [NSString stringWithFormat:@"%@&flag=3&username=%@&pub_name=%@&address=%@&contact=%@&ask=%@&pack_date=%@&pack_type=%@&price=%@&mobile_ip=%@&weight=%@&port=%@&tran_type=%@&driver=%@&driver_mobile=%@",SERVER_URL,username,_peopleField.text,_destinationField.text,_phoneField.text,_otherField.text,_pack_date,_boxTextField.text,_price,@"",_weightField.text,_portTextField.text,_transportType,_homeInfoModel.oneField,_homeInfoModel.twoField];
+            
+        }else if([_addCarInfoType isEqualToString:@"consumer"]){
+        
+            carInfoUrl = [NSString stringWithFormat:@"%@&flag=2&username=%@&pub_name=%@&address=%@&contact=%@&ask=%@&pack_date=%@&pack_type=%@&price=%@&mobile_ip=%@&weight=%@&port=%@&tran_type=%@",SERVER_URL,username,_peopleField.text,_destinationField.text,_phoneField.text,_otherField.text,_pack_date,_boxTextField.text,_price,@"",_weightField.text,_portTextField.text,_transportType];
+        }
         
         NSLog(@"%@",carInfoUrl);
         

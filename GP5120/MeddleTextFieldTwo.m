@@ -279,7 +279,7 @@
         
         if (button.tag == 14) {
             
-            dictionary = [NSDictionary dictionaryWithObjectsAndKeys:_onePortTextFiled.text,@"port",_twoPortTextFiled.text,@"address",_queryPortTime,@"queryTime",[userLoginInfo objectForKey:@"username"],@"userName",@"in",@"find_type", nil];
+            dictionary = [NSDictionary dictionaryWithObjectsAndKeys:_onePortTextFiled.text,@"oneField",_twoPortTextFiled.text,@"twoField",_queryPortTime,@"queryTime",[userLoginInfo objectForKey:@"username"],@"userName",@"in",@"find_type", nil];
             
         }else if(button.tag == 15){
             

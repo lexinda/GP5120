@@ -36,6 +36,39 @@
 
 @property(strong,nonatomic)NSString *INFO_NO;
 
+////////////////////////////////////
+@property(strong,nonatomic)NSString *FACTORY_CITY;
+
+@property(strong,nonatomic)NSString *STOWAGE_TIME;
+
+@property(strong,nonatomic)NSString *START;
+
+@property(strong,nonatomic)NSString *INFO_STATUS;
+
+@property(strong,nonatomic)NSString *RELEASE_PERSON;
+
+@property(strong,nonatomic)NSString *RELEASE_IP;
+
+@property(strong,nonatomic)NSString *TARGET_PROVINCE;
+
+@property(strong,nonatomic)NSString *TARGET_CITY;
+
+@property(strong,nonatomic)NSString *START_PROVINCE;
+
+@property(strong,nonatomic)NSString *START_CITY;
+
+@property(strong,nonatomic)NSString *LAST_IN;
+
+@property(strong,nonatomic)NSString *INFO_TYPE;
+
+@property(strong,nonatomic)NSString *OWNER_PROFIT;
+
+@property(strong,nonatomic)NSString *PROFIT_CONFIRM_TIME;
+
+@property(strong,nonatomic)NSString *PROFIT_BY;
+
+
+
 @property(strong,nonatomic)NSString *levelType;
 
 -(ReleaseInfo *)getReleaseInfo:(NSDictionary *)dictionary;

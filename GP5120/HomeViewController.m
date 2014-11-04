@@ -800,9 +800,12 @@
                          
                      }];
     
+    [self showAlert:[NSString stringWithFormat:@"您选择的日期为：%@",data]];
+    
 }
 
--(void)pushCarInfoView:(HomeInfoModel *)homeInfoModel{
+-(void)pushCarInfoView:(HomeInfoModel *)homeInfoModel
+           withAddType:(NSString *)type{
 
     if ([[homeInfoModel queryTime] isEqualToString:@"other"]) {
         if ([_queryOtherTime isEqualToString:@""]) {
@@ -819,6 +822,8 @@
             
             [setupCarInfoViewController set_homeInfoModel:homeInfoModel];
             
+            [setupCarInfoViewController set_addCarInfoType:type];
+            
             [self.navigationController pushViewController:setupCarInfoViewController animated:YES];
             
         }
@@ -827,6 +832,8 @@
         SetupCarInfoViewController *setupCarInfoViewController = [[SetupCarInfoViewController alloc] init];
         
         [setupCarInfoViewController set_homeInfoModel:homeInfoModel];
+        
+        [setupCarInfoViewController set_addCarInfoType:type];
         
         [self.navigationController pushViewController:setupCarInfoViewController animated:YES];
     
@@ -851,30 +858,186 @@
             
             [homeInfoModel setQueryTime:_queryOtherTime];
             
-//            NSString *queryPortUrl = [NSString stringWithFormat:@"%@&flag=91&username=%@&port=%@&address=%@&pack_date=%@&find_type=%@",SERVER_URL,username,homeInfoModel.oneField,homeInfoModel.twoField,homeInfoModel.queryTime,homeInfoModel.portType];
-            
-            NSString *queryPortUrl = [NSString stringWithFormat:@"%@&flag=91&username=%@&port=青岛港&address=里叽叽叽叽&pack_date=2014-11-02&find_type=in",SERVER_URL,username];
+            NSString *queryPortUrl = @"http://www.shuangbei.com.s1.kingidc.net/baishan/App_Interface/App_Response.aspx";
             
             ASIFormDataRequest *queryPortForm = [[ASIFormDataRequest alloc] initWithURL:[NSURL URLWithString:queryPortUrl]];
             
+            [queryPortForm setPostValue:@"91" forKey:@"flag"];
+            
+            [queryPortForm setPostValue:username forKey:@"username"];
+            
+            [queryPortForm setPostValue:homeInfoModel.oneField forKey:@"port"];
+            
+            [queryPortForm setPostValue:homeInfoModel.twoField forKey:@"address"];
+            
+            [queryPortForm setPostValue:_queryOtherTime forKey:@"pack_date"];
+            
+            [queryPortForm setPostValue:homeInfoModel.portType forKey:@"find_type"];
+            
             [queryPortForm startSynchronous];
             
-            NSLog(@"%@",[queryPortForm responseString]);
+            NSString *result = [queryPortForm responseString];
             
-//            AcceptInfoViewController *acceptInfoViewController = [[AcceptInfoViewController alloc] init];
-//            
-//            //[acceptInfoViewController set_homeInfoModel:homeInfoModel];
-//            
-//            [self.navigationController pushViewController:acceptInfoViewController animated:YES];
+            NSArray *responseData = [result componentsSeparatedByString:@"$$"];
             
+            if(responseData.count>0){
+                for (int i=0; i<responseData.count; i++) {
+                    
+                    if(i==1){
+                        
+                        NSString *strData = [responseData objectAtIndex:i];
+                        
+                        if ([strData isEqualToString:@"0"]) {
+                            
+                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"失败" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+                            
+                            [alert show];
+                            
+                        }else if([strData isEqualToString:@"2"]){
+                            
+                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"无该登录用户信息" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+                            
+                            [alert show];
+                        
+                        }else if([strData isEqualToString:@"3"]){
+                            
+                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"参数出错" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+                            
+                            [alert show];
+                            
+                        }else if([strData isEqualToString:@"4"]){
+                            
+                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"无集装箱信息" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+                            
+                            [alert show];
+                            
+                        }else if([strData isEqualToString:@"5"]){
+                            
+                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"无发布者信息" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+                            
+                            [alert show];
+                            
+                        }else{
+                            
+                            ReleaseInfo *_releaseInfo = nil;
+                            
+                            NSDictionary *releaseData = [strData objectFromJSONString];
+                            
+                            NSArray *releaseArray = [releaseData objectForKey:@"APP_RELEASE_INFOMATION"];
+                            
+                            if (releaseArray.count>0) {
+                                
+                                for (NSDictionary *dctionary in releaseArray) {
+                                    
+                                    _releaseInfo = [[ReleaseInfo alloc] getReleaseInfo:dctionary];
+                                    
+                                }
+                                
+                            }
+                            
+                            AcceptInfoViewController *acceptInfoViewController = [[AcceptInfoViewController alloc] init];
+                            
+                            [acceptInfoViewController set_releaseInfo:_releaseInfo];
+                            
+                            [self.navigationController pushViewController:acceptInfoViewController animated:YES];
+                            
+                        }
+                    }
+                }
+            }
         }
+        
     }else{
         
-        AcceptInfoViewController *acceptInfoViewController = [[AcceptInfoViewController alloc] init];
+        NSString *queryPortUrl = @"http://www.shuangbei.com.s1.kingidc.net/baishan/App_Interface/App_Response.aspx";
         
-        //[acceptInfoViewController set_homeInfoModel:homeInfoModel];
+        ASIFormDataRequest *queryPortForm = [[ASIFormDataRequest alloc] initWithURL:[NSURL URLWithString:queryPortUrl]];
         
-        [self.navigationController pushViewController:acceptInfoViewController animated:YES];
+        [queryPortForm setPostValue:@"91" forKey:@"flag"];
+        
+        [queryPortForm setPostValue:username forKey:@"username"];
+        
+        [queryPortForm setPostValue:homeInfoModel.oneField forKey:@"port"];
+        
+        [queryPortForm setPostValue:homeInfoModel.twoField forKey:@"address"];
+        
+        [queryPortForm setPostValue:_queryOtherTime forKey:@"pack_date"];
+        
+        [queryPortForm setPostValue:homeInfoModel.portType forKey:@"find_type"];
+        
+        [queryPortForm startSynchronous];
+        
+        NSString *result = [queryPortForm responseString];
+        
+        NSLog(@"%@",result);
+        
+        NSArray *responseData = [result componentsSeparatedByString:@"$$"];
+        
+        if(responseData.count>0){
+            for (int i=0; i<responseData.count; i++) {
+                
+                if(i==1){
+                    
+                    NSString *strData = [responseData objectAtIndex:i];
+                    
+                    if ([strData isEqualToString:@"0"]) {
+                        
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"失败" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+                        
+                        [alert show];
+                        
+                    }else if([strData isEqualToString:@"2"]){
+                        
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"无该登录用户信息" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+                        
+                        [alert show];
+                        
+                    }else if([strData isEqualToString:@"3"]){
+                        
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"参数出错" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+                        
+                        [alert show];
+                        
+                    }else if([strData isEqualToString:@"4"]){
+                        
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"无集装箱信息" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+                        
+                        [alert show];
+                        
+                    }else if([strData isEqualToString:@"5"]){
+                        
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"无发布者信息" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+                        
+                        [alert show];
+                        
+                    }else{
+                        
+                        ReleaseInfo *_releaseInfo = nil;
+                        
+                        NSDictionary *releaseData = [strData objectFromJSONString];
+                        
+                        NSArray *releaseArray = [releaseData objectForKey:@"APP_RELEASE_INFOMATION"];
+                        
+                        if (releaseArray.count>0) {
+                            
+                            for (NSDictionary *dctionary in releaseArray) {
+                                
+                                _releaseInfo = [[ReleaseInfo alloc] getReleaseInfo:dctionary];
+                                
+                            }
+                            
+                        }
+                        
+                        AcceptInfoViewController *acceptInfoViewController = [[AcceptInfoViewController alloc] init];
+                        
+                        [acceptInfoViewController set_releaseInfo:_releaseInfo];
+                        
+                        [self.navigationController pushViewController:acceptInfoViewController animated:YES];
+                        
+                    }
+                }
+            }
+        }
         
     }
     
@@ -1021,7 +1184,7 @@
 - (void)showAlert:(NSString *) _message{//时间
     UIAlertView *promptAlert = [[UIAlertView alloc] initWithTitle:@"提示:" message:_message delegate:nil cancelButtonTitle:nil otherButtonTitles:nil];
     
-    [NSTimer scheduledTimerWithTimeInterval:1.5f
+    [NSTimer scheduledTimerWithTimeInterval:2.0f
                                      target:self
                                    selector:@selector(timerFireMethod:)
                                    userInfo:promptAlert

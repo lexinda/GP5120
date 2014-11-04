@@ -228,11 +228,9 @@
     
     [mainScrollView addSubview:levleName];
     
-    UILabel *levelInfoName = [[UILabel alloc] initWithFrame:CGRectMake(levleName.frame.origin.x+levleName.frame.size.width, levleName.frame.origin.y, 100.0, 20.0)];
+    UIImageView *levelInfoName = [[UIImageView alloc] initWithFrame:CGRectMake(levleName.frame.origin.x+levleName.frame.size.width, levleName.frame.origin.y, 100.0, 20.0)];
     
-    [levelInfoName setText:[NSString stringWithFormat:@"%@",_appUserInfo.GRADE]];
-    
-    [levelInfoName setFont:FONT];
+    [levelInfoName setImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@",_appUserInfo.GRADE]]];
     
     [mainScrollView addSubview:levelInfoName];
     

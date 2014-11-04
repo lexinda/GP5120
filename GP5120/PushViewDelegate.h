@@ -46,7 +46,8 @@
 
 -(void)loginAndRegister;
 
--(void)pushCarInfoView:(HomeInfoModel *)homeInfoModel;
+-(void)pushCarInfoView:(HomeInfoModel *)homeInfoModel
+           withAddType:(NSString *)type;
 
 -(void)pushPortInfoView:(HomeInfoModel *)homeInfoModel;
 
