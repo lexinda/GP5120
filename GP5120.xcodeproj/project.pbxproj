@@ -10,6 +10,11 @@
 		28016D7019CD332D005ACA98 /* DatePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 28016D6F19CD332D005ACA98 /* DatePickerView.m */; };
 		2812E3F719F69F2200246AED /* SetupUserInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2812E3F619F69F2200246AED /* SetupUserInfoViewController.m */; };
 		2812E3FA19F6AB8200246AED /* ChangePasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2812E3F919F6AB8200246AED /* ChangePasswordViewController.m */; };
+		2814126A1A0F051300ECC4FC /* PayManageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 281412691A0F051300ECC4FC /* PayManageViewController.m */; };
+		2814126D1A0F055700ECC4FC /* QueryConsumeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2814126C1A0F055700ECC4FC /* QueryConsumeViewController.m */; };
+		281412701A0F086500ECC4FC /* bank.png in Resources */ = {isa = PBXBuildFile; fileRef = 2814126F1A0F086500ECC4FC /* bank.png */; };
+		281412721A0F089800ECC4FC /* zhifubao.png in Resources */ = {isa = PBXBuildFile; fileRef = 281412711A0F089800ECC4FC /* zhifubao.png */; };
+		281412741A0F08C500ECC4FC /* paydolllar.png in Resources */ = {isa = PBXBuildFile; fileRef = 281412731A0F08C500ECC4FC /* paydolllar.png */; };
 		2828FB9E1A02802D00E0C507 /* ReleaseInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 2828FB9D1A02802D00E0C507 /* ReleaseInfo.m */; };
 		2836B46119C9C23000493099 /* MeddleTextFieldTwo.m in Sources */ = {isa = PBXBuildFile; fileRef = 2836B46019C9C23000493099 /* MeddleTextFieldTwo.m */; };
 		2837DFE919FCECF700B118D6 /* QueryCarInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2837DFE819FCECF700B118D6 /* QueryCarInfoViewController.m */; };
@@ -64,6 +69,8 @@
 		289FAC7819F7DB44002970FD /* HomeInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 289FAC7719F7DB44002970FD /* HomeInfoModel.m */; };
 		28ACFC4D19F909EE00E0414E /* ViewReleaseInfoDriverOrder.m in Sources */ = {isa = PBXBuildFile; fileRef = 28ACFC4C19F909EE00E0414E /* ViewReleaseInfoDriverOrder.m */; };
 		28ACFC5019F9247600E0414E /* UsrInGpMemberOrder.m in Sources */ = {isa = PBXBuildFile; fileRef = 28ACFC4F19F9247600E0414E /* UsrInGpMemberOrder.m */; };
+		28BF84611A10EDAA004E92B7 /* CarInfoDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 28BF84601A10EDAA004E92B7 /* CarInfoDetailView.m */; };
+		28BF84631A10F2A7004E92B7 /* carInfo.png in Resources */ = {isa = PBXBuildFile; fileRef = 28BF84621A10F2A7004E92B7 /* carInfo.png */; };
 		28DC58E319F0054E00370600 /* AppUserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 28DC58E219F0054E00370600 /* AppUserInfo.m */; };
 		28DC58E619F0093C00370600 /* AdList.m in Sources */ = {isa = PBXBuildFile; fileRef = 28DC58E519F0093C00370600 /* AdList.m */; };
 		28F0830619F542CF00656B73 /* uploadpicture.png in Resources */ = {isa = PBXBuildFile; fileRef = 28F0830519F542CF00656B73 /* uploadpicture.png */; };
@@ -184,6 +191,13 @@
 		2812E3F619F69F2200246AED /* SetupUserInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetupUserInfoViewController.m; sourceTree = "<group>"; };
 		2812E3F819F6AB8200246AED /* ChangePasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChangePasswordViewController.h; sourceTree = "<group>"; };
 		2812E3F919F6AB8200246AED /* ChangePasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChangePasswordViewController.m; sourceTree = "<group>"; };
+		281412681A0F051300ECC4FC /* PayManageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PayManageViewController.h; sourceTree = "<group>"; };
+		281412691A0F051300ECC4FC /* PayManageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PayManageViewController.m; sourceTree = "<group>"; };
+		2814126B1A0F055700ECC4FC /* QueryConsumeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QueryConsumeViewController.h; sourceTree = "<group>"; };
+		2814126C1A0F055700ECC4FC /* QueryConsumeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QueryConsumeViewController.m; sourceTree = "<group>"; };
+		2814126F1A0F086500ECC4FC /* bank.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bank.png; sourceTree = "<group>"; };
+		281412711A0F089800ECC4FC /* zhifubao.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = zhifubao.png; sourceTree = "<group>"; };
+		281412731A0F08C500ECC4FC /* paydolllar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = paydolllar.png; sourceTree = "<group>"; };
 		2828FB9C1A02802D00E0C507 /* ReleaseInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReleaseInfo.h; sourceTree = "<group>"; };
 		2828FB9D1A02802D00E0C507 /* ReleaseInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReleaseInfo.m; sourceTree = "<group>"; };
 		2836B45F19C9C23000493099 /* MeddleTextFieldTwo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeddleTextFieldTwo.h; sourceTree = "<group>"; };
@@ -323,6 +337,9 @@
 		28ACFC4E19F9247600E0414E /* UsrInGpMemberOrder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UsrInGpMemberOrder.h; sourceTree = "<group>"; };
 		28ACFC4F19F9247600E0414E /* UsrInGpMemberOrder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UsrInGpMemberOrder.m; sourceTree = "<group>"; };
 		28B9A1A819EEB07E00CA0343 /* Public.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Public.h; sourceTree = "<group>"; };
+		28BF845F1A10EDAA004E92B7 /* CarInfoDetailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarInfoDetailView.h; sourceTree = "<group>"; };
+		28BF84601A10EDAA004E92B7 /* CarInfoDetailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarInfoDetailView.m; sourceTree = "<group>"; };
+		28BF84621A10F2A7004E92B7 /* carInfo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = carInfo.png; sourceTree = "<group>"; };
 		28DC58E119F0054E00370600 /* AppUserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppUserInfo.h; sourceTree = "<group>"; };
 		28DC58E219F0054E00370600 /* AppUserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppUserInfo.m; sourceTree = "<group>"; };
 		28DC58E419F0093C00370600 /* AdList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdList.h; sourceTree = "<group>"; };
@@ -530,6 +547,16 @@
 				28016D6F19CD332D005ACA98 /* DatePickerView.m */,
 			);
 			name = datepicker;
+			sourceTree = "<group>";
+		};
+		2814126E1A0F085A00ECC4FC /* pay */ = {
+			isa = PBXGroup;
+			children = (
+				2814126F1A0F086500ECC4FC /* bank.png */,
+				281412711A0F089800ECC4FC /* zhifubao.png */,
+				281412731A0F08C500ECC4FC /* paydolllar.png */,
+			);
+			name = pay;
 			sourceTree = "<group>";
 		};
 		286A494019F3BAD4005B1749 /* loginandregister */ = {
@@ -754,6 +781,7 @@
 		EA096803198C8F12001E89FF /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				2814126E1A0F085A00ECC4FC /* pay */,
 				28811DEB1A063B470066A31A /* grade */,
 				28F0830919F55A4200656B73 /* home */,
 				28F0830419F542B900656B73 /* uploadfile */,
@@ -880,6 +908,8 @@
 				2837DFEB19FCED2000B118D6 /* QueryCarInfoView.m */,
 				28811DE81A0633DE0066A31A /* RecommandCarTeamCell.h */,
 				28811DE91A0633DE0066A31A /* RecommandCarTeamCell.m */,
+				28BF845F1A10EDAA004E92B7 /* CarInfoDetailView.h */,
+				28BF84601A10EDAA004E92B7 /* CarInfoDetailView.m */,
 			);
 			name = view;
 			sourceTree = "<group>";
@@ -919,6 +949,10 @@
 				2837DFE819FCECF700B118D6 /* QueryCarInfoViewController.m */,
 				2837DFF019FD0A2200B118D6 /* FeedbackViewController.h */,
 				2837DFF119FD0A2200B118D6 /* FeedbackViewController.m */,
+				281412681A0F051300ECC4FC /* PayManageViewController.h */,
+				281412691A0F051300ECC4FC /* PayManageViewController.m */,
+				2814126B1A0F055700ECC4FC /* QueryConsumeViewController.h */,
+				2814126C1A0F055700ECC4FC /* QueryConsumeViewController.m */,
 			);
 			name = controller;
 			sourceTree = "<group>";
@@ -994,6 +1028,7 @@
 		EA64523C198DE6C400C19EA6 /* setupCarInfo */ = {
 			isa = PBXGroup;
 			children = (
+				28BF84621A10F2A7004E92B7 /* carInfo.png */,
 				EA6E51C8198E4BCD0096D53E /* putout_foot_1.png */,
 				EA6E51C9198E4BCD0096D53E /* putout_foot_2.png */,
 				EA6E51C4198E29CA0096D53E /* putout_top_1.png */,
@@ -1180,11 +1215,13 @@
 				EA6E51BD198E29A00096D53E /* putout_foot_picture.png in Resources */,
 				EA9140B8198D2782006D50B8 /* releasesuccess_foot_3.png in Resources */,
 				EA6E51C1198E29A00096D53E /* putout_middle.png in Resources */,
+				281412701A0F086500ECC4FC /* bank.png in Resources */,
 				28F0831119F55A5100656B73 /* tomorrow1.png in Resources */,
 				EA9140BB198D2782006D50B8 /* releasesuccess_foot.png in Resources */,
 				28811DFB1A063BF50066A31A /* zuan4.png in Resources */,
 				28811DE51A05DCE30066A31A /* middle.jpg in Resources */,
 				EA8797A7199BA41E000C3B69 /* car.png in Resources */,
+				281412721A0F089800ECC4FC /* zhifubao.png in Resources */,
 				EA6E51BF198E29A00096D53E /* putout_middle_2.png in Resources */,
 				28811DFF1A063C040066A31A /* yin2.png in Resources */,
 				EA09680F198C8F12001E89FF /* Images.xcassets in Resources */,
@@ -1208,10 +1245,12 @@
 				EA6E51CA198E4BCD0096D53E /* putout_foot_1.png in Resources */,
 				28811E031A063C1B0066A31A /* tong4.png in Resources */,
 				EA6E51C6198E29CA0096D53E /* putout_top_1.png in Resources */,
+				281412741A0F08C500ECC4FC /* paydolllar.png in Resources */,
 				EA9140BA198D2782006D50B8 /* releasesuccess_foot_5.png in Resources */,
 				28811DED1A063B660066A31A /* zuan1.png in Resources */,
 				28811E0B1A063C330066A31A /* tie4.png in Resources */,
 				28811DEF1A063B7C0066A31A /* tie1.png in Resources */,
+				28BF84631A10F2A7004E92B7 /* carInfo.png in Resources */,
 				28F0830E19F55A5100656B73 /* today.png in Resources */,
 				EA6E51C0198E29A00096D53E /* putout_middle_3.png in Resources */,
 				28811DF71A063BE50066A31A /* zuan5.png in Resources */,
@@ -1274,8 +1313,10 @@
 				286A494D19F3E674005B1749 /* RegisterView.m in Sources */,
 				EADA97D11995BE9A00949648 /* RecommandTeam.m in Sources */,
 				EA4E75991992798800BE7EF3 /* CarInfo.m in Sources */,
+				2814126A1A0F051300ECC4FC /* PayManageViewController.m in Sources */,
 				2837DFE919FCECF700B118D6 /* QueryCarInfoViewController.m in Sources */,
 				2812E3F719F69F2200246AED /* SetupUserInfoViewController.m in Sources */,
+				2814126D1A0F055700ECC4FC /* QueryConsumeViewController.m in Sources */,
 				EA4E75931992785400BE7EF3 /* CarInfoViewController.m in Sources */,
 				2837DFEF19FCEDE100B118D6 /* ReleasePersonInfo.m in Sources */,
 				EA09685A198C9296001E89FF /* HomeViewController.m in Sources */,
@@ -1304,6 +1345,7 @@
 				286A493C19F3AFC0005B1749 /* ValidataLogin.m in Sources */,
 				EA09684C198C913A001E89FF /* ASIDownloadCache.m in Sources */,
 				EA4E75861992637D00BE7EF3 /* SuccessView.m in Sources */,
+				28BF84611A10EDAA004E92B7 /* CarInfoDetailView.m in Sources */,
 				286A495019F3E683005B1749 /* RegisterDetailView.m in Sources */,
 				EA33C5B91993BB230029F7DF /* CarInfoCell.m in Sources */,
 				EA682E7B198E777B004D23E8 /* TSPopoverTouchView.m in Sources */,

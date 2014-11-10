@@ -82,6 +82,10 @@
 
 @property(strong,nonatomic)NSString *FEE_PerMonth;
 
+@property(strong,nonatomic)NSString *INCOME;
+
+@property(strong,nonatomic)NSString *DEFRAY;
+
 @property(strong,nonatomic)NSString *levelType;
 
 -(AppUserInfo *)getAppUserInfo:(NSDictionary *)appUserInfoDictionary;

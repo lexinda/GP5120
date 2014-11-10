@@ -696,18 +696,52 @@
 -(void) showActionSheet1:(id)sender forEvent:(UIEvent*)event
 {
     TSActionSheet *actionSheet = [[TSActionSheet alloc] initWithTitle:nil];
+    
     [actionSheet destructiveButtonWithTitle:@"一键注册" block:nil];
+    
     [actionSheet addButtonWithTitle:@"支付管理" block:^{
-        NSLog(@"pushed hoge1 button");
         
-        MemberTableViewController *memberTableViewController = [[MemberTableViewController alloc] initWithStyle:UITableViewStylePlain];
+        NSDictionary *userLoginInfo = [[ValidataLogin alloc] validataUserInfo];
         
-        [self.navigationController pushViewController:memberTableViewController animated:YES];
+        if (![[userLoginInfo objectForKey:@"password"] isEqualToString:@""]) {
+            
+            PayManageViewController *payManageViewController = [[PayManageViewController alloc] init];
+            
+            [self.navigationController pushViewController:payManageViewController animated:YES];
+            
+        }else{
+            
+            LoginAndRegisterViewController *loginAndRegisterViewController = [[LoginAndRegisterViewController alloc] init];
+            
+            
+            
+            [self.navigationController pushViewController:loginAndRegisterViewController animated:YES];
+        }
         
     }];
+
+    
     [actionSheet addButtonWithTitle:@"消费查询" block:^{
-        NSLog(@"pushed hoge2 button");
+        
+        NSDictionary *userLoginInfo = [[ValidataLogin alloc] validataUserInfo];
+        
+        if (![[userLoginInfo objectForKey:@"password"] isEqualToString:@""]) {
+            
+            QueryConsumeViewController *queryConsumeViewController = [[QueryConsumeViewController alloc] init];
+            
+            [self.navigationController pushViewController:queryConsumeViewController animated:YES];
+            
+        }else{
+            
+            LoginAndRegisterViewController *loginAndRegisterViewController = [[LoginAndRegisterViewController alloc] init];
+            
+            
+            
+            [self.navigationController pushViewController:loginAndRegisterViewController animated:YES];
+        }
+        
     }];
+    
     [actionSheet addButtonWithTitle:@"推荐朋友" block:^{
         NSLog(@"pushed hoge2 button");
     }];

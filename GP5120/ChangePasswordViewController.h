@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+#import "ASIFormDataRequest.h"
+
 @interface ChangePasswordViewController : UIViewController<UITextFieldDelegate>
 
 @property(strong,nonatomic)UITextField *_phone;

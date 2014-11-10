@@ -66,6 +66,10 @@
 
 #import "FeedbackViewController.h"
 
+#import "PayManageViewController.h"
+
+#import "QueryConsumeViewController.h"
+
 @interface HomeViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,PushViewDelegate,ABPeoplePickerNavigationControllerDelegate,UIAlertViewDelegate>
 
 @property(strong,nonatomic)UITableView *_tableView;

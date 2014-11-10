@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+#import "ASIFormDataRequest.h"
+
 @interface FeedbackViewController : UIViewController<UITextViewDelegate,UITextFieldDelegate>
 
 @property(strong,nonatomic)UITextView *_feedBackText;

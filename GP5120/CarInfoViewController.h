@@ -32,6 +32,8 @@
 
 #import "Table.h"
 
+#import "CarInfoDetailView.h"
+
 @interface CarInfoViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,PushViewDelegate,MBProgressHUDDelegate>
 
 @property(strong,nonatomic)UITableView *_bottomTableView;

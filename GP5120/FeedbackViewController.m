@@ -171,6 +171,8 @@ enum tableTag{
     
     [comitButton setTitle:@"提交" forState:UIControlStateNormal];
     
+    [comitButton addTarget:self action:@selector(commit) forControlEvents:UIControlEventTouchUpInside];
+    
     [comitButton setBackgroundImage:[UIImage imageNamed:@"_12"] forState:UIControlStateNormal];
     
     [self.view addSubview:comitButton];
@@ -183,9 +185,109 @@ enum tableTag{
     
     [cancelButton addTarget:self action:@selector(goBack) forControlEvents:UIControlEventTouchUpInside];
     
+    [cancelButton addTarget:self action:@selector(goBack) forControlEvents:UIControlEventTouchUpInside];
+    
     [cancelButton setBackgroundImage:[UIImage imageNamed:@"_12"] forState:UIControlStateNormal];
     
     [self.view addSubview:cancelButton];
+}
+
+-(void)commit{
+
+    if ([_usernameField.text isEqualToString:@""]) {
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"用户名不能空" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+        
+        [alert show];
+        
+    }else if ([_phoneField.text isEqualToString:@""]) {
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"电话号码不能空" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+        
+        [alert show];
+        
+    }else if (![self checkPhoneNumInput:_phoneField.text]) {
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"电话号码格式不正确" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+        
+        [alert show];
+        
+    }else if([_mailField.text isEqualToString:@""]){
+    
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"E_mail不正确" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+        
+        [alert show];
+        
+    }else if([_feedBackText.text isEqualToString:@""]){
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"内容不正确" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+        
+        [alert show];
+        
+    }else{
+    
+        NSString *feedUrl = [NSString stringWithFormat:@"%@&username=%@&mobile=%@&email=%@&content=%@",SERVER_URL,_usernameField.text,_phoneField.text,_mailField.text,_feedBackText.text];
+        
+        ASIFormDataRequest *feedForm = [[ASIFormDataRequest alloc] initWithURL:[NSURL URLWithString:feedUrl]];
+        
+        [feedForm startSynchronous];
+        
+        NSString *result = [feedForm responseString];
+        
+        if ([result isEqualToString:@"0"]) {
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"失败" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+            
+            [alert show];
+            
+        }else if ([result isEqualToString:@"1"]) {
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"成功" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+            
+            [alert show];
+            
+        }else if ([result isEqualToString:@"2"]) {
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"参数错误" delegate:self cancelButtonTitle:@"确定" otherButtonTitles: nil];
+            
+            [alert show];
+            
+        }
+        
+    }
+    
+}
+
+-(BOOL)checkPhoneNumInput:(NSString *)phone{
+    
+    NSString * MOBILE = @"^1(3[0-9]|5[0-35-9]|8[025-9])\\d{8}$";
+    
+    NSString * CM = @"^1(34[0-8]|(3[5-9]|5[017-9]|8[278])\\d)\\d{7}$";
+    
+    NSString * CU = @"^1(3[0-2]|5[256]|8[56])\\d{8}$";
+    
+    NSString * CT = @"^1((33|53|8[09])[0-9]|349)\\d{7}$";
+    
+    // NSString * PHS = @"^0(10|2[0-5789]|\\d{3})\\d{7,8}$";
+    
+    NSPredicate *regextestmobile = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", MOBILE];
+    NSPredicate *regextestcm = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", CM];
+    NSPredicate *regextestcu = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", CU];
+    NSPredicate *regextestct = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", CT];
+    BOOL res1 = [regextestmobile evaluateWithObject:phone];
+    BOOL res2 = [regextestcm evaluateWithObject:phone];
+    BOOL res3 = [regextestcu evaluateWithObject:phone];
+    BOOL res4 = [regextestct evaluateWithObject:phone];
+    
+    if (res1 || res2 || res3 || res4 )
+    {
+        return YES;
+    }
+    else
+    {
+        return NO;
+    }
+    
 }
 
 -(void)goBack{

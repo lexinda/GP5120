@@ -82,6 +82,10 @@
 
 @synthesize FEE_PerMonth;
 
+@synthesize INCOME;
+
+@synthesize DEFRAY;
+
 @synthesize levelType;
 
 -(AppUserInfo *)getAppUserInfo:(NSDictionary *)appUserInfoDictionary{
@@ -159,6 +163,10 @@
     [appUserInfo setGRADE:[appUserInfoDictionary objectForKey:@"GRADE"]];
     
     [appUserInfo setFEE_PerMonth:[appUserInfoDictionary objectForKey:@"FEE_PerMonth"]];
+    
+    [appUserInfo setINCOME:[appUserInfoDictionary objectForKey:@"INCOME"]];
+    
+    [appUserInfo setDEFRAY:[appUserInfoDictionary objectForKey:@"DEFRAY"]];
     
     [appUserInfo setLevelType:@"1"];
     
@@ -240,6 +248,10 @@
     [appUserInfo setGRADE:@"GRADE"];
     
     [appUserInfo setFEE_PerMonth:@"FEE_PerMonth"];
+    
+    [appUserInfo setINCOME:@"INCOME"];
+    
+    [appUserInfo setDEFRAY:@"DEFRAY"];
     
     [appUserInfo setLevelType:@"0"];
     
